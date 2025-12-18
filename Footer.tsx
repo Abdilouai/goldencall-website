@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
           <div className="col-span-1 md:col-span-2">
             <Logo className="h-10 mb-6 brightness-0 invert" />
             <p className="text-gray-400 max-w-sm leading-relaxed mb-6">
-              Golden Call Consulting empowers Tunisian candidates to achieve their dreams of joining world-class airlines.
+              Golden Call Consulting empowers Tunisian candidates to achieve their dreams of joining world-class airlines,Top companys .
             </p>
             <div className="flex space-x-4">
               <a href="#" className="p-2 bg-white/10 rounded-full hover:bg-brand-blue transition-colors"><Instagram size={18} /></a>
