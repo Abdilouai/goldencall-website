@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Logo } from './Logo';
-import { Mail, Phone, Instagram, Linkedin, Globe } from 'lucide-react';
+import { Mail, Phone, Instagram, Facebook, TikTok } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
@@ -14,9 +14,9 @@ export const Footer: React.FC = () => {
               Golden Call Consulting empowers Tunisian candidates to achieve their dreams of joining world-class airlines and top companies
             </p>
             <div className="flex space-x-4">
-              <a href="" className="p-2 bg-white/10 rounded-full hover:bg-brand-blue transition-colors"><Instagram size={18} /></a>
-              <a href="#" className="p-2 bg-white/10 rounded-full hover:bg-brand-blue transition-colors"><TikTok size={18} /></a>
-              <a href="#" className="p-2 bg-white/10 rounded-full hover:bg-brand-blue transition-colors"><Facebook size={18} /></a>
+              <a href="https://www.instagram.com/golden_call1?igsh=MWMybDZzaHl0ZGRhMA==" className="p-2 bg-white/10 rounded-full hover:bg-brand-blue transition-colors"><Instagram size={18} /></a>
+              <a href="https://www.tiktok.com/@golden_call1?_r=1&_t=ZM-92KoR1pGRhI" className="p-2 bg-white/10 rounded-full hover:bg-brand-blue transition-colors"><TikTok size={18} /></a>
+              <a href="https://www.facebook.com/profile.php?id=61585462373272&rdid=wJqB8Gr9CzOrfqJA#" className="p-2 bg-white/10 rounded-full hover:bg-brand-blue transition-colors"><Facebook size={18} /></a>
             </div>
           </div>
           <div>
