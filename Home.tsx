@@ -16,7 +16,7 @@ const Home: React.FC = () => {
                 Your <span className="text-brand-blue">Golden Call</span> to Career Success
               </h1>
               <p className="text-xl text-brand-grey max-w-lg leading-relaxed">
-                Expert 1-on-1 coaching for Cabin Crew Assessments, Job Interviews, and IELTS Preparation.
+                Expert 1-on-1 coaching for Cabin Crew Assessments, Job Interviews, and ESL Teaching.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Link to="/booking" className="px-8 py-4 bg-brand-blue text-white rounded-lg font-bold text-lg hover:bg-brand-blue/90 transition-all text-center">
@@ -28,7 +28,7 @@ const Home: React.FC = () => {
               </div>
             </div>
             <div className="hidden lg:block">
-              <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=1000" className="rounded-2xl shadow-2xl" alt="Cabin Crew" />
+              <img src="https://unsplash.com/photos/evening-view-of-a-passenger-plane-wing-with-engine-rIW0doyBrK0" className="rounded-2xl shadow-2xl" alt="Cabin Crew" />
             </div>
           </div>
         </div>
