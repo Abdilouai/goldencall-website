@@ -21,9 +21,9 @@ export const Footer: React.FC = () => {
               Helping you achieve your aviation dreams through personalized coaching and expert guidance.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors"><Instagram size={20} /></a>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors"><Linkedin size={20} /></a>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors"><Facebook size={20} /></a>
+              <a href="https://www.instagram.com/golden_call1/" className="text-gray-400 hover:text-primary transition-colors"><Instagram size={20} /></a>
+              <a href="https://www.linkedin.com/company/goldencall/" className="text-gray-400 hover:text-primary transition-colors"><Linkedin size={20} /></a>
+              <a href="https://www.facebook.com/profile.php?id=61585462373272&rdid=dZXaft307z0hDI84#" className="text-gray-400 hover:text-primary transition-colors"><Facebook size={20} /></a>
             </div>
           </div>
 
@@ -54,11 +54,11 @@ export const Footer: React.FC = () => {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-gray-400 text-sm">
                 <Mail size={18} className="mt-0.5 text-primary" />
-                <span>hello@goldencall.digital</span>
+                <span>golden_call@outlook.com</span>
               </li>
               <li className="flex items-start gap-3 text-gray-400 text-sm">
                 <Phone size={18} className="mt-0.5 text-primary" />
-                <span>+216 XX XXX XXX</span>
+                <span>+216 29 373 579</span>
               </li>
               <li className="flex items-start gap-3 text-gray-400 text-sm">
                 <span className="text-2xl mt-[-5px]">🇹🇳</span>
