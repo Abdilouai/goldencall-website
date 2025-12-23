@@ -28,7 +28,7 @@ const Home: React.FC = () => {
               </div>
             </div>
             <div className="hidden lg:block">
-              <img src="https://unsplash.com/photos/evening-view-of-a-passenger-plane-wing-with-engine-rIW0doyBrK0" className="rounded-2xl shadow-2xl" alt="Cabin Crew" />
+              <img src="plane-4245416.jpg" className="rounded-2xl shadow-2xl" alt="Cabin Crew" />
             </div>
           </div>
         </div>
