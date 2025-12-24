@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-// Import directly from CDN to bypass build-time resolution errors
-import { inject } from 'https://esm.sh/@vercel/analytics';
+import { inject } from '@vercel/analytics';
 
-// Initialize Vercel Analytics tracking immediately
+// Initialize Vercel Analytics tracking
 inject();
 
 const rootElement = document.getElementById('root');
