@@ -1,7 +1,6 @@
 import React from 'react';
-// Import components directly from CDN for guaranteed loading
-import { Analytics } from 'https://esm.sh/@vercel/analytics/react';
-import { SpeedInsights } from 'https://esm.sh/@vercel/speed-insights/react';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { WhatsAppButton } from './components/WhatsAppButton';
