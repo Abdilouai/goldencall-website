@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
-  <!-- Outer Ring -->
-  <circle cx="50" cy="50" r="42" stroke="#1A8FD8" stroke-width="8"/>
-  <!-- Inner Ring -->
-  <circle cx="50" cy="50" r="24" stroke="#1A8FD8" stroke-width="6"/>
-  <!-- Handset -->
-  <path d="M46 40 C46 38.8954 46.8954 38 48 38 H52 C53.1046 38 54 38.8954 54 40 V45 C54 46.1046 53.1046 47 52 47 H51 C50.4477 47 50 47.4477 50 48 V52 C50 52.5523 50.4477 53 51 53 H52 C53.1046 53 54 53.8954 54 55 V60 C54 61.1046 53.1046 62 52 62 H48 C46.8954 62 46 61.1046 46 60 V40Z" fill="#1A8FD8"/>
-</svg>
