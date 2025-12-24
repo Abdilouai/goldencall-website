@@ -8,9 +8,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: 'index.html',
-      },
-      // Exclude API files from client bundle so Rollup doesn't try to compile backend code
-      external: [/\/api\/.*/],
+      }
     },
   },
   server: {
