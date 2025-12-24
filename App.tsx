@@ -1,5 +1,7 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import React from 'react';
+// Import components directly from CDN for guaranteed loading
+import { Analytics } from 'https://esm.sh/@vercel/analytics/react';
+import { SpeedInsights } from 'https://esm.sh/@vercel/speed-insights/react';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { WhatsAppButton } from './components/WhatsAppButton';
@@ -10,35 +12,29 @@ import { Blog } from './pages/Blog';
 import { BookSession } from './pages/BookSession';
 import { BookingSuccess } from './pages/BookingSuccess';
 
-// Scroll to top helper
-const ScrollToTop = () => {
-  const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
-  return null;
-};
-
 const App: React.FC = () => {
+  const path = window.location.pathname;
+
+  let Component = Home;
+  if (path === '/') Component = Home;
+  else if (path === '/services') Component = Services;
+  else if (path === '/about') Component = About;
+  else if (path === '/blog') Component = Blog;
+  else if (path === '/book') Component = BookSession;
+  else if (path === '/booking-success') Component = BookingSuccess;
+
   return (
-    <Router>
-      <ScrollToTop />
-      <div className="min-h-screen bg-white font-sans text-dark flex flex-col">
-        <Navbar />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/book" element={<BookSession />} />
-            <Route path="/booking-success" element={<BookingSuccess />} />
-          </Routes>
-        </main>
-        <Footer />
-        <WhatsAppButton />
-      </div>
-    </Router>
+    <div className="min-h-screen bg-white font-sans text-dark flex flex-col">
+      <Navbar />
+      <main className="flex-grow">
+        <Component />
+      </main>
+      <Footer />
+      <WhatsAppButton />
+      {/* These components enable the Vercel Dashboard tracking */}
+      <Analytics />
+      <SpeedInsights />
+    </div>
   );
 };
 
