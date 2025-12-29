@@ -9,20 +9,24 @@ import { About } from './pages/About';
 import { Blog } from './pages/Blog';
 import { BookSession } from './pages/BookSession';
 import { BookingSuccess } from './pages/BookingSuccess';
+import { usePageTracking } from './hooks/usePageTracking';
 
-// Scroll to top helper
-const ScrollToTop = () => {
+// Scroll to top and track analytics
+const ScrollToTopAndTrack = () => {
   const { pathname } = useLocation();
+  usePageTracking(); // Add analytics tracking
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+  
   return null;
 };
 
 const App: React.FC = () => {
   return (
     <Router>
-      <ScrollToTop />
+      <ScrollToTopAndTrack />
       <div className="min-h-screen bg-white font-sans text-dark flex flex-col">
         <Navbar />
         <main className="flex-grow">
