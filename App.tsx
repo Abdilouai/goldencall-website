@@ -9,24 +9,25 @@ import { About } from './pages/About';
 import { Blog } from './pages/Blog';
 import { BookSession } from './pages/BookSession';
 import { BookingSuccess } from './pages/BookingSuccess';
-import { usePageTracking } from './hooks/usePageTracking';
 
-// Scroll to top and track analytics
-const ScrollToTopAndTrack = () => {
+// Blog posts
+import { CabinCrewMistakes } from './pages/blog/CabinCrewMistakes';
+import { StarMethod } from './pages/blog/StarMethod';
+import { EnglishPhrases } from './pages/blog/EnglishPhrases';
+
+// Scroll to top helper
+const ScrollToTop = () => {
   const { pathname } = useLocation();
-  usePageTracking(); // Add analytics tracking
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-  
   return null;
 };
 
 const App: React.FC = () => {
   return (
     <Router>
-      <ScrollToTopAndTrack />
+      <ScrollToTop />
       <div className="min-h-screen bg-white font-sans text-dark flex flex-col">
         <Navbar />
         <main className="flex-grow">
@@ -37,6 +38,11 @@ const App: React.FC = () => {
             <Route path="/blog" element={<Blog />} />
             <Route path="/book" element={<BookSession />} />
             <Route path="/booking-success" element={<BookingSuccess />} />
+            
+            {/* Blog Post Routes */}
+            <Route path="/blog/cabin-crew-mistakes" element={<CabinCrewMistakes />} />
+            <Route path="/blog/star-method" element={<StarMethod />} />
+            <Route path="/blog/english-phrases" element={<EnglishPhrases />} />
           </Routes>
         </main>
         <Footer />
