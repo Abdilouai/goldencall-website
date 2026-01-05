@@ -38,15 +38,43 @@ export const BookSession: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
+  e.preventDefault();
+  setLoading(true);
+  setError('');
 
-    // Basic Validation
-    if (!formData.fullName || !formData.email || !formData.phoneNumber || !formData.serviceType || !formData.preferredDate || !formData.consent) {
-      setError("Please fill in all required fields and accept the terms.");
-      window.scrollTo(0, 0);
-      return;
+  try {
+    console.log('Submitting booking...', formData);
+
+    const response = await fetch('/api/booking', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    });
+
+    const data = await response.json();
+    console.log('Response:', data);
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Booking failed');
     }
+
+    // Success! Redirect to success page
+    navigate('/booking-success', {
+      state: {
+        bookingId: data.bookingId,
+        customerName: formData.fullName,
+        email: formData.email
+      }
+    });
+
+  } catch (err: any) {
+    console.error('Booking error:', err);
+    setError(err.message || 'Something went wrong. Please try again.');
+    setLoading(false);
+  }
+};
 
     setIsSubmitting(true);
 
