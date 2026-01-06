@@ -4,13 +4,22 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { neon } from "@neondatabase/serverless";
 import { Resend } from "resend";
 
-const sql = neon(process.env.DATABASE_URL!);
-const resend = new Resend(process.env.RESEND_API_KEY!);
-
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method Not Allowed" });
   }
+
+  // Check env vars first
+  if (!process.env.DATABASE_URL) {
+    return res.status(500).json({ error: "Database configuration is missing" });
+  }
+  if (!process.env.RESEND_API_KEY) {
+    return res.status(500).json({ error: "Email service configuration is missing" });
+  }
+
+  // Initialize inside handler
+  const sql = neon(process.env.DATABASE_URL);
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
   try {
     const {
@@ -28,7 +37,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    // 1ï¸âƒ£ Save booking
+    // 1️⃣ Save booking
     const result = await sql`
       INSERT INTO booking_sessions (
         full_name,
@@ -59,7 +68,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const bookingId = result[0].id;
 
-    // 2ï¸âƒ£ Send confirmation email
+    // 2️⃣ Send confirmation email
     const { error } = await resend.emails.send({
       from: "Golden Call <bookings@goldencall.digital>",
       to: email,
@@ -69,7 +78,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     if (error) {
       console.error("Email error:", error);
-      // IMPORTANT: booking is already saved â†’ DO NOT FAIL HARD
+      // Continue since booking is saved
     }
 
     return res.status(200).json({
@@ -79,6 +88,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   } catch (err: any) {
     console.error("Booking failed:", err);
-    return res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ error: "A server error occurred during booking" });
   }
 }
