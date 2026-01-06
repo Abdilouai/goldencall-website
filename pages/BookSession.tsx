@@ -38,64 +38,40 @@ export const BookSession: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setLoading(true);
-  setError('');
-
-  try {
-    console.log('Submitting booking...', formData);
-
-    const response = await fetch('/api/booking', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
-
-    const data = await response.json();
-    console.log('Response:', data);
-
-    if (!response.ok) {
-      throw new Error(data.error || 'Booking failed');
-    }
-
-    // Success! Redirect to success page
-    navigate('/booking-success', {
-      state: {
-        bookingId: data.bookingId,
-        customerName: formData.fullName,
-        email: formData.email
-      }
-    });
-
-  } catch (err: any) {
-    console.error('Booking error:', err);
-    setError(err.message || 'Something went wrong. Please try again.');
-    setLoading(false);
-  }
-};
-
+    e.preventDefault();
     setIsSubmitting(true);
+    setError('');
 
     try {
-      const response = await fetch('/api/submit-booking', {
+      console.log('Submitting booking...', formData);
+
+      const response = await fetch('/api/booking', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData)
       });
 
+      const data = await response.json();
+      console.log('Response:', data);
+
       if (!response.ok) {
-        throw new Error('Something went wrong. Please try again.');
+        throw new Error(data.error || 'Booking failed');
       }
 
-      // Success
-      navigate('/booking-success');
-    } catch (err) {
-      console.error(err);
-      setError("Failed to submit booking. Please check your connection and try again.");
+      // Success! Redirect to success page
+      navigate('/booking-success', {
+        state: {
+          bookingId: data.bookingId,
+          customerName: formData.fullName,
+          email: formData.email
+        }
+      });
+
+    } catch (err: any) {
+      console.error('Booking error:', err);
+      setError(err.message || 'Something went wrong. Please try again.');
       window.scrollTo(0, 0);
     } finally {
       setIsSubmitting(false);
