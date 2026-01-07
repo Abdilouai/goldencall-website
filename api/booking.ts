@@ -68,11 +68,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const bookingId = result[0].id;
 
-    // 2️⃣ Send confirmation email
-    const { error } = await resend.emails.send({
+    // Format date nicely
+    const formattedDate = new Date(preferredDate).toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+
+    // 2️⃣ Send confirmation email to customer
+    await resend.emails.send({
       from: "Golden Call <bookings@goldencall.digital>",
       to: email,
-      subject: "Your Golden Call Session is Confirmed!",
+      subject: "✅ Your Golden Call Session is Confirmed!",
       html: `
         <!DOCTYPE html>
         <html lang="en">
@@ -85,62 +93,170 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 40px 0;">
             <tr>
               <td align="center">
-                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                  
                   <!-- Header -->
                   <tr>
-                    <td style="background-color: #1A8FD8; padding: 20px; text-align: center;">
-                      <img src="https://goldencall.digital/goldencall_logo.png" alt="Golden Call Logo" style="max-width: 200px; height: auto;">
+                    <td style="background: linear-gradient(135deg, #1B9BD8 0%, #1580b8 100%); padding: 40px 30px; text-align: center;">
+                      <h1 style="color: #ffffff; font-size: 32px; margin: 0; font-family: 'Poppins', sans-serif;">
+                        ✨ Golden Call Consulting
+                      </h1>
                     </td>
                   </tr>
-                  <!-- Content -->
+                  
+                  <!-- Main Content -->
                   <tr>
                     <td style="padding: 40px 30px;">
-                      <h1 style="color: #333333; font-size: 24px; margin-bottom: 20px;">Your Session is Confirmed!</h1>
-                      <p style="color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
-                        Hi ${fullName},<br><br>
-                        Thank you for booking with Golden Call Consulting! We're excited to help you with your ${serviceType}.
+                      <h1 style="color: #3d3d3d; font-size: 28px; margin: 0 0 20px 0; font-weight: 600;">
+                        Session Confirmed! ✓
+                      </h1>
+                      
+                      <p style="color: #555555; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
+                        Dear <strong>${fullName}</strong>,
                       </p>
-                      <table width="100%" cellpadding="10" cellspacing="0" style="background-color: #f9f9f9; border-radius: 4px; margin-bottom: 20px;">
+                      
+                      <p style="color: #555555; font-size: 16px; line-height: 1.6; margin: 0 0 30px 0;">
+                        We're excited to confirm your upcoming session with Golden Call Consulting. Your commitment to excellence is the first step toward achieving your goals!
+                      </p>
+                      
+                      <!-- Session Details Box -->
+                      <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f9fa; border-left: 4px solid #1B9BD8; border-radius: 5px; margin-bottom: 30px;">
                         <tr>
-                          <td style="font-weight: bold; color: #333333;">Booking ID:</td>
-                          <td>${bookingId}</td>
+                          <td style="padding: 25px;">
+                            <h2 style="color: #1B9BD8; font-size: 20px; margin: 0 0 20px 0; font-weight: 600;">
+                              📅 Session Details
+                            </h2>
+                            
+                            <table width="100%" cellpadding="8" cellspacing="0">
+                              <tr>
+                                <td style="color: #3d3d3d; font-size: 15px; font-weight: 600; width: 40%;">Booking ID:</td>
+                                <td style="color: #555555; font-size: 15px;">#${bookingId}</td>
+                              </tr>
+                              <tr>
+                                <td style="color: #3d3d3d; font-size: 15px; font-weight: 600;">Service Type:</td>
+                                <td style="color: #555555; font-size: 15px;">${serviceType}</td>
+                              </tr>
+                              <tr>
+                                <td style="color: #3d3d3d; font-size: 15px; font-weight: 600;">Date:</td>
+                                <td style="color: #555555; font-size: 15px;">${formattedDate}</td>
+                              </tr>
+                              <tr>
+                                <td style="color: #3d3d3d; font-size: 15px; font-weight: 600;">Time:</td>
+                                <td style="color: #555555; font-size: 15px;">${preferredTime} (Tunisia Time - GMT+1)</td>
+                              </tr>
+                              <tr>
+                                <td style="color: #3d3d3d; font-size: 15px; font-weight: 600;">Phone:</td>
+                                <td style="color: #555555; font-size: 15px;">${phoneNumber}</td>
+                              </tr>
+                              <tr>
+                                <td style="color: #3d3d3d; font-size: 15px; font-weight: 600;">Location/Link:</td>
+                                <td style="color: #555555; font-size: 15px;">WhatsApp Call: ${process.env.WHATSAPP_NUMBER}</td>
+                              </tr>
+                            </table>
+                          </td>
                         </tr>
-                        <tr>
-                          <td style="font-weight: bold; color: #333333;">Service:</td>
-                          <td>${serviceType}</td>
-                        </tr>
-                        <tr>
-                          <td style="font-weight: bold; color: #333333;">Preferred Date:</td>
-                          <td>${preferredDate}</td>
-                        </tr>
-                        <tr>
-                          <td style="font-weight: bold; color: #333333;">Preferred Time (GMT+1):</td>
-                          <td>${preferredTime}</td>
-                        </tr>
-                        <tr>
-                          <td style="font-weight: bold; color: #333333;">Phone:</td>
-                          <td>${phoneNumber}</td>
-                        </tr>
-                        <tr>
-                          <td style="font-weight: bold; color: #333333;">Country:</td>
-                          <td>${country ?? "Not specified"}</td>
-                        </tr>
-                        ${message ? `
-                        <tr>
-                          <td style="font-weight: bold; color: #333333;">Your Message:</td>
-                          <td>${message}</td>
-                        </tr>
-                        ` : ''}
                       </table>
-                      <p style="color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
-                        We'll review your request and send a final confirmation with preparation materials within 24 hours. Please check your WhatsApp regularly for the Zoom/Meet link and updates.
+                      
+                      <!-- Important Notes -->
+                      <div style="background-color: #fff8e6; border-left: 4px solid #ffc107; border-radius: 5px; padding: 20px; margin-bottom: 30px;">
+                        <h3 style="color: #3d3d3d; font-size: 18px; margin: 0 0 15px 0; font-weight: 600;">
+                          📌 Important Notes
+                        </h3>
+                        <ul style="color: #555555; font-size: 15px; line-height: 1.8; margin: 0; padding-left: 20px;">
+                          <li>Please be available 5 minutes before the scheduled time</li>
+                          <li>Ensure you have WhatsApp installed and working</li>
+                          <li>Prepare any questions or topics you'd like to discuss</li>
+                          <li>Contact us if you need to reschedule at least 24 hours in advance</li>
+                        </ul>
+                      </div>
+                      
+                      <p style="color: #555555; font-size: 16px; line-height: 1.6; margin: 0 0 25px 0;">
+                        We'll call you on WhatsApp at the scheduled time. If you have any questions before then, please don't hesitate to reach out!
                       </p>
-                      <p style="color: #666666; font-size: 16px; line-height: 1.5;">
+                      
+                      <!-- CTA Button -->
+                      <table width="100%" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td align="center" style="padding: 10px 0 30px 0;">
+                            <a href="https://goldencall.digital/" style="background-color: #1B9BD8; color: #ffffff; text-decoration: none; padding: 15px 40px; border-radius: 5px; font-size: 16px; font-weight: 600; display: inline-block; box-shadow: 0 3px 6px rgba(27, 155, 216, 0.3);">
+                              Visit Our Website
+                            </a>
+                          </td>
+                        </tr>
+                      </table>
+                      
+                      <p style="color: #555555; font-size: 16px; line-height: 1.6; margin: 0;">
+                        We look forward to helping you achieve your goals!
+                      </p>
+                      
+                      <p style="color: #555555; font-size: 16px; line-height: 1.6; margin: 20px 0 0 0;">
                         Best regards,<br>
-                        The Golden Call Team
+                        <strong style="color: #1B9BD8;">The Golden Call Team</strong>
                       </p>
                     </td>
                   </tr>
+                  
                   <!-- Footer -->
                   <tr>
-                    <td style="background-color
+                    <td style="background-color: #3d3d3d; padding: 30px; text-align: center;">
+                      <p style="color: #ffffff; font-size: 14px; margin: 0 0 10px 0;">
+                        <strong>Golden Call Consulting</strong>
+                      </p>
+                      <p style="color: #cccccc; font-size: 13px; margin: 0 0 15px 0;">
+                        Cabin Crew & IELTS Coaching | Tunisia
+                      </p>
+                      <p style="color: #cccccc; font-size: 13px; margin: 0 0 5px 0;">
+                        📧 golden_call@outlook.com | 📱 +216 29 373 579
+                      </p>
+                      <p style="color: #cccccc; font-size: 13px; margin: 0 0 15px 0;">
+                        🌐 <a href="https://goldencall.digital/" style="color: #1B9BD8; text-decoration: none;">goldencall.digital</a>
+                      </p>
+                      <p style="color: #999999; font-size: 12px; margin: 0;">
+                        © 2025 Golden Call Consulting. All rights reserved.
+                      </p>
+                    </td>
+                  </tr>
+                  
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+        </html>
+      `
+    });
+
+    // 3️⃣ Send admin notification
+    await resend.emails.send({
+      from: "Golden Call Notifications <notifications@goldencall.digital>",
+      to: process.env.ADMIN_EMAIL || "golden_call@outlook.com",
+      subject: `🔔 New Booking: ${fullName} - ${serviceType}`,
+      html: `
+        <h2>New Session Booking</h2>
+        <p><strong>Booking ID:</strong> #${bookingId}</p>
+        <p><strong>Customer:</strong> ${fullName}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phoneNumber}</p>
+        <p><strong>Country:</strong> ${country || 'Not specified'}</p>
+        <p><strong>Service:</strong> ${serviceType}</p>
+        <p><strong>Date:</strong> ${formattedDate}</p>
+        <p><strong>Time:</strong> ${preferredTime}</p>
+        ${message ? `<p><strong>Message:</strong> ${message}</p>` : ''}
+        <hr>
+        <p>Check your Neon database to manage this booking.</p>
+      `
+    });
+
+    return res.status(200).json({
+      success: true,
+      bookingId
+    });
+
+  } catch (err: any) {
+    console.error("Booking failed:", err);
+    return res.status(500).json({ 
+      error: "Internal Server Error",
+      details: err.message 
+    });
+  }
+}
