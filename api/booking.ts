@@ -72,22 +72,75 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { error } = await resend.emails.send({
       from: "Golden Call <bookings@goldencall.digital>",
       to: email,
-      subject: "Your session is confirmed",
-      html: `<p>Hi ${fullName}, your booking is confirmed.</p>`
-    });
-
-    if (error) {
-      console.error("Email error:", error);
-      // Continue since booking is saved
-    }
-
-    return res.status(200).json({
-      success: true,
-      bookingId
-    });
-
-  } catch (err: any) {
-    console.error("Booking failed:", err);
-    return res.status(500).json({ error: "A server error occurred during booking" });
-  }
-}
+      subject: "Your Golden Call Session is Confirmed!",
+      html: `
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Booking Confirmation</title>
+        </head>
+        <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f4f4f4; padding: 40px 0;">
+            <tr>
+              <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                  <!-- Header -->
+                  <tr>
+                    <td style="background-color: #1A8FD8; padding: 20px; text-align: center;">
+                      <img src="https://goldencall.digital/goldencall_logo.png" alt="Golden Call Logo" style="max-width: 200px; height: auto;">
+                    </td>
+                  </tr>
+                  <!-- Content -->
+                  <tr>
+                    <td style="padding: 40px 30px;">
+                      <h1 style="color: #333333; font-size: 24px; margin-bottom: 20px;">Your Session is Confirmed!</h1>
+                      <p style="color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                        Hi ${fullName},<br><br>
+                        Thank you for booking with Golden Call Consulting! We're excited to help you with your ${serviceType}.
+                      </p>
+                      <table width="100%" cellpadding="10" cellspacing="0" style="background-color: #f9f9f9; border-radius: 4px; margin-bottom: 20px;">
+                        <tr>
+                          <td style="font-weight: bold; color: #333333;">Booking ID:</td>
+                          <td>${bookingId}</td>
+                        </tr>
+                        <tr>
+                          <td style="font-weight: bold; color: #333333;">Service:</td>
+                          <td>${serviceType}</td>
+                        </tr>
+                        <tr>
+                          <td style="font-weight: bold; color: #333333;">Preferred Date:</td>
+                          <td>${preferredDate}</td>
+                        </tr>
+                        <tr>
+                          <td style="font-weight: bold; color: #333333;">Preferred Time (GMT+1):</td>
+                          <td>${preferredTime}</td>
+                        </tr>
+                        <tr>
+                          <td style="font-weight: bold; color: #333333;">Phone:</td>
+                          <td>${phoneNumber}</td>
+                        </tr>
+                        <tr>
+                          <td style="font-weight: bold; color: #333333;">Country:</td>
+                          <td>${country ?? "Not specified"}</td>
+                        </tr>
+                        ${message ? `
+                        <tr>
+                          <td style="font-weight: bold; color: #333333;">Your Message:</td>
+                          <td>${message}</td>
+                        </tr>
+                        ` : ''}
+                      </table>
+                      <p style="color: #666666; font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+                        We'll review your request and send a final confirmation with preparation materials within 24 hours. Please check your WhatsApp regularly for the Zoom/Meet link and updates.
+                      </p>
+                      <p style="color: #666666; font-size: 16px; line-height: 1.5;">
+                        Best regards,<br>
+                        The Golden Call Team
+                      </p>
+                    </td>
+                  </tr>
+                  <!-- Footer -->
+                  <tr>
+                    <td style="background-color
