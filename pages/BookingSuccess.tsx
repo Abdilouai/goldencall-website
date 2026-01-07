@@ -14,7 +14,7 @@ export const BookingSuccess: React.FC = () => {
         <p className="text-gray-600 mb-8 leading-relaxed">
           Thank you for booking with Golden Call Consulting! We've received your request and will confirm your appointment via email within 24 hours.
         </p>
-        
+       
         <div className="bg-gray-50 rounded-xl p-6 mb-8 text-left text-sm text-gray-600 space-y-3">
           <p className="font-semibold text-dark mb-2">Next Steps:</p>
           <div className="flex gap-2">
@@ -27,10 +27,14 @@ export const BookingSuccess: React.FC = () => {
           </div>
           <div className="flex gap-2">
             <span className="text-primary">✓</span>
-            <span>Receive Zoom/Meet link</span>
+            <span>Receive Zoom/Meet link in your whatsapp</span>
           </div>
         </div>
-
+        
+        <p className="text-gray-600 mb-8 text-sm italic">
+          Please check your WhatsApp regularly for updates and the meeting link.
+        </p>
+        
         <div className="flex flex-col gap-3">
           <Link to="/">
             <Button fullWidth>Return to Home</Button>
