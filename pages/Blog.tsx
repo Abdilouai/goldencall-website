@@ -10,7 +10,7 @@ export const Blog: React.FC = () => {
       category: "Cabin Crew",
       readTime: "5 min",
       excerpt: "Learn what airlines are really looking for and the common pitfalls to avoid during the assessment day.",
-      date: "Oct 05, 2023",
+      date: "Dec 05, 2025",
       author: "Admin",
       imageUrl: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=600&fit=crop",
       slug: "/blog/cabin-crew-mistakes"
@@ -21,7 +21,7 @@ export const Blog: React.FC = () => {
       category: "Interview Prep",
       readTime: "6 min",
       excerpt: "Master the technique used by top candidates to structure their answers and impress recruiters.",
-      date: "Oct 05, 2023",
+      date: "Dec 07, 2025",
       author: "Admin",
       imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop",
       slug: "/blog/star-method"
@@ -32,7 +32,7 @@ export const Blog: React.FC = () => {
       category: "ESL / English",
       readTime: "4 min",
       excerpt: "Elevate your interview answers with these professional phrases that show confidence and fluency.",
-      date: "Sep 28, 2023",
+      date: "Jan 05, 2026",
       author: "Admin",
       imageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop",
       slug: "/blog/english-phrases"
