@@ -14,7 +14,7 @@ export const BookSession: React.FC = () => {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const [formData, setFormData] = useState<BookingFormData>({
     fullName: '',
     email: '',
@@ -30,7 +30,7 @@ export const BookSession: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
     const checked = (e.target as HTMLInputElement).checked;
-    
+
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
@@ -38,45 +38,9 @@ export const BookSession: React.FC = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setLoading(true);
-  setError('');
-
-  try {
-    console.log('Submitting booking...', formData);
-
-    const response = await fetch('/api/booking', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
-
-    const data = await response.json();
-    console.log('Response:', data);
-
-    if (!response.ok) {
-      throw new Error(data.error || 'Booking failed');
-    }
-
-    // Success! Redirect to success page
-    navigate('/booking-success', {
-      state: {
-        bookingId: data.bookingId,
-        customerName: formData.fullName,
-        email: formData.email
-      }
-    });
-
-  } catch (err: any) {
-    console.error('Booking error:', err);
-    setError(err.message || 'Something went wrong. Please try again.');
-    setLoading(false);
-  }
-};
-
+    e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
 
     try {
       const response = await fetch('/api/submit-booking', {
@@ -117,7 +81,7 @@ export const BookSession: React.FC = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="p-8 space-y-6">
-          
+
           {error && (
             <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-6">
               <div className="flex items-center">
@@ -238,7 +202,7 @@ export const BookSession: React.FC = () => {
             <div>
               <label htmlFor="preferredTime" className="block text-sm font-medium text-gray-700">Preferred Time (GMT+1) *</label>
               <div className="mt-1 relative rounded-md shadow-sm">
-                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Clock size={16} className="text-gray-400" />
                 </div>
                 <select
