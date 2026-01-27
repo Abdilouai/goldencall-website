@@ -33,10 +33,11 @@ export const DashboardLayout: React.FC = () => {
     return (
         <div className="min-h-screen bg-gray-50 flex">
             {/* Sidebar for Desktop */}
-            <aside className="hidden md:flex flex-col w-64 bg-slate-900 text-white min-h-screen fixed">
+            <aside className="hidden md:flex flex-col w-64 bg-slate-900 text-white h-screen fixed z-40">
                 <div className="p-6 border-b border-slate-800">
-                    <Link to="/" className="font-heading font-bold text-2xl tracking-tight">
-                        golden<span className="text-gold">call</span>
+                    <Link to="/dashboard" className="flex items-center gap-2">
+                        <LayoutDashboard size={24} className="text-primary" />
+                        <span className="font-heading font-bold text-xl">Dashboard</span>
                     </Link>
                 </div>
 
@@ -46,8 +47,8 @@ export const DashboardLayout: React.FC = () => {
                             key={item.path}
                             to={item.path}
                             className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${location.pathname === item.path
-                                    ? 'bg-blue-600 text-white'
-                                    : 'text-gray-400 hover:bg-slate-800 hover:text-white'
+                                ? 'bg-blue-600 text-white'
+                                : 'text-gray-400 hover:bg-slate-800 hover:text-white'
                                 }`}
                         >
                             <item.icon size={20} />
@@ -69,8 +70,9 @@ export const DashboardLayout: React.FC = () => {
 
             {/* Mobile Header */}
             <div className="md:hidden fixed top-0 w-full bg-slate-900 text-white z-50 px-4 py-3 flex justify-between items-center shadow-md">
-                <Link to="/" className="font-heading font-bold text-xl">
-                    golden<span className="text-gold">call</span>
+                <Link to="/dashboard" className="flex items-center gap-2">
+                    <LayoutDashboard size={20} className="text-primary" />
+                    <span className="font-heading font-bold text-lg">Dashboard</span>
                 </Link>
                 <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                     {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -87,8 +89,8 @@ export const DashboardLayout: React.FC = () => {
                                 to={item.path}
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${location.pathname === item.path
-                                        ? 'bg-blue-600 text-white'
-                                        : 'text-gray-400 hover:bg-slate-800 hover:text-white'
+                                    ? 'bg-blue-600 text-white'
+                                    : 'text-gray-400 hover:bg-slate-800 hover:text-white'
                                     }`}
                             >
                                 <item.icon size={20} />
