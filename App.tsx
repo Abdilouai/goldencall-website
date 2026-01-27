@@ -34,10 +34,21 @@ const ScrollToTop = () => {
 const App: React.FC = () => {
   return (
     <Router>
+      <AppContent />
+    </Router>
+  );
+};
+
+const AppContent: React.FC = () => {
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith('/dashboard');
+
+  return (
+    <>
       <ScrollToTop />
-      <div className="min-h-screen bg-white font-sans text-dark flex flex-col">
-        <Navbar />
-        <main className="flex-grow">
+      <div className={`min-h-screen bg-white font-sans text-dark ${isDashboard ? '' : 'flex flex-col'}`}>
+        {!isDashboard && <Navbar />}
+        <main className={isDashboard ? '' : 'flex-grow'}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
@@ -66,10 +77,10 @@ const App: React.FC = () => {
             <Route path="/blog/english-phrases" element={<EnglishPhrases />} />
           </Routes>
         </main>
-        <Footer />
+        {!isDashboard && <Footer />}
         <WhatsAppButton />
       </div>
-    </Router>
+    </>
   );
 };
 
