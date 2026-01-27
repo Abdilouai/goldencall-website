@@ -46,8 +46,8 @@ const App: React.FC = () => {
             <Route path="/book" element={<BookSession />} />
             <Route path="/book" element={<BookSession />} />
             <Route path="/booking-success" element={<BookingSuccess />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/login/*" element={<Login />} />
+            <Route path="/signup/*" element={<Signup />} />
 
             <Route path="/dashboard" element={
               <ProtectedRoute>
