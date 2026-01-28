@@ -27,9 +27,9 @@ export const DashboardLayout: React.FC = () => {
 
     const navItems = [
         { icon: LayoutDashboard, label: 'Overview', path: '/dashboard' },
-        { icon: Calendar, label: 'Schedule', path: '/dashboard/schedule' },
-        { icon: MessageSquare, label: 'AI Assessment', path: '/dashboard/assessment' },
-        { icon: BookOpen, label: 'My Plans', path: '/dashboard/plans' },
+        // Hidden temporarily as requested
+        // { icon: Calendar, label: 'Schedule', path: '/dashboard/schedule' },
+        // { icon: BookOpen, label: 'My Plans', path: '/dashboard/plans' },
     ];
 
     return (
@@ -65,8 +65,8 @@ export const DashboardLayout: React.FC = () => {
                             key={item.path}
                             to={item.path}
                             className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${location.pathname === item.path
-                                    ? 'bg-blue-600 text-white'
-                                    : 'text-gray-400 hover:bg-slate-800 hover:text-white'
+                                ? 'bg-blue-600 text-white'
+                                : 'text-gray-400 hover:bg-slate-800 hover:text-white'
                                 }`}
                             title={isSidebarCollapsed ? item.label : undefined}
                         >
@@ -109,8 +109,8 @@ export const DashboardLayout: React.FC = () => {
                                 to={item.path}
                                 onClick={() => setIsMobileMenuOpen(false)}
                                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${location.pathname === item.path
-                                        ? 'bg-blue-600 text-white'
-                                        : 'text-gray-400 hover:bg-slate-800 hover:text-white'
+                                    ? 'bg-blue-600 text-white'
+                                    : 'text-gray-400 hover:bg-slate-800 hover:text-white'
                                     }`}
                             >
                                 <item.icon size={20} />

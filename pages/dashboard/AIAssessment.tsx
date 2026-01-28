@@ -8,8 +8,16 @@ interface Message {
 }
 
 export const AIAssessment: React.FC = () => {
+    const [step, setStep] = useState(0);
+    const questions = [
+        "Hello! I'm your Golden Call AI Coach. I'm here to assess your readiness for a cabin crew role. To start, could you please introduce yourself and tell me why you want to become a cabin crew member?",
+        "That's a good start! Now, tell me about a time you had to deal with a difficult customer. How did you handle it?",
+        "Interesting. How would you handle a situation where a passenger is refusing to fasten their seatbelt during takeoff?",
+        "Good. Why do you think you are a good fit for this specific airline?",
+    ];
+
     const [messages, setMessages] = useState<Message[]>([
-        { role: 'assistant', content: "Hello! I'm your Golden Call AI Coach. I'm here to assess your readiness for a cabin crew role. To start, could you please introduce yourself and tell me why you want to become a cabin crew member?" }
+        { role: 'assistant', content: questions[0] }
     ]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -31,17 +39,23 @@ export const AIAssessment: React.FC = () => {
         setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
         setIsLoading(true);
 
-        // Simulate AI Delay/Response (Replace with real API later)
+        // Simulate AI Delay/Response
         setTimeout(() => {
-            const responses = [
-                "That's a good start! Now, tell me about a time you had to deal with a difficult customer.",
-                "Interesting. How would you handle a situation where a passenger is refusing to fasten their seatbelt?",
-                "Good. Why do you think you are a good fit for this specific airline?",
-                "Thank you. Based on your answers, I've gathered enough information for your initial assessment report."
-            ];
-            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            const nextStep = step + 1;
 
-            setMessages(prev => [...prev, { role: 'assistant', content: randomResponse }]);
+            if (nextStep < questions.length) {
+                // Next Question
+                setStep(nextStep);
+                setMessages(prev => [...prev, { role: 'assistant', content: questions[nextStep] }]);
+            } else {
+                // Assessment Complete
+                const score = Math.floor(Math.random() * (95 - 78) + 78); // Mock score between 78 and 95
+                localStorage.setItem('aiScore', score.toString());
+
+                const conclusion = `Thank you. Based on your answers, I've gathered enough information for your initial assessment report. Your preliminary score is ${score}/100. You can view the details on your dashboard.`;
+                setMessages(prev => [...prev, { role: 'assistant', content: conclusion }]);
+            }
+
             setIsLoading(false);
         }, 1500);
     };
@@ -69,8 +83,8 @@ export const AIAssessment: React.FC = () => {
                                 {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
                             </div>
                             <div className={`p-4 rounded-2xl text-sm ${msg.role === 'user'
-                                    ? 'bg-blue-600 text-white rounded-tr-none'
-                                    : 'bg-white text-gray-700 shadow-sm border border-gray-100 rounded-tl-none'
+                                ? 'bg-blue-600 text-white rounded-tr-none'
+                                : 'bg-white text-gray-700 shadow-sm border border-gray-100 rounded-tl-none'
                                 }`}>
                                 {msg.content}
                             </div>

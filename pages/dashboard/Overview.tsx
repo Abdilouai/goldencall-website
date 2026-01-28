@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useUser } from '@clerk/clerk-react';
 import { ArrowRight, Star, Calendar, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -6,6 +6,14 @@ import { Button } from '../../components/Button';
 
 export const Overview: React.FC = () => {
     const { user } = useUser();
+    const [aiScore, setAiScore] = useState<string | null>(null);
+
+    useEffect(() => {
+        const storedScore = localStorage.getItem('aiScore');
+        if (storedScore) {
+            setAiScore(storedScore);
+        }
+    }, []);
 
     return (
         <div className="space-y-8">
@@ -44,8 +52,15 @@ export const Overview: React.FC = () => {
                         </div>
                         <h3 className="font-bold text-lg text-dark">AI Score</h3>
                     </div>
-                    <p className="text-3xl font-heading font-bold text-dark mb-1">--/100</p>
-                    <p className="text-xs text-gray-400">Take an assessment to see your score</p>
+                    <div className="mt-2">
+                        <div className="flex items-baseline gap-1">
+                            <span className="text-3xl font-heading font-bold text-dark">{aiScore || '--'}</span>
+                            <span className="text-gray-400 font-medium">/100</span>
+                        </div>
+                        <p className="text-xs text-gray-400 mt-2">
+                            {aiScore ? 'Based on your latest assessment' : 'Take an assessment to see your score'}
+                        </p>
+                    </div>
                 </div>
 
                 <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
@@ -56,7 +71,9 @@ export const Overview: React.FC = () => {
                         <h3 className="font-bold text-lg text-dark">Next Session</h3>
                     </div>
                     <p className="text-gray-500 mb-4">No upcoming sessions scheduled.</p>
-                    <Button variant="outline" size="sm" fullWidth>Book a Session</Button>
+                    <Link to="/book" className="block w-full">
+                        <Button variant="outline" size="sm" fullWidth>Book a Session</Button>
+                    </Link>
                 </div>
             </div>
         </div>
