@@ -52,7 +52,7 @@ export const Navbar: React.FC = () => {
                 <Button variant="outline" size="sm" className='mr-2'>Login</Button>
               </Link>
               <Link to="/signup">
-                <Button size="sm">Get Started</Button>
+                <Button size="sm">Sign Up</Button>
               </Link>
             </SignedOut>
 
@@ -86,18 +86,39 @@ export const Navbar: React.FC = () => {
                 key={link.name}
                 to={link.path}
                 className={`block px-3 py-4 rounded-md text-base font-medium text-center ${location.pathname === link.path
-                    ? 'text-primary bg-blue-50'
-                    : 'text-gray-700 hover:text-primary hover:bg-gray-50'
+                  ? 'text-primary bg-blue-50'
+                  : 'text-gray-700 hover:text-primary hover:bg-gray-50'
                   }`}
                 onClick={closeMenu}
               >
                 {link.name}
               </Link>
             ))}
-            <div className="px-3 py-4">
-              <Link to="/book" onClick={closeMenu}>
-                <Button fullWidth>Book Now</Button>
-              </Link>
+
+            <div className="border-t border-gray-100 my-2 pt-2">
+              <SignedOut>
+                <div className="space-y-2 p-2">
+                  <Link to="/login" onClick={closeMenu} className="block w-full">
+                    <Button variant="outline" fullWidth>Login</Button>
+                  </Link>
+                  <Link to="/signup" onClick={closeMenu} className="block w-full">
+                    <Button fullWidth>Sign Up</Button>
+                  </Link>
+                </div>
+              </SignedOut>
+
+              <SignedIn>
+                <Link
+                  to="/dashboard"
+                  className="block px-3 py-4 rounded-md text-base font-medium text-center text-gray-700 hover:text-primary hover:bg-gray-50"
+                  onClick={closeMenu}
+                >
+                  Dashboard
+                </Link>
+                <div className="flex justify-center py-4">
+                  <UserButton />
+                </div>
+              </SignedIn>
             </div>
           </div>
         </div>
