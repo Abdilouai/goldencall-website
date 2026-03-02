@@ -56,6 +56,21 @@ CREATE TABLE IF NOT EXISTS assessments (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- PAYMENT REQUESTS (Manual Tunisian payments)
+CREATE TABLE IF NOT EXISTS payment_requests (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id TEXT REFERENCES users(id),
+    full_name TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    payment_method TEXT NOT NULL, -- 'bank' | 'd17' | 'poste'
+    plan_name TEXT,
+    amount NUMERIC NOT NULL,
+    receipt_url TEXT,
+    status TEXT DEFAULT 'pending', -- 'pending' | 'approved' | 'rejected'
+    notes TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Initial Data Seed (Optional)
 INSERT INTO plans (name, description, price_cents, features) VALUES 
 ('Cabin Crew Assessment', 'Full preparation for group exercises and grooming.', 5000, '["Group Exercise Sim", "Grooming Guide", "1hr Video Call"]'),

@@ -11,6 +11,7 @@ import { BookSession } from './pages/BookSession';
 import { BookingSuccess } from './pages/BookingSuccess';
 import { Login } from './pages/Login';
 import { Signup } from './pages/Signup';
+import { Payment } from './pages/Payment';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { DashboardLayout } from './components/DashboardLayout';
 import { Overview } from './pages/dashboard/Overview';
@@ -59,6 +60,7 @@ const AppContent: React.FC = () => {
             <Route path="/booking-success" element={<BookingSuccess />} />
             <Route path="/login/*" element={<Login />} />
             <Route path="/signup/*" element={<Signup />} />
+            <Route path="/payment" element={<Payment />} />
 
             <Route path="/dashboard" element={
               <ProtectedRoute>

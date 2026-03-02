@@ -3,9 +3,11 @@ import { useUser } from '@clerk/clerk-react';
 import { ArrowRight, Star, Calendar, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '../../components/Button';
+import { useTranslation } from 'react-i18next';
 
 export const Overview: React.FC = () => {
     const { user } = useUser();
+    const { t } = useTranslation();
     const [aiScore, setAiScore] = useState<string | null>(null);
 
     useEffect(() => {
@@ -21,12 +23,12 @@ export const Overview: React.FC = () => {
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row justify-between items-center gap-6">
                 <div>
                     <h1 className="font-heading font-bold text-3xl text-dark mb-2">
-                        Welcome back, <span className="text-primary">{user?.firstName || 'Candidate'}</span>
+                        {t('dashboard.welcomeBack')}<span className="text-primary">{user?.firstName || t('dashboard.welcomeDefault')}</span>
                     </h1>
-                    <p className="text-gray-500">You are on the path to your Golden Call. Ready to make progress today?</p>
+                    <p className="text-gray-500">{t('dashboard.welcomeSubtitle')}</p>
                 </div>
                 <Link to="/dashboard/assessment">
-                    <Button className="shadow-lg shadow-blue-500/20">Start AI Assessment</Button>
+                    <Button className="shadow-lg shadow-blue-500/20">{t('dashboard.startAssessment')}</Button>
                 </Link>
             </div>
 
@@ -37,11 +39,11 @@ export const Overview: React.FC = () => {
                         <div className="p-3 bg-blue-50 text-blue-600 rounded-xl">
                             <Zap size={24} />
                         </div>
-                        <h3 className="font-bold text-lg text-dark">Current Plan</h3>
+                        <h3 className="font-bold text-lg text-dark">{t('dashboard.currentPlan')}</h3>
                     </div>
-                    <p className="text-gray-500 mb-4">You haven't selected a coaching plan yet.</p>
+                    <p className="text-gray-500 mb-4">{t('dashboard.noPlan')}</p>
                     <Link to="/services" className="text-sm font-semibold text-primary hover:underline">
-                        View Plans &rarr;
+                        {t('dashboard.viewPlans')}
                     </Link>
                 </div>
 
@@ -50,7 +52,7 @@ export const Overview: React.FC = () => {
                         <div className="p-3 bg-purple-50 text-purple-600 rounded-xl">
                             <Star size={24} />
                         </div>
-                        <h3 className="font-bold text-lg text-dark">AI Score</h3>
+                        <h3 className="font-bold text-lg text-dark">{t('dashboard.aiScore')}</h3>
                     </div>
                     <div className="mt-2">
                         <div className="flex items-baseline gap-1">
@@ -58,7 +60,7 @@ export const Overview: React.FC = () => {
                             <span className="text-gray-400 font-medium">/100</span>
                         </div>
                         <p className="text-xs text-gray-400 mt-2">
-                            {aiScore ? 'Based on your latest assessment' : 'Take an assessment to see your score'}
+                            {aiScore ? t('dashboard.basedOnAssessment') : t('dashboard.takeAssessment')}
                         </p>
                     </div>
                 </div>
@@ -68,11 +70,11 @@ export const Overview: React.FC = () => {
                         <div className="p-3 bg-orange-50 text-orange-600 rounded-xl">
                             <Calendar size={24} />
                         </div>
-                        <h3 className="font-bold text-lg text-dark">Next Session</h3>
+                        <h3 className="font-bold text-lg text-dark">{t('dashboard.nextSession')}</h3>
                     </div>
-                    <p className="text-gray-500 mb-4">No upcoming sessions scheduled.</p>
+                    <p className="text-gray-500 mb-4">{t('dashboard.noSessions')}</p>
                     <Link to="/book" className="block w-full">
-                        <Button variant="outline" size="sm" fullWidth>Book a Session</Button>
+                        <Button variant="outline" size="sm" fullWidth>{t('dashboard.bookSession')}</Button>
                     </Link>
                 </div>
             </div>

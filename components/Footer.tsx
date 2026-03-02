@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Linkedin, Mail, Phone } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const Footer: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-dark text-white pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,7 +21,7 @@ export const Footer: React.FC = () => {
               </span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
-              Helping you achieve your aviation dreams through personalized coaching and expert guidance.
+              {t('footer.tagline')}
             </p>
             <div className="flex space-x-4">
               <a href="https://www.instagram.com/golden_call1/" className="text-gray-400 hover:text-primary transition-colors"><Instagram size={20} /></a>
@@ -29,28 +32,28 @@ export const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-heading font-semibold mb-6">Quick Links</h3>
+            <h3 className="text-lg font-heading font-semibold mb-6">{t('footer.quickLinks')}</h3>
             <ul className="space-y-3">
-              <li><Link to="/services" className="text-gray-400 hover:text-primary text-sm transition-colors">Services</Link></li>
-              <li><Link to="/about" className="text-gray-400 hover:text-primary text-sm transition-colors">About Us</Link></li>
-              <li><Link to="/blog" className="text-gray-400 hover:text-primary text-sm transition-colors">Blog</Link></li>
-              <li><Link to="/book" className="text-gray-400 hover:text-primary text-sm transition-colors">Book a Session</Link></li>
+              <li><Link to="/services" className="text-gray-400 hover:text-primary text-sm transition-colors">{t('footer.services')}</Link></li>
+              <li><Link to="/about" className="text-gray-400 hover:text-primary text-sm transition-colors">{t('footer.aboutUs')}</Link></li>
+              <li><Link to="/blog" className="text-gray-400 hover:text-primary text-sm transition-colors">{t('footer.blog')}</Link></li>
+              <li><Link to="/book" className="text-gray-400 hover:text-primary text-sm transition-colors">{t('footer.bookSession')}</Link></li>
             </ul>
           </div>
 
           {/* Services */}
           <div>
-            <h3 className="text-lg font-heading font-semibold mb-6">Services</h3>
+            <h3 className="text-lg font-heading font-semibold mb-6">{t('footer.servicesTitle')}</h3>
             <ul className="space-y-3">
-              <li><Link to="/services" className="text-gray-400 hover:text-primary text-sm transition-colors">Cabin Crew Prep</Link></li>
-              <li><Link to="/services" className="text-gray-400 hover:text-primary text-sm transition-colors">Final Interview</Link></li>
-              <li><Link to="/services" className="text-gray-400 hover:text-primary text-sm transition-colors">IELTS Coaching</Link></li>
+              <li><Link to="/services" className="text-gray-400 hover:text-primary text-sm transition-colors">{t('footer.cabinCrewPrep')}</Link></li>
+              <li><Link to="/services" className="text-gray-400 hover:text-primary text-sm transition-colors">{t('footer.finalInterview')}</Link></li>
+              <li><Link to="/services" className="text-gray-400 hover:text-primary text-sm transition-colors">{t('footer.ieltsCoaching')}</Link></li>
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h3 className="text-lg font-heading font-semibold mb-6">Contact</h3>
+            <h3 className="text-lg font-heading font-semibold mb-6">{t('footer.contact')}</h3>
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-gray-400 text-sm">
                 <Mail size={18} className="mt-0.5 text-primary" />
@@ -62,7 +65,7 @@ export const Footer: React.FC = () => {
               </li>
               <li className="flex items-start gap-3 text-gray-400 text-sm">
                 <span className="text-2xl mt-[-5px]">🇹🇳</span>
-                <span>Proudly based in Tunisia<br/>Serving clients worldwide</span>
+                <span>{t('footer.basedInTunisia')}<br />{t('footer.servingWorldwide')}</span>
               </li>
             </ul>
           </div>
@@ -70,11 +73,11 @@ export const Footer: React.FC = () => {
 
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-500 text-sm">
-            &copy; {new Date().getFullYear()} Golden Call Consulting. All rights reserved.
+            {t('footer.copyright', { year: new Date().getFullYear() })}
           </p>
           <div className="flex gap-6">
-            <span className="text-gray-600 text-xs">Privacy Policy</span>
-            <span className="text-gray-600 text-xs">Terms of Service</span>
+            <span className="text-gray-600 text-xs">{t('footer.privacyPolicy')}</span>
+            <span className="text-gray-600 text-xs">{t('footer.termsOfService')}</span>
           </div>
         </div>
       </div>

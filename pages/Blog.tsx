@@ -1,15 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Clock, Calendar, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const Blog: React.FC = () => {
+  const { t } = useTranslation();
+
   const blogPosts = [
     {
       id: 1,
-      title: "5 Mistakes That Cost Candidates Their Cabin Crew Offers",
-      category: "Cabin Crew",
+      title: t('blog.post1Title'),
+      category: t('blog.post1Category'),
       readTime: "5 min",
-      excerpt: "Learn what airlines are really looking for and the common pitfalls to avoid during the assessment day.",
+      excerpt: t('blog.post1Excerpt'),
       date: "Oct 05, 2023",
       author: "Admin",
       imageUrl: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=600&fit=crop",
@@ -17,10 +20,10 @@ export const Blog: React.FC = () => {
     },
     {
       id: 2,
-      title: "The STAR Method Explained: Answer Any Interview Question",
-      category: "Interview Prep",
+      title: t('blog.post2Title'),
+      category: t('blog.post2Category'),
       readTime: "6 min",
-      excerpt: "Master the technique used by top candidates to structure their answers and impress recruiters.",
+      excerpt: t('blog.post2Excerpt'),
       date: "Oct 05, 2023",
       author: "Admin",
       imageUrl: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop",
@@ -28,10 +31,10 @@ export const Blog: React.FC = () => {
     },
     {
       id: 3,
-      title: "10 English Phrases That Impress in Any Interview",
-      category: "ESL / English",
+      title: t('blog.post3Title'),
+      category: t('blog.post3Category'),
       readTime: "4 min",
-      excerpt: "Elevate your interview answers with these professional phrases that show confidence and fluency.",
+      excerpt: t('blog.post3Excerpt'),
       date: "Sep 28, 2023",
       author: "Admin",
       imageUrl: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop",
@@ -45,10 +48,10 @@ export const Blog: React.FC = () => {
       <section className="bg-gradient-to-r from-primary to-blue-600 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-heading font-bold mb-6">
-            Latest Insights
+            {t('blog.heroTitle')}
           </h1>
           <p className="text-xl text-gray-100 max-w-3xl mx-auto">
-            Expert advice on aviation careers, interview techniques, and English mastery.
+            {t('blog.heroSubtitle')}
           </p>
         </div>
       </section>
@@ -106,7 +109,7 @@ export const Blog: React.FC = () => {
                   </div>
 
                   <div className="mt-4 text-primary font-semibold group-hover:underline">
-                    Read More →
+                    {t('blog.readMore')}
                   </div>
                 </div>
               </Link>
@@ -119,17 +122,16 @@ export const Blog: React.FC = () => {
       <section className="bg-gradient-to-r from-primary to-blue-600 py-16">
         <div className="max-w-4xl mx-auto px-4 text-center text-white">
           <h2 className="text-3xl md:text-4xl font-heading font-bold mb-6">
-            Ready to Turn Knowledge Into Action?
+            {t('blog.ctaTitle')}
           </h2>
           <p className="text-xl text-gray-100 mb-8">
-            Reading tips is great—but personalized coaching gets real results. 
-            Book your session today and let's prepare you for success.
+            {t('blog.ctaSubtitle')}
           </p>
           <Link
             to="/book"
             className="inline-block bg-white text-primary px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-colors shadow-xl"
           >
-            Book Your Coaching Session
+            {t('blog.ctaButton')}
           </Link>
         </div>
       </section>

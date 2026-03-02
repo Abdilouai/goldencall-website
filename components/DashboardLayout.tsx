@@ -12,11 +12,13 @@ import {
     ChevronLeft,
     ChevronRight
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const DashboardLayout: React.FC = () => {
     const { signOut } = useClerk();
     const location = useLocation();
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
     const [isSidebarCollapsed, setIsSidebarCollapsed] = React.useState(false);
 
@@ -26,15 +28,12 @@ export const DashboardLayout: React.FC = () => {
     };
 
     const navItems = [
-        { icon: LayoutDashboard, label: 'Overview', path: '/dashboard' },
-        // Hidden temporarily as requested
-        // { icon: Calendar, label: 'Schedule', path: '/dashboard/schedule' },
-        // { icon: BookOpen, label: 'My Plans', path: '/dashboard/plans' },
+        { icon: LayoutDashboard, label: t('dashboard.overview'), path: '/dashboard' },
     ];
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Sidebar for Desktop - NOT fixed, uses flex layout */}
+            {/* Sidebar for Desktop */}
             <aside
                 className={`hidden md:flex flex-col bg-slate-900 text-white fixed top-0 left-0 h-screen z-40 transition-all duration-300 ${isSidebarCollapsed ? 'w-20' : 'w-64'
                     }`}
@@ -47,13 +46,13 @@ export const DashboardLayout: React.FC = () => {
                             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
                         >
                             <LayoutDashboard size={24} className="text-primary" />
-                            <span className="font-heading font-bold text-xl">Dashboard</span>
+                            <span className="font-heading font-bold text-xl">{t('dashboard.title')}</span>
                         </button>
                     )}
                     <button
                         onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
                         className="p-2 rounded-lg hover:bg-slate-800 transition-colors text-gray-400 hover:text-white"
-                        title={isSidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+                        title={isSidebarCollapsed ? t('dashboard.expandSidebar') : t('dashboard.collapseSidebar')}
                     >
                         {isSidebarCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
                     </button>
@@ -80,10 +79,10 @@ export const DashboardLayout: React.FC = () => {
                     <button
                         onClick={handleSignOut}
                         className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors"
-                        title={isSidebarCollapsed ? 'Sign Out' : undefined}
+                        title={isSidebarCollapsed ? t('dashboard.signOut') : undefined}
                     >
                         <LogOut size={20} className="flex-shrink-0" />
-                        {!isSidebarCollapsed && <span className="font-medium">Sign Out</span>}
+                        {!isSidebarCollapsed && <span className="font-medium">{t('dashboard.signOut')}</span>}
                     </button>
                 </div>
             </aside>
@@ -92,7 +91,7 @@ export const DashboardLayout: React.FC = () => {
             <div className="md:hidden fixed top-0 w-full bg-slate-900 text-white z-50 px-4 py-3 flex justify-between items-center shadow-md">
                 <Link to="/dashboard" className="flex items-center gap-2">
                     <LayoutDashboard size={20} className="text-primary" />
-                    <span className="font-heading font-bold text-lg">Dashboard</span>
+                    <span className="font-heading font-bold text-lg">{t('dashboard.title')}</span>
                 </Link>
                 <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                     {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -122,13 +121,13 @@ export const DashboardLayout: React.FC = () => {
                             className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-gray-400 hover:bg-slate-800 hover:text-white transition-colors mt-4"
                         >
                             <LogOut size={20} />
-                            <span className="font-medium">Sign Out</span>
+                            <span className="font-medium">{t('dashboard.signOut')}</span>
                         </button>
                     </nav>
                 </div>
             )}
 
-            {/* Main Content Area - adjusts margin based on sidebar state */}
+            {/* Main Content Area */}
             <main
                 className={`min-h-screen p-4 md:p-8 mt-14 md:mt-0 transition-all duration-300 ${isSidebarCollapsed ? 'md:ml-20' : 'md:ml-64'
                     }`}

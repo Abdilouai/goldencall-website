@@ -4,8 +4,11 @@ import { Calendar as CalendarIcon, Clock, AlertCircle } from 'lucide-react';
 import { Button } from '../components/Button';
 import { BookingFormData } from '../types';
 import { useSEO } from '../hooks/useSEO';
+import { useTranslation } from 'react-i18next';
 
 export const BookSession: React.FC = () => {
+  const { t } = useTranslation();
+
   useSEO(
     "Book Your Session | Golden Call Consulting",
     "Schedule your one-to-one coaching session. Choose your service, pick a time, and take the first step toward your aviation career."
@@ -52,14 +55,14 @@ export const BookSession: React.FC = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Something went wrong. Please try again.');
+        throw new Error(t('booking.errorGeneric'));
       }
 
       // Success
       navigate('/booking-success');
     } catch (err) {
       console.error(err);
-      setError("Failed to submit booking. Please check your connection and try again.");
+      setError(t('booking.errorSubmit'));
       window.scrollTo(0, 0);
     } finally {
       setIsSubmitting(false);
@@ -76,8 +79,8 @@ export const BookSession: React.FC = () => {
     <div className="min-h-screen bg-light py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100">
         <div className="bg-dark px-8 py-6 text-white text-center">
-          <h1 className="font-heading font-bold text-2xl">Book Your Success Session</h1>
-          <p className="text-gray-300 text-sm mt-1">Fill out the form below to schedule your personalized coaching.</p>
+          <h1 className="font-heading font-bold text-2xl">{t('booking.pageTitle')}</h1>
+          <p className="text-gray-300 text-sm mt-1">{t('booking.pageSubtitle')}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="p-8 space-y-6">
@@ -94,7 +97,7 @@ export const BookSession: React.FC = () => {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {/* Full Name */}
             <div className="col-span-1 sm:col-span-2">
-              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Full Name *</label>
+              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">{t('booking.fullName')} {t('booking.required')}</label>
               <input
                 type="text"
                 name="fullName"
@@ -109,7 +112,7 @@ export const BookSession: React.FC = () => {
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address *</label>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">{t('booking.email')} {t('booking.required')}</label>
               <input
                 type="email"
                 name="email"
@@ -124,7 +127,7 @@ export const BookSession: React.FC = () => {
 
             {/* Phone */}
             <div>
-              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">Phone Number *</label>
+              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">{t('booking.phone')} {t('booking.required')}</label>
               <input
                 type="tel"
                 name="phoneNumber"
@@ -139,7 +142,7 @@ export const BookSession: React.FC = () => {
 
             {/* Country */}
             <div>
-              <label htmlFor="country" className="block text-sm font-medium text-gray-700">Country *</label>
+              <label htmlFor="country" className="block text-sm font-medium text-gray-700">{t('booking.country')} {t('booking.required')}</label>
               <select
                 name="country"
                 id="country"
@@ -148,20 +151,20 @@ export const BookSession: React.FC = () => {
                 value={formData.country}
                 onChange={handleChange}
               >
-                <option value="Tunisia">Tunisia</option>
-                <option value="Morocco">Morocco</option>
-                <option value="Algeria">Algeria</option>
-                <option value="Egypt">Egypt</option>
-                <option value="UAE">UAE</option>
-                <option value="Qatar">Qatar</option>
-                <option value="Saudi Arabia">Saudi Arabia</option>
-                <option value="Other">Other</option>
+                <option value="Tunisia">{t('booking.tunisia')}</option>
+                <option value="Morocco">{t('booking.morocco')}</option>
+                <option value="Algeria">{t('booking.algeria')}</option>
+                <option value="Egypt">{t('booking.egypt')}</option>
+                <option value="UAE">{t('booking.uae')}</option>
+                <option value="Qatar">{t('booking.qatar')}</option>
+                <option value="Saudi Arabia">{t('booking.saudiArabia')}</option>
+                <option value="Other">{t('booking.other')}</option>
               </select>
             </div>
 
             {/* Service Type */}
             <div>
-              <label htmlFor="serviceType" className="block text-sm font-medium text-gray-700">Service Type *</label>
+              <label htmlFor="serviceType" className="block text-sm font-medium text-gray-700">{t('booking.serviceType')} {t('booking.required')}</label>
               <select
                 name="serviceType"
                 id="serviceType"
@@ -170,16 +173,16 @@ export const BookSession: React.FC = () => {
                 value={formData.serviceType}
                 onChange={handleChange}
               >
-                <option value="">Select a service...</option>
-                <option value="Cabin Crew Prep">Cabin Crew Assessment Prep</option>
-                <option value="Interview Prep">Final Interview Preparation</option>
-                <option value="IELTS Coaching">IELTS/ESL Coaching</option>
+                <option value="">{t('booking.selectService')}</option>
+                <option value="Cabin Crew Prep">{t('booking.cabinCrewAssessment')}</option>
+                <option value="Interview Prep">{t('booking.interviewPrep')}</option>
+                <option value="IELTS Coaching">{t('booking.ieltsCoaching')}</option>
               </select>
             </div>
 
             {/* Date */}
             <div>
-              <label htmlFor="preferredDate" className="block text-sm font-medium text-gray-700">Preferred Date *</label>
+              <label htmlFor="preferredDate" className="block text-sm font-medium text-gray-700">{t('booking.preferredDate')} {t('booking.required')}</label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <CalendarIcon size={16} className="text-gray-400" />
@@ -200,7 +203,7 @@ export const BookSession: React.FC = () => {
 
             {/* Time */}
             <div>
-              <label htmlFor="preferredTime" className="block text-sm font-medium text-gray-700">Preferred Time (GMT+1) *</label>
+              <label htmlFor="preferredTime" className="block text-sm font-medium text-gray-700">{t('booking.preferredTime')} {t('booking.required')}</label>
               <div className="mt-1 relative rounded-md shadow-sm">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Clock size={16} className="text-gray-400" />
@@ -227,14 +230,14 @@ export const BookSession: React.FC = () => {
 
             {/* Message */}
             <div className="col-span-1 sm:col-span-2">
-              <label htmlFor="message" className="block text-sm font-medium text-gray-700">Additional Message (Optional)</label>
+              <label htmlFor="message" className="block text-sm font-medium text-gray-700">{t('booking.additionalMessage')}</label>
               <textarea
                 name="message"
                 id="message"
                 rows={4}
                 maxLength={500}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary py-2 px-3 border"
-                placeholder="Tell us about your goals, specific concerns, or timeline..."
+                placeholder={t('booking.messagePlaceholder')}
                 value={formData.message}
                 onChange={handleChange}
               />
@@ -256,7 +259,7 @@ export const BookSession: React.FC = () => {
             </div>
             <div className="ml-3 text-sm">
               <label htmlFor="consent" className="font-medium text-gray-700">
-                I agree to receive email confirmations and reminders about my session.
+                {t('booking.consent')}
               </label>
             </div>
           </div>
@@ -274,12 +277,12 @@ export const BookSession: React.FC = () => {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  Processing...
+                  {t('booking.processing')}
                 </span>
-              ) : 'Book My Session'}
+              ) : t('booking.submit')}
             </Button>
             <p className="mt-4 text-xs text-center text-gray-500">
-              By booking, you acknowledge that a confirmation email will be sent within 24 hours.
+              {t('booking.bookingNote')}
             </p>
           </div>
         </form>

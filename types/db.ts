@@ -41,3 +41,18 @@ export interface Assessment {
     score?: number;
     created_at: string;
 }
+
+export interface PaymentRequest {
+    id: string;
+    user_id?: string;
+    full_name: string;
+    phone: string;
+    payment_method: 'bank' | 'd17' | 'poste';
+    plan_name: string;
+    amount: number;
+    receipt_url?: string;
+    status: 'pending' | 'approved' | 'rejected';
+    notes?: string;
+    created_at: string;
+}
+
