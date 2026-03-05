@@ -87,8 +87,8 @@ export const OFFERS: Offer[] = [
         features: [
             'Accompagnement quotidien',
             'Mock exams complets',
-            'Garantie d\\'amélioration du score',
-      'Support linguistique 7/7'
+            "Garantie d'amélioration du score",
+            'Support linguistique 7/7'
         ]
     },
 
