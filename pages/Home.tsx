@@ -1,169 +1,212 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Plane, Users, CheckCircle, GraduationCap, ArrowRight } from 'lucide-react';
-import { Button } from '../components/Button';
-import { useSEO } from '../hooks/useSEO';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { Check, Plane, Target, Briefcase } from 'lucide-react';
+import { TestimonialCard, StatCounter } from '../components/UIComponents';
 
 export const Home: React.FC = () => {
   const { t } = useTranslation();
 
-  useSEO(
-    "Golden Call Consulting | Cabin Crew & IELTS Coaching Tunisia",
-    "Expert cabin crew assessment day preparation, interview coaching, and IELTS speaking lessons. Based in Tunisia, serving candidates worldwide. Book your 1-on-1 session today."
-  );
-
   return (
-    <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white pt-24 pb-32 overflow-hidden">
-        {/* Abstract background element */}
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/10 rounded-l-full blur-3xl transform translate-x-1/4"></div>
+    <div className="flex flex-col">
+      {/* 1. Hero Section */}
+      <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
+        {/* Abstract Background Elements */}
+        <div className="absolute top-0 right-0 w-2/3 h-full opacity-10 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-primary via-dark to-dark blur-3xl rounded-full"></div>
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <div className="text-center max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full mb-8 backdrop-blur-sm border border-white/10">
-              <span className="w-2 h-2 bg-gold rounded-full animate-pulse"></span>
-              <span className="text-sm font-medium tracking-wide">{t('home.badge')}</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="max-w-2xl">
+            <div className="inline-block bg-card border border-border rounded-full px-4 py-1.5 mb-6">
+              <span className="font-sans font-bold text-[10px] tracking-widest text-primary">
+                {t('home.badge')}
+              </span>
             </div>
-            <h1 className="font-heading font-bold text-4xl md:text-6xl leading-tight mb-6">
-              {t('home.heroTitle1')}<span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-white">{t('home.heroHighlight')}</span>{t('home.heroTitle2')}<br />
-              {t('home.heroTitle3')}
+
+            <h1 className="font-heading font-bold text-5xl md:text-7xl leading-[1.1] text-text mb-6">
+              {t('home.h1')}
+              <span className="relative whitespace-nowrap">
+                <span className="relative z-10 text-primary">{t('home.h1Highlight')}</span>
+                <span className="absolute bottom-2 left-0 w-full h-3 bg-primary/20 -z-10 rounded-sm"></span>
+              </span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-10 font-light leading-relaxed max-w-2xl mx-auto">
-              {t('home.heroSubtitle')}
+
+            <p className="font-sans text-lg text-text-muted leading-relaxed mb-10 max-w-xl">
+              {t('home.subtitle')}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/book">
-                <Button className="w-full sm:w-auto text-lg px-8 py-4">{t('home.bookSession')}</Button>
+
+            <div className="flex flex-col sm:flex-row gap-4 mb-12">
+              <Link to="/formations" className="bg-primary hover:bg-primary-dark text-dark font-sans font-semibold text-center px-8 py-4 rounded-xl transition-all shadow-lg shadow-primary/20 hover:-translate-y-1">
+                {t('home.ctaPrimary')}
               </Link>
-              <Link to="/services">
-                <Button variant="outline" className="w-full sm:w-auto text-lg px-8 py-4 bg-transparent border-white text-white hover:bg-white/10 hover:text-white">
-                  {t('home.exploreServices')}
-                </Button>
+              <a href="#formations" className="bg-card hover:bg-border border border-border text-text font-sans font-semibold text-center px-8 py-4 rounded-xl transition-all">
+                {t('home.ctaSecondary')}
+              </a>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-4 font-sans text-sm text-text-muted">
+              <div className="flex items-center gap-2"><Check size={16} className="text-primary" /> {t('home.trustStudents')}</div>
+              <div className="flex items-center gap-2"><Check size={16} className="text-primary" /> {t('home.trustResults')}</div>
+              <div className="flex items-center gap-2"><Check size={16} className="text-primary" /> {t('home.trustOnline')}</div>
+            </div>
+          </div>
+
+          <div className="relative hidden lg:block">
+            {/* Replace /images/hero-image.webp with actual path if available, or keep placeholder stylings */}
+            <div className="aspect-[4/5] rounded-3xl overflow-hidden border border-border relative">
+              <img src="/images/hero-bg.webp" alt="Golden Call Coaching" className="w-full h-full object-cover opacity-80" onError={(e) => {
+                // Fallback if image doesn't exist
+                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1287&auto=format&fit=crop';
+              }} />
+              <div className="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent"></div>
+            </div>
+
+            {/* Floating review badge */}
+            <div className="absolute -bottom-6 -left-6 bg-card border border-border p-4 rounded-2xl shadow-xl flex items-center gap-3 animate-bounce shadow-black">
+              <span className="font-sans font-bold text-sm text-text">{t('home.reviewBadge')}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. What We Offer */}
+      <section id="formations" className="py-24 bg-card/30 border-y border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="font-heading font-bold text-4xl text-text mb-4">{t('home.offersTitle')}</h2>
+            <p className="font-sans text-lg text-text-muted">{t('home.offersSubtitle')}</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Program 1 */}
+            <div className="bg-card border border-primary/30 rounded-2xl p-8 relative hover:-translate-y-2 transition-transform">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-dark font-sans font-bold text-[10px] tracking-wider uppercase px-4 py-1 rounded-full">
+                {t('home.programCcPopular')}
+              </div>
+              <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6 border border-primary/20">
+                <Plane size={24} className="text-primary" />
+              </div>
+              <h3 className="font-heading font-bold text-2xl text-text mb-4">{t('home.programCcTitle')}</h3>
+              <p className="font-sans text-text-muted leading-relaxed mb-8">{t('home.programCcDesc')}</p>
+              <Link to="/formations" state={{ tab: 'cabin-crew' }} className="flex items-center gap-2 font-sans font-bold text-sm text-primary hover:text-primary-dark transition-colors mt-auto">
+                {t('home.seeOffers')}
+              </Link>
+            </div>
+
+            {/* Program 2 */}
+            <div className="bg-card border border-border rounded-2xl p-8 hover:-translate-y-2 transition-transform">
+              <div className="w-14 h-14 bg-dark rounded-xl flex items-center justify-center mb-6 border border-border">
+                <Target size={24} className="text-text-muted" />
+              </div>
+              <h3 className="font-heading font-bold text-2xl text-text mb-4">{t('home.programIeltsTitle')}</h3>
+              <p className="font-sans text-text-muted leading-relaxed mb-8">{t('home.programIeltsDesc')}</p>
+              <Link to="/formations" state={{ tab: 'ielts' }} className="flex items-center gap-2 font-sans font-bold text-sm text-primary hover:text-primary-dark transition-colors mt-auto">
+                {t('home.seeOffers')}
+              </Link>
+            </div>
+
+            {/* Program 3 */}
+            <div className="bg-card border border-border rounded-2xl p-8 hover:-translate-y-2 transition-transform">
+              <div className="w-14 h-14 bg-dark rounded-xl flex items-center justify-center mb-6 border border-border">
+                <Briefcase size={24} className="text-text-muted" />
+              </div>
+              <h3 className="font-heading font-bold text-2xl text-text mb-4">{t('home.programProTitle')}</h3>
+              <p className="font-sans text-text-muted leading-relaxed mb-8">{t('home.programProDesc')}</p>
+              <Link to="/formations" state={{ tab: 'interview' }} className="flex items-center gap-2 font-sans font-bold text-sm text-primary hover:text-primary-dark transition-colors mt-auto">
+                {t('home.seeOffers')}
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Trust Indicators */}
-      <div className="bg-white py-12 border-b border-gray-100 shadow-sm relative -mt-10 mx-4 md:mx-auto max-w-6xl rounded-xl z-20">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center px-4">
-          <div className="flex flex-col items-center gap-3">
-            <div className="p-3 bg-blue-50 text-primary rounded-full">
-              <CheckCircle size={24} />
-            </div>
-            <h3 className="font-semibold text-dark">{t('home.realExperience')}</h3>
-            <p className="text-gray-500 text-sm">{t('home.realExperienceDesc')}</p>
-          </div>
-          <div className="flex flex-col items-center gap-3">
-            <div className="p-3 bg-blue-50 text-primary rounded-full">
-              <Users size={24} />
-            </div>
-            <h3 className="font-semibold text-dark">{t('home.personalized')}</h3>
-            <p className="text-gray-500 text-sm">{t('home.personalizedDesc')}</p>
-          </div>
-          <div className="flex flex-col items-center gap-3">
-            <div className="p-3 bg-blue-50 text-primary rounded-full">
-              <GraduationCap size={24} />
-            </div>
-            <h3 className="font-semibold text-dark">{t('home.englishExpert')}</h3>
-            <p className="text-gray-500 text-sm">{t('home.englishExpertDesc')}</p>
+      {/* 3. Stats Section */}
+      <section className="py-20 bg-dark">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-12 border-y border-border py-12">
+            <StatCounter target={200} prefix="+" label="Étudiants formés" />
+            <StatCounter target={95} suffix="%" label="Taux de réussite" />
+            <StatCounter target={4} prefix="+" label="Ans d'expérience" />
+            <StatCounter target={100} suffix="%" label="En ligne" />
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Services Preview */}
-      <section className="py-24 bg-light">
+      {/* 4. How It Works */}
+      <section className="py-24 bg-card/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="font-heading font-bold text-3xl md:text-4xl text-dark mb-4">{t('home.howCanWeHelp')}</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">{t('home.howCanWeHelpDesc')}</p>
+            <h2 className="font-heading font-bold text-4xl text-text mb-4">{t('home.howItWorksTitle')}</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex flex-col md:flex-row gap-12 relative">
+            {/* Connecting line for desktop */}
+            <div className="hidden md:block absolute top-[28px] left-[10%] right-[10%] h-[2px] bg-border z-0"></div>
+
             {[
-              {
-                title: t('home.cabinCrewAssessment'),
-                desc: t('home.cabinCrewAssessmentDesc'),
-                icon: <Plane className="w-8 h-8 text-primary" />,
-                link: '/services'
-              },
-              {
-                title: t('home.finalInterviewPrep'),
-                desc: t('home.finalInterviewPrepDesc'),
-                icon: <Users className="w-8 h-8 text-primary" />,
-                link: '/services'
-              },
-              {
-                title: t('home.ieltsEsl'),
-                desc: t('home.ieltsEslDesc'),
-                icon: <GraduationCap className="w-8 h-8 text-primary" />,
-                link: '/services'
-              }
-            ].map((service, idx) => (
-              <div key={idx} className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100 flex flex-col items-start">
-                <div className="bg-blue-50 p-4 rounded-xl mb-6">
-                  {service.icon}
+              { num: '01', title: t('home.step1Title'), desc: t('home.step1Desc') },
+              { num: '02', title: t('home.step2Title'), desc: t('home.step2Desc') },
+              { num: '03', title: t('home.step3Title'), desc: t('home.step3Desc') },
+            ].map((step, i) => (
+              <div key={i} className="flex-1 text-center relative z-10">
+                <div className="w-14 h-14 mx-auto bg-dark border-2 border-primary rounded-full flex items-center justify-center font-heading font-bold text-primary text-xl mb-6 shadow-lg shadow-primary/20">
+                  {step.num}
                 </div>
-                <h3 className="font-heading font-bold text-xl mb-3 text-dark">{service.title}</h3>
-                <p className="text-gray-600 mb-6 flex-grow">{service.desc}</p>
-                <Link to={service.link} className="text-primary font-semibold flex items-center gap-2 group">
-                  {t('home.learnMore')} <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
+                <h3 className="font-heading font-bold text-xl text-text mb-3">{step.title}</h3>
+                <p className="font-sans text-text-muted leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-24 bg-white">
+      {/* 5. Testimonials */}
+      <section className="py-24 bg-dark overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-heading font-bold text-3xl md:text-4xl text-dark mb-4">{t('home.successStories')}</h2>
-            <p className="text-gray-600">{t('home.successStoriesDesc')}</p>
-          </div>
+          <h2 className="font-heading font-bold text-4xl text-text mb-12">{t('home.testimonialsTitle')}</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: t('home.testimonial1Name'),
-                role: t('home.testimonial1Role'),
-                quote: t('home.testimonial1Quote')
-              },
-              {
-                name: t('home.testimonial2Name'),
-                role: t('home.testimonial2Role'),
-                quote: t('home.testimonial2Quote')
-              },
-              {
-                name: t('home.testimonial3Name'),
-                role: t('home.testimonial3Role'),
-                quote: t('home.testimonial3Quote')
-              }
-            ].map((testimonial, i) => (
-              <div key={i} className="bg-light p-8 rounded-2xl relative">
-                <div className="text-gold text-6xl font-serif absolute top-4 left-6 opacity-20">"</div>
-                <p className="text-gray-700 italic mb-6 relative z-10 pt-4">"{testimonial.quote}"</p>
-                <div>
-                  <h4 className="font-bold text-dark">{testimonial.name}</h4>
-                  <span className="text-sm text-primary font-medium">{testimonial.role}</span>
-                </div>
-              </div>
-            ))}
+          <div className="flex overflow-x-auto gap-6 pb-8 snap-x scrollbar-hide">
+            <div className="snap-center shrink-0 w-4 md:w-0"></div>
+            <TestimonialCard
+              name="Sonia B."
+              role="Cabin Crew Prep"
+              quote="Golden Call m'a aidée à comprendre ce que les compagnies aériennes recherchent vraiment. J'ai été prise chez Emirates du premier coup."
+            />
+            <TestimonialCard
+              name="Youssef T."
+              role="IELTS Coaching"
+              quote="Une approche claire et ciblée. J'ai bloqué sur l'oral pendant des mois, mais avec ce coaching j'ai obtenu mon 7.5 facilement."
+            />
+            <TestimonialCard
+              name="Amira K."
+              role="Entretien Professionnel"
+              quote="La simulation d'entretien a fait une différence énorme. Le feedback était direct et m'a permis de reprendre confiance en moi."
+            />
+            <TestimonialCard
+              name="Nessrine M."
+              role="Cabin Crew Prep"
+              quote="Merci pour la préparation au group assessment. Tout s'est passé exactement comme on l'avait simulé!"
+            />
+            <div className="snap-center shrink-0 w-4 md:w-0"></div>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 bg-dark text-white text-center">
-        <div className="max-w-4xl mx-auto px-4">
-          <h2 className="font-heading font-bold text-3xl md:text-5xl mb-6">{t('home.ctaTitle')}</h2>
-          <p className="text-xl text-gray-300 mb-10">{t('home.ctaSubtitle')}</p>
-          <Link to="/book">
-            <Button className="text-lg px-10 py-4 shadow-lg shadow-blue-900/50">{t('home.bookNow')}</Button>
+      {/* 6. CTA Block */}
+      <section className="relative py-24 bg-primary overflow-hidden">
+        {/* Background texture */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay"></div>
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-white/20 blur-3xl rounded-full"></div>
+
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+          <h2 className="font-heading font-bold text-4xl md:text-5xl text-dark mb-6">
+            {t('home.teaserTitle')}
+          </h2>
+          <p className="font-sans text-xl text-dark/80 mb-10 max-w-2xl mx-auto">
+            {t('home.teaserSubtitle')}
+          </p>
+          <Link to="/formations" className="inline-block bg-dark text-text hover:bg-black font-sans font-bold text-lg px-10 py-5 rounded-2xl transition-all shadow-xl hover:-translate-y-1">
+            {t('home.teaserButton')}
           </Link>
         </div>
       </section>

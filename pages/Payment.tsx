@@ -1,453 +1,409 @@
-import React, { useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
-import { Building2, Smartphone, Mail, Copy, Check, Upload, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
-import { Button } from '../components/Button';
-import { PAYMENT_ACCOUNTS } from '../config/paymentConfig';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-
-type PaymentMethod = 'bank' | 'd17' | 'poste' | null;
-
-interface LocationState {
-    planName?: string;
-    originalPrice?: number;
-    discount?: number;
-    totalPrice?: number;
-}
+import { useLocation, useNavigate, Navigate } from 'react-router-dom';
+import { PaymentMethodCard } from '../components/PaymentMethodCard';
+import { PAYMENT_CONFIG } from '../config/paymentConfig';
+import { UploadCloud, FileImage, X } from 'lucide-react';
 
 export const Payment: React.FC = () => {
     const { t } = useTranslation();
     const location = useLocation();
-    const state = location.state as LocationState | null;
+    const navigate = useNavigate();
 
-    // Also support query params as fallback
-    const searchParams = new URLSearchParams(location.search);
-    const planName = state?.planName || searchParams.get('planName') || 'Coaching Plan';
-    const originalPrice = state?.originalPrice || Number(searchParams.get('originalPrice')) || 0;
-    const discount = state?.discount || Number(searchParams.get('discount')) || 0;
-    const totalPrice = state?.totalPrice || Number(searchParams.get('totalPrice')) || originalPrice - discount;
+    // If user navigates directly to /paiement without selecting a plan, redirect to /formations
+    if (!location.state || !location.state.planName) {
+        return <Navigate to="/formations" replace />;
+    }
 
-    const [selectedMethod, setSelectedMethod] = useState<PaymentMethod>(null);
-    const [copiedField, setCopiedField] = useState<string | null>(null);
-    const [fullName, setFullName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [receiptFile, setReceiptFile] = useState<File | null>(null);
+    const { planName, price, originalPrice } = location.state;
+    const discount = originalPrice ? originalPrice - price : 0;
+
+    const [selectedMethod, setSelectedMethod] = useState<string>('poste');
+    const [formData, setFormData] = useState({
+        fullName: '',
+        phone: '',
+        message: ''
+    });
+
+    // File upload state
+    const [file, setFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+    // Submission state
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-    const [errorMessage, setErrorMessage] = useState('');
+    const [error, setError] = useState<string | null>(null);
 
-    const copyToClipboard = async (text: string, field: string) => {
-        try {
-            await navigator.clipboard.writeText(text);
-            setCopiedField(field);
-            setTimeout(() => setCopiedField(null), 2000);
-        } catch {
-            // Fallback
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-            setCopiedField(field);
-            setTimeout(() => setCopiedField(null), 2000);
+    // Auto-select poste if it's the only enabled one
+    useEffect(() => {
+        if (!PAYMENT_CONFIG.poste.enabled) {
+            if (PAYMENT_CONFIG.d17.enabled) setSelectedMethod('d17');
+            else if (PAYMENT_CONFIG.bank.enabled) setSelectedMethod('bank');
         }
+    }, []);
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
+        if (e.target.files && e.target.files[0]) {
+            const selectedFile = e.target.files[0];
 
-        // Validate file type
-        const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
-        if (!validTypes.includes(file.type)) {
-            setErrorMessage(t('payment.errorFileType'));
-            return;
+            // Validate file size and type
+            if (selectedFile.size > 5 * 1024 * 1024) {
+                setError(t('payment.errorFileSize') || 'File too large (max 5MB)');
+                return;
+            }
+
+            const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            if (!validTypes.includes(selectedFile.type)) {
+                setError(t('payment.errorFileType') || 'Invalid file type');
+                return;
+            }
+
+            setFile(selectedFile);
+            setPreviewUrl(URL.createObjectURL(selectedFile));
+            setError(null);
         }
+    };
 
-        // Validate file size (5MB)
-        if (file.size > 5 * 1024 * 1024) {
-            setErrorMessage(t('payment.errorFileSize'));
-            return;
-        }
+    const removeFile = () => {
+        setFile(null);
+        setPreviewUrl(null);
+    };
 
-        setErrorMessage('');
-        setReceiptFile(file);
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text);
+        // Add toast notification logic here if desired
+    };
+
+    const toBase64 = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                let result = reader.result as string;
+                // remove data:image/jpeg;base64, prefix
+                result = result.split(',')[1];
+                resolve(result);
+            };
+            reader.onerror = error => reject(error);
+        });
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!selectedMethod || !fullName || !phone || !receiptFile) {
-            setErrorMessage(t('payment.errorRequired'));
+        if (!file || !formData.fullName || !formData.phone) {
+            setError(t('payment.errorRequired') || 'A required field is missing');
             return;
         }
 
         setIsSubmitting(true);
-        setErrorMessage('');
+        setError(null);
 
         try {
-            // Convert file to base64
-            const reader = new FileReader();
-            const base64Promise = new Promise<string>((resolve) => {
-                reader.onloadend = () => {
-                    const base64 = (reader.result as string).split(',')[1];
-                    resolve(base64);
-                };
-                reader.readAsDataURL(receiptFile);
-            });
-            const receiptBase64 = await base64Promise;
+            const base64 = await toBase64(file);
 
             const response = await fetch('/api/payment-request', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    fullName,
-                    phone,
+                    fullName: formData.fullName,
+                    phone: formData.phone,
                     method: selectedMethod,
-                    planName,
-                    amount: totalPrice.toString(),
-                    receiptBase64,
-                    receiptFilename: receiptFile.name,
-                }),
+                    planName: planName,
+                    amount: price,
+                    receiptBase64: base64,
+                    receiptFilename: file.name
+                })
             });
 
             if (!response.ok) {
-                throw new Error('Failed to submit');
+                throw new Error('Payment submission failed');
             }
 
-            setSubmitStatus('success');
-        } catch {
-            setSubmitStatus('error');
-            setErrorMessage(t('payment.errorSubmit'));
+            // Success
+            navigate('/merci', { state: { name: formData.fullName } });
+
+        } catch (err) {
+            console.error(err);
+            setError(t('payment.errorSubmit') || 'Failed to submit. Try again.');
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    // Success state
-    if (submitStatus === 'success') {
-        return (
-            <div className="min-h-[80vh] flex items-center justify-center bg-light px-4">
-                <div className="max-w-lg w-full bg-white p-10 rounded-3xl shadow-lg text-center border border-gray-100">
-                    <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <CheckCircle className="text-green-500 w-10 h-10" />
-                    </div>
-                    <h2 className="font-heading font-bold text-3xl text-dark mb-4">{t('payment.successTitle')}</h2>
-                    <p className="text-gray-600 mb-8 leading-relaxed">{t('payment.successMessage')}</p>
-                    <Link to="/">
-                        <Button fullWidth>{t('payment.backToHome')}</Button>
-                    </Link>
-                </div>
-            </div>
-        );
-    }
-
-    const CopyButton: React.FC<{ text: string; field: string }> = ({ text, field }) => (
-        <button
-            type="button"
-            onClick={() => copyToClipboard(text, field)}
-            className="ml-2 p-1.5 rounded-md hover:bg-gray-100 transition-colors text-gray-400 hover:text-primary"
-            title={t('payment.copyToClipboard')}
-        >
-            {copiedField === field ? (
-                <span className="flex items-center gap-1 text-green-500 text-xs font-medium">
-                    <Check size={14} /> {t('payment.copied')}
-                </span>
-            ) : (
-                <Copy size={14} />
-            )}
-        </button>
-    );
-
-    const paymentMethods = [
-        {
-            id: 'bank' as const,
-            icon: <Building2 size={28} />,
-            title: t('payment.bankTransfer'),
-            subtitle: t('payment.bankTransferAr'),
-            color: 'blue',
-        },
-        {
-            id: 'd17' as const,
-            icon: <Smartphone size={28} />,
-            title: t('payment.d17'),
-            subtitle: `${t('payment.d17Subtitle')} / ${t('payment.d17SubtitleAr')}`,
-            color: 'purple',
-        },
-        {
-            id: 'poste' as const,
-            icon: <Mail size={28} />,
-            title: t('payment.poste'),
-            subtitle: `${t('payment.posteSubtitle')} / ${t('payment.posteAr')}`,
-            color: 'yellow',
-        },
-    ];
+    const isFormValid = formData.fullName.trim() !== '' && formData.phone.trim() !== '' && file !== null;
 
     return (
-        <div className="min-h-screen bg-light py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto">
-                {/* Back Link */}
-                <Link to="/dashboard/plans" className="inline-flex items-center gap-2 text-gray-500 hover:text-primary mb-6 text-sm font-medium transition-colors">
-                    <ArrowLeft size={16} />
-                    <span>{t('plans.title')}</span>
-                </Link>
+        <div className="min-h-screen py-16 bg-dark">
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                <h1 className="font-heading font-bold text-3xl text-dark mb-8">{t('payment.pageTitle')}</h1>
+                {/* Block 1: Order Summary */}
+                <div className="bg-card border border-primary/30 rounded-2xl p-6 md:p-8 mb-8 relative overflow-hidden">
+                    <div className="absolute -top-12 -right-12 w-40 h-40 bg-primary/5 rounded-full blur-2xl"></div>
 
-                {/* Section 1: Order Summary */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
-                    <h2 className="font-heading font-bold text-lg text-dark mb-4">{t('payment.orderSummary')}</h2>
-                    <div className="space-y-3">
-                        <div className="flex justify-between text-sm">
-                            <span className="text-gray-600">{t('payment.plan')}</span>
-                            <span className="font-medium text-dark">{planName}</span>
+                    <h2 className="font-heading font-bold text-2xl text-text mb-6">
+                        {t('payment.orderSummary')}
+                    </h2>
+
+                    <div className="space-y-4">
+                        <div className="flex justify-between items-center py-3 border-b border-border">
+                            <span className="font-sans text-text-muted">{t('payment.formation')}</span>
+                            <span className="font-sans font-bold text-text">{planName}</span>
                         </div>
-                        {discount > 0 && (
+
+                        <div className="flex justify-between items-center py-3 border-b border-border">
+                            <span className="font-sans text-text-muted">{t('payment.duration')}</span>
+                            <span className="font-sans font-medium text-text">
+                                {location.state.period === 'one-time' ? t('payment.oneTime') : t('payment.monthly')}
+                            </span>
+                        </div>
+
+                        {originalPrice && (
                             <>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-600">{t('payment.originalPrice')}</span>
-                                    <span className="text-gray-400 line-through">{originalPrice.toFixed(2)} {t('payment.tnd')}</span>
+                                <div className="flex justify-between items-center py-3 border-b border-border">
+                                    <span className="font-sans text-text-muted">{t('payment.originalPriceLabel')}</span>
+                                    <span className="font-sans text-text-muted/60 line-through">{originalPrice} {t('payment.tnd')}</span>
                                 </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-600">{t('payment.discount')}</span>
-                                    <span className="text-green-500 font-medium">-{discount.toFixed(2)} {t('payment.tnd')}</span>
+                                <div className="flex justify-between items-center py-3 border-b border-border">
+                                    <span className="font-sans text-text-muted">{t('payment.discountLabel')}</span>
+                                    <span className="font-sans font-medium text-green-400">-{discount} {t('payment.tnd')}</span>
                                 </div>
                             </>
                         )}
-                        <div className="border-t border-gray-100 pt-3 flex justify-between">
-                            <span className="font-bold text-dark">{t('payment.total')}</span>
-                            <span className="font-bold text-xl text-primary">{totalPrice.toFixed(2)} {t('payment.tnd')}</span>
+
+                        <div className="flex justify-between items-center pt-4">
+                            <span className="font-sans font-bold text-lg text-text">{t('payment.totalLabel')}</span>
+                            <span className="font-sans font-bold text-3xl text-primary">{price} {t('payment.tnd')}</span>
                         </div>
                     </div>
                 </div>
 
-                {/* Section 2: Payment Method Selector */}
-                <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
-                    <h2 className="font-heading font-bold text-lg text-dark mb-4">{t('payment.selectMethod')}</h2>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        {paymentMethods.map((method) => (
-                            <button
-                                key={method.id}
-                                type="button"
-                                onClick={() => setSelectedMethod(method.id)}
-                                className={`p-5 rounded-xl border-2 transition-all text-left flex flex-col items-center text-center gap-3 hover:shadow-md ${selectedMethod === method.id
-                                    ? 'border-primary bg-blue-50 shadow-md ring-2 ring-primary/20'
-                                    : 'border-gray-200 hover:border-gray-300'
-                                    }`}
-                            >
-                                <div className={`p-3 rounded-full ${selectedMethod === method.id ? 'bg-primary text-white' : 'bg-gray-100 text-gray-600'
-                                    }`}>
-                                    {method.icon}
-                                </div>
-                                <div>
-                                    <p className="font-semibold text-dark text-sm">{method.title}</p>
-                                    <p className="text-xs text-gray-500 mt-0.5">{method.subtitle}</p>
-                                </div>
-                            </button>
-                        ))}
-                    </div>
+                {/* Block 2: Payment Methods */}
+                <h2 className="font-heading font-bold text-2xl text-text mb-6">
+                    {t('payment.chooseMethod')}
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <PaymentMethodCard
+                        id="bank"
+                        icon="🏦"
+                        title={PAYMENT_CONFIG.bank.label}
+                        subtitle={PAYMENT_CONFIG.bank.sublabel}
+                        enabled={PAYMENT_CONFIG.bank.enabled}
+                        selected={selectedMethod === 'bank'}
+                        onSelect={setSelectedMethod}
+                    />
+                    <PaymentMethodCard
+                        id="d17"
+                        icon="📱"
+                        title={PAYMENT_CONFIG.d17.label}
+                        subtitle={PAYMENT_CONFIG.d17.sublabel}
+                        enabled={PAYMENT_CONFIG.d17.enabled}
+                        selected={selectedMethod === 'd17'}
+                        onSelect={setSelectedMethod}
+                    />
+                    <PaymentMethodCard
+                        id="poste"
+                        icon="✉️"
+                        title={PAYMENT_CONFIG.poste.label}
+                        subtitle={PAYMENT_CONFIG.poste.sublabel}
+                        enabled={PAYMENT_CONFIG.poste.enabled}
+                        selected={selectedMethod === 'poste'}
+                        onSelect={setSelectedMethod}
+                    />
                 </div>
 
-                {/* Section 3: Payment Instructions */}
-                {selectedMethod && (
-                    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6 animate-in fade-in">
-                        <h2 className="font-heading font-bold text-lg text-dark mb-4">{t('payment.paymentInstructions')}</h2>
+                {/* Block 3: Instructions & Form */}
+                <div className="bg-card border border-border rounded-2xl p-6 md:p-8">
 
-                        <div className="bg-gray-50 rounded-xl p-5 space-y-4">
-                            {selectedMethod === 'bank' && (
-                                <>
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-xs text-gray-500 uppercase tracking-wide">{t('payment.bankName')}</p>
-                                            <p className="font-medium text-dark">{PAYMENT_ACCOUNTS.bank.bankName}</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-xs text-gray-500 uppercase tracking-wide">{t('payment.accountHolder')}</p>
-                                            <p className="font-medium text-dark">{PAYMENT_ACCOUNTS.bank.accountHolder}</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex-1">
-                                            <p className="text-xs text-gray-500 uppercase tracking-wide">{t('payment.rib')}</p>
-                                            <p className="font-mono font-medium text-dark">{PAYMENT_ACCOUNTS.bank.rib}</p>
-                                        </div>
-                                        <CopyButton text={PAYMENT_ACCOUNTS.bank.rib} field="bank-rib" />
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-xs text-gray-500 uppercase tracking-wide">{t('payment.amount')}</p>
-                                            <p className="font-bold text-primary text-lg">{totalPrice.toFixed(2)} {t('payment.tnd')}</p>
-                                        </div>
-                                    </div>
-                                </>
-                            )}
+                    {/* Instructions Box */}
+                    <div className="bg-dark border border-border rounded-xl p-6 mb-8">
+                        <h3 className="font-heading font-bold text-xl text-text mb-6">
+                            {selectedMethod === 'poste'
+                                ? t('payment.postalInstructions')
+                                : selectedMethod === 'd17'
+                                    ? t('payment.d17Instructions')
+                                    : t('payment.bankInstructions')}
+                        </h3>
 
-                            {selectedMethod === 'd17' && (
-                                <>
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex-1">
-                                            <p className="text-xs text-gray-500 uppercase tracking-wide">{t('payment.phoneNumber')}</p>
-                                            <p className="font-mono font-medium text-dark">{PAYMENT_ACCOUNTS.d17.phone}</p>
-                                        </div>
-                                        <CopyButton text={PAYMENT_ACCOUNTS.d17.phone} field="d17-phone" />
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-xs text-gray-500 uppercase tracking-wide">{t('payment.accountHolder')}</p>
-                                            <p className="font-medium text-dark">{PAYMENT_ACCOUNTS.d17.accountHolder}</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-xs text-gray-500 uppercase tracking-wide">{t('payment.amount')}</p>
-                                            <p className="font-bold text-primary text-lg">{totalPrice.toFixed(2)} {t('payment.tnd')}</p>
-                                        </div>
-                                    </div>
-                                    <div className="mt-2 p-3 bg-blue-50 rounded-lg">
-                                        <p className="text-sm text-blue-700">{t('payment.d17Instructions')}</p>
-                                    </div>
-                                </>
-                            )}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            {/* Conditional Account Info based on selected method */}
+                            <div>
+                                <p className="font-sans text-xs text-text-muted uppercase tracking-wider mb-1">
+                                    {selectedMethod === 'd17' ? t('payment.d17Phone') : selectedMethod === 'poste' ? t('payment.accountHolder') : t('payment.bankName')}
+                                </p>
+                                <p className="font-sans font-medium text-text">
+                                    {selectedMethod === 'd17'
+                                        ? PAYMENT_CONFIG.d17.phone
+                                        : selectedMethod === 'poste'
+                                            ? PAYMENT_CONFIG.poste.accountHolder
+                                            : PAYMENT_CONFIG.bank.bankName}
+                                </p>
+                            </div>
 
-                            {selectedMethod === 'poste' && (
-                                <>
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-xs text-gray-500 uppercase tracking-wide">{t('payment.accountHolder')}</p>
-                                            <p className="font-medium text-dark">{PAYMENT_ACCOUNTS.poste.accountHolder}</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <div className="flex-1">
-                                            <p className="text-xs text-gray-500 uppercase tracking-wide">{t('payment.postalRib')}</p>
-                                            <p className="font-mono font-medium text-dark">{PAYMENT_ACCOUNTS.poste.ccp}</p>
-                                        </div>
-                                        <CopyButton text={PAYMENT_ACCOUNTS.poste.ccp} field="poste-ccp" />
-                                    </div>
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-xs text-gray-500 uppercase tracking-wide">{t('payment.amount')}</p>
-                                            <p className="font-bold text-primary text-lg">{totalPrice.toFixed(2)} {t('payment.tnd')}</p>
-                                        </div>
-                                    </div>
-                                    <div className="mt-2 p-3 bg-blue-50 rounded-lg">
-                                        <p className="text-sm text-blue-700">{t('payment.posteInstructions')}</p>
-                                    </div>
-                                </>
-                            )}
+                            <div>
+                                <p className="font-sans text-xs text-text-muted uppercase tracking-wider mb-1">
+                                    {selectedMethod === 'd17' ? t('payment.accountHolder') : selectedMethod === 'poste' ? t('payment.ccp') : t('payment.rib')}
+                                </p>
+                                <div className="flex items-center gap-3">
+                                    <p className="font-sans font-medium text-text">
+                                        {selectedMethod === 'd17'
+                                            ? PAYMENT_CONFIG.d17.accountHolder
+                                            : selectedMethod === 'poste'
+                                                ? PAYMENT_CONFIG.poste.ccp
+                                                : PAYMENT_CONFIG.bank.rib}
+                                    </p>
+                                    {(selectedMethod === 'poste' || selectedMethod === 'bank') && (
+                                        <button
+                                            onClick={() => copyToClipboard(selectedMethod === 'poste' ? PAYMENT_CONFIG.poste.ccp : PAYMENT_CONFIG.bank.rib)}
+                                            className="text-primary hover:text-primary-dark font-sans text-sm font-bold flex items-center gap-1"
+                                        >
+                                            {t('payment.copy')}
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+
+                            <div>
+                                <p className="font-sans text-xs text-text-muted uppercase tracking-wider mb-1">
+                                    {t('payment.amountToTransfer')}
+                                </p>
+                                <p className="font-sans font-bold text-xl text-primary">
+                                    {price} {t('payment.tnd')}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
+                            <p className="font-sans text-sm text-primary">
+                                {selectedMethod === 'poste'
+                                    ? t('payment.posteHelp')
+                                    : selectedMethod === 'd17'
+                                        ? t('payment.d17Help')
+                                        : t('payment.bankHelp')}
+                            </p>
                         </div>
                     </div>
-                )}
 
-                {/* Section 4: Confirmation Form */}
-                {selectedMethod && (
-                    <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 animate-in fade-in">
-                        <h2 className="font-heading font-bold text-lg text-dark mb-4">{t('payment.confirmationForm')}</h2>
+                    {/* Checkout Form */}
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-6">
+                            <h3 className="font-heading font-bold text-xl text-text mb-2">
+                                {t('payment.confirmFormTitle')}
+                            </h3>
+                            <p className="font-sans text-text-muted text-sm">
+                                {t('payment.confirmFormSubtitle')}
+                            </p>
+                        </div>
 
-                        {errorMessage && (
-                            <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-4">
-                                <div className="flex items-center">
-                                    <AlertCircle className="text-red-500 mr-2" size={20} />
-                                    <p className="text-red-700 text-sm">{errorMessage}</p>
-                                </div>
+                        {error && (
+                            <div className="bg-red-500/10 border border-red-500/20 text-red-500 p-4 rounded-xl mb-6 font-sans text-sm">
+                                {error}
                             </div>
                         )}
 
-                        <div className="space-y-4">
-                            {/* Full Name */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                             <div>
-                                <label htmlFor="paymentFullName" className="block text-sm font-medium text-gray-700 mb-1">
-                                    {t('payment.fullName')} *
+                                <label className="block font-sans text-sm font-medium text-text mb-2">
+                                    {t('payment.fullName')}
                                 </label>
                                 <input
                                     type="text"
-                                    id="paymentFullName"
+                                    name="fullName"
+                                    value={formData.fullName}
+                                    onChange={handleInputChange}
+                                    className="w-full bg-dark border border-border rounded-xl px-4 py-3 text-text placeholder-text-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                                     required
-                                    value={fullName}
-                                    onChange={(e) => setFullName(e.target.value)}
-                                    placeholder={t('payment.fullNamePlaceholder')}
-                                    className="w-full rounded-lg border border-gray-300 shadow-sm focus:border-primary focus:ring-primary py-2.5 px-3 text-sm"
                                 />
                             </div>
 
-                            {/* Phone Number */}
                             <div>
-                                <label htmlFor="paymentPhone" className="block text-sm font-medium text-gray-700 mb-1">
-                                    {t('payment.phone')} *
+                                <label className="block font-sans text-sm font-medium text-text mb-2">
+                                    {t('payment.phone')}
                                 </label>
                                 <input
                                     type="tel"
-                                    id="paymentPhone"
+                                    name="phone"
+                                    value={formData.phone}
+                                    onChange={handleInputChange}
+                                    placeholder="+216"
+                                    className="w-full bg-dark border border-border rounded-xl px-4 py-3 text-text placeholder-text-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all"
                                     required
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
-                                    placeholder={t('payment.phonePlaceholder')}
-                                    className="w-full rounded-lg border border-gray-300 shadow-sm focus:border-primary focus:ring-primary py-2.5 px-3 text-sm"
                                 />
                             </div>
+                        </div>
 
-                            {/* Receipt Upload */}
-                            <div>
-                                <label htmlFor="receiptUpload" className="block text-sm font-medium text-gray-700 mb-1">
-                                    {t('payment.receipt')} *
-                                </label>
-                                <p className="text-xs text-gray-500 mb-2">{t('payment.receiptHint')}</p>
-                                <div className="relative">
+                        {/* Receipt Upload Area */}
+                        <div className="mb-6">
+                            <label className="block font-sans text-sm font-medium text-text mb-2">
+                                {t('payment.receipt')}
+                            </label>
+
+                            {!previewUrl ? (
+                                <div className="border-2 border-dashed border-border rounded-xl p-8 hover:border-primary/50 transition-colors bg-dark flex flex-col items-center justify-center relative cursor-pointer">
                                     <input
                                         type="file"
-                                        id="receiptUpload"
-                                        accept=".jpg,.jpeg,.png,.webp"
-                                        required
+                                        accept="image/jpeg, image/png, image/webp"
                                         onChange={handleFileChange}
-                                        className="hidden"
+                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                        required
                                     />
-                                    <label
-                                        htmlFor="receiptUpload"
-                                        className={`flex items-center justify-center gap-2 w-full py-4 px-4 border-2 border-dashed rounded-xl cursor-pointer transition-colors ${receiptFile
-                                            ? 'border-green-300 bg-green-50 text-green-700'
-                                            : 'border-gray-300 hover:border-primary hover:bg-blue-50 text-gray-500'
-                                            }`}
-                                    >
-                                        {receiptFile ? (
-                                            <>
-                                                <Check size={20} className="text-green-500" />
-                                                <span className="text-sm font-medium">{receiptFile.name}</span>
-                                            </>
-                                        ) : (
-                                            <>
-                                                <Upload size={20} />
-                                                <span className="text-sm">{t('payment.receipt')}</span>
-                                            </>
-                                        )}
-                                    </label>
+                                    <UploadCloud size={32} className="text-text-muted mb-3" />
+                                    <p className="font-sans text-sm text-text font-medium mb-1">
+                                        {t('payment.receiptHint')}
+                                    </p>
                                 </div>
-                            </div>
+                            ) : (
+                                <div className="relative border border-border rounded-xl bg-dark p-4 flex flex-col items-center">
+                                    <button
+                                        type="button"
+                                        onClick={removeFile}
+                                        className="absolute top-2 right-2 p-1.5 bg-dark border border-border rounded-full hover:bg-border transition-colors z-10"
+                                    >
+                                        <X size={16} className="text-text" />
+                                    </button>
+                                    <img
+                                        src={previewUrl}
+                                        alt="Receipt preview"
+                                        className="max-h-48 rounded-lg object-contain"
+                                    />
+                                    <div className="flex items-center gap-2 mt-4 text-text-muted font-sans text-sm">
+                                        <FileImage size={16} />
+                                        <span className="truncate max-w-[200px]">{file?.name}</span>
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
-                        {/* Submit */}
-                        <div className="mt-6">
-                            <Button
-                                type="submit"
-                                fullWidth
-                                disabled={isSubmitting}
-                                className={`text-base py-3 ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
-                            >
-                                {isSubmitting ? (
-                                    <span className="flex items-center gap-2">
-                                        <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg>
-                                        {t('payment.submitting')}
-                                    </span>
-                                ) : (
-                                    <span>{t('payment.submit')} / {t('payment.submitAr')}</span>
-                                )}
-                            </Button>
+                        {/* Optional Message */}
+                        <div className="mb-8">
+                            <label className="block font-sans text-sm font-medium text-text mb-2">
+                                {t('payment.message')}
+                            </label>
+                            <textarea
+                                name="message"
+                                value={formData.message}
+                                onChange={handleInputChange}
+                                rows={3}
+                                className="w-full bg-dark border border-border rounded-xl px-4 py-3 text-text placeholder-text-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-none"
+                            ></textarea>
                         </div>
+
+                        <button
+                            type="submit"
+                            disabled={!isFormValid || isSubmitting}
+                            className={`w-full font-sans font-bold text-lg py-4 rounded-xl transition-all shadow-xl shadow-primary/10 ${isFormValid && !isSubmitting
+                                    ? 'bg-primary text-dark hover:-translate-y-1 hover:shadow-primary/20'
+                                    : 'bg-primary/50 text-dark/50 cursor-not-allowed'
+                                }`}
+                        >
+                            {isSubmitting ? '...' : t('payment.confirmButton')}
+                        </button>
                     </form>
-                )}
+
+                </div>
             </div>
         </div>
     );
