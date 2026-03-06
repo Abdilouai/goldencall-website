@@ -21,4 +21,9 @@ export const PAYMENT_CONFIG = {
         label: 'Virement Bancaire',
         sublabel: 'Virement bancaire',
     },
+    stripe: {
+        enabled: true,
+        label: 'Paiement International',
+        sublabel: 'Carte Bancaire (Stripe)',
+    },
 };
