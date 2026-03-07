@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS users (
 -- PLANS TABLE (Service offerings)
 CREATE TABLE IF NOT EXISTS plans (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name TEXT NOT NULL, -- e.g. "Cabin Crew Assessment"
+    name TEXT NOT NULL, -- e.g. "Cabin Crew English Training"
     description TEXT,
     price_cents INTEGER NOT NULL, -- Price in cents (e.g., 2900 for $29.00)
     features JSONB, -- list of features included
@@ -73,6 +73,6 @@ CREATE TABLE IF NOT EXISTS payment_requests (
 
 -- Initial Data Seed (Optional)
 INSERT INTO plans (name, description, price_cents, features) VALUES 
-('Cabin Crew Assessment', 'Full preparation for group exercises and grooming.', 5000, '["Group Exercise Sim", "Grooming Guide", "1hr Video Call"]'),
+('Cabin Crew English Training', 'Full preparation for group exercises and grooming.', 5000, '["Group Exercise Sim", "Grooming Guide", "1hr Video Call"]'),
 ('Final Interview Prep', 'Master the STAR method and behavioral questions.', 6000, '["Mock Interview", "STAR Method Guide", "Recorded Feedback"]'),
 ('English Fluency', 'Boost your confidence in speaking English.', 3000, '["30min Convo", "Vocab List", "Accent Correction"]');

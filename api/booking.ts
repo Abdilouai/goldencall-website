@@ -43,9 +43,9 @@ export default async function handler(req: any, res: any) {
 
     // Validate required fields
     if (!fullName || !email || !phoneNumber || !serviceType || !preferredDate || !preferredTime) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         error: 'Missing required fields',
-        received: req.body 
+        received: req.body
       });
     }
 
@@ -100,7 +100,7 @@ export default async function handler(req: any, res: any) {
 
     // 4. SEND EMAIL TO CUSTOMER
     console.log('📧 Sending confirmation email to:', email);
-    
+
     const customerEmail = await resend.emails.send({
       from: 'Golden Call Consulting <bookings@goldencall.digital>',
       to: email,
@@ -164,7 +164,7 @@ export default async function handler(req: any, res: any) {
               </div>
               <div class="field">
                 <span class="label">Time:</span>
-                <span class="value">${preferredTime} (Tunisia Time)</span>
+                <span class="value">${preferredTime}</span>
               </div>
               <div class="field">
                 <span class="label">Message:</span>
@@ -198,7 +198,7 @@ export default async function handler(req: any, res: any) {
 
   } catch (error: any) {
     console.error('❌ Booking error:', error);
-    
+
     return res.status(500).json({
       error: 'Failed to process booking',
       details: error.message,

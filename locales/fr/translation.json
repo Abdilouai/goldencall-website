@@ -7,10 +7,10 @@
         "start": "Commencer →"
     },
     "home": {
-        "badge": "COACHING EN LIGNE · TUNISIE",
+        "badge": "COACHING EN LIGNE · MONDE ENTIER",
         "h1": "Préparez-vous pour ",
         "h1Highlight": "le métier de vos rêves",
-        "subtitle": "Formation cabin crew, coaching IELTS et préparation aux entretiens professionnels — en ligne, en français, depuis la Tunisie.",
+        "subtitle": "Formation cabin crew english, coaching IELTS et préparation aux entretiens professionnels — en ligne, dans le monde entier.",
         "ctaPrimary": "Voir nos formations →",
         "ctaSecondary": "En savoir plus",
         "trustStudents": "+200 étudiants formés",
@@ -19,7 +19,7 @@
         "reviewBadge": "⭐ 4.9/5 — 150+ avis",
         "offersTitle": "Nos Formations",
         "offersSubtitle": "Choisissez votre parcours",
-        "programCcTitle": "Préparation Cabin Crew",
+        "programCcTitle": "Cabin Crew English Training",
         "programCcDesc": "Maîtrisez les entretiens compagnies aériennes, la présentation, l'anglais aviation et les codes du métier.",
         "programCcPopular": "LE PLUS POPULAIRE",
         "programIeltsTitle": "Coaching IELTS & Anglais",
@@ -102,7 +102,7 @@
         "unknown": "cher(e) candidat(e)"
     },
     "footer": {
-        "tagline": "Formation professionnelle en ligne · Tunisie",
+        "tagline": "Formation professionnelle en ligne · Monde Entier",
         "rights": "© 2025 Golden Call · Tous droits réservés"
     }
 }

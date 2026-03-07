@@ -7,10 +7,10 @@
         "start": "Get Started →"
     },
     "home": {
-        "badge": "ONLINE COACHING · TUNISIA",
+        "badge": "ONLINE COACHING · WORLDWIDE",
         "h1": "Prepare for ",
         "h1Highlight": "your dream job",
-        "subtitle": "Cabin crew training, IELTS coaching and professional interview prep — online, from Tunisia.",
+        "subtitle": "Cabin crew english training, IELTS coaching and professional interview prep — online, worldwide.",
         "ctaPrimary": "View our programs →",
         "ctaSecondary": "Learn more",
         "trustStudents": "200+ students trained",
@@ -19,7 +19,7 @@
         "reviewBadge": "⭐ 4.9/5 — 150+ reviews",
         "offersTitle": "Our Programs",
         "offersSubtitle": "Choose your path",
-        "programCcTitle": "Cabin Crew Preparation",
+        "programCcTitle": "Cabin Crew English Training",
         "programCcDesc": "Master airline interviews, grooming, aviation English and industry codes.",
         "programCcPopular": "MOST POPULAR",
         "programIeltsTitle": "IELTS & English Coaching",
@@ -102,7 +102,7 @@
         "unknown": "candidate"
     },
     "footer": {
-        "tagline": "Online professional training · Tunisia",
+        "tagline": "Online professional training · Worldwide",
         "rights": "© 2025 Golden Call · All rights reserved"
     }
 }
