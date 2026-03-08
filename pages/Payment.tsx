@@ -18,8 +18,9 @@ export const Payment: React.FC = () => {
         return <Navigate to="/formations" replace />;
     }
 
-    const { planName, price, originalPrice } = location.state;
+    const { planName, price, priceUsd, originalPrice, originalPriceUsd } = location.state;
     const discount = originalPrice ? originalPrice - price : 0;
+    const discountUsd = originalPriceUsd && priceUsd ? originalPriceUsd - priceUsd : 0;
 
     const [selectedMethod, setSelectedMethod] = useState<string>('poste');
     const [formData, setFormData] = useState({
@@ -167,18 +168,24 @@ export const Payment: React.FC = () => {
                             <>
                                 <div className="flex justify-between items-center py-3 border-b border-border">
                                     <span className="font-sans text-text-muted">{t('payment.originalPriceLabel')}</span>
-                                    <span className="font-sans text-text-muted/60 line-through">{originalPrice} {t('payment.tnd')}</span>
+                                    <span className="font-sans text-text-muted/60 line-through">
+                                        {originalPrice} {t('payment.tnd')} {originalPriceUsd && `/ ${originalPriceUsd} $`}
+                                    </span>
                                 </div>
                                 <div className="flex justify-between items-center py-3 border-b border-border">
                                     <span className="font-sans text-text-muted">{t('payment.discountLabel')}</span>
-                                    <span className="font-sans font-medium text-green-400">-{discount} {t('payment.tnd')}</span>
+                                    <span className="font-sans font-medium text-green-400">
+                                        -{discount} {t('payment.tnd')} {discountUsd > 0 && `/ -${discountUsd} $`}
+                                    </span>
                                 </div>
                             </>
                         )}
 
                         <div className="flex justify-between items-center pt-4">
                             <span className="font-sans font-bold text-lg text-text">{t('payment.totalLabel')}</span>
-                            <span className="font-sans font-bold text-3xl text-primary">{price} {t('payment.tnd')}</span>
+                            <span className="font-sans font-bold text-3xl text-primary">
+                                {price} {t('payment.tnd')} {priceUsd && `/ ${priceUsd} $`}
+                            </span>
                         </div>
                     </div>
                 </div>

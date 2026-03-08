@@ -10,14 +10,18 @@ export const OfferCard: React.FC<{ offer: Offer }> = ({ offer }) => {
 
     const isFrench = i18n.language === 'fr';
     const name = isFrench ? offer.nameFr : offer.name;
+    const features = isFrench ? offer.featuresFr : offer.featuresEn;
 
     const handleSelect = () => {
         navigate('/paiement', {
             state: {
                 planName: name,
                 price: offer.price,
+                priceUsd: offer.priceUsd,
                 originalPrice: offer.originalPrice,
-                program: offer.program
+                originalPriceUsd: offer.originalPriceUsd,
+                program: offer.program,
+                period: offer.billingPeriod
             }
         });
     };
@@ -33,20 +37,22 @@ export const OfferCard: React.FC<{ offer: Offer }> = ({ offer }) => {
             <div className="mb-6">
                 <h3 className="font-heading text-xl text-text font-bold mb-2">{name}</h3>
                 <div className="flex items-end gap-2">
-                    <span className="font-sans text-3xl font-bold text-primary">{offer.price} DT</span>
+                    <span className="font-sans text-3xl font-bold text-primary">
+                        {offer.price} DT {offer.priceUsd && `/ ${offer.priceUsd} $`}
+                    </span>
                     <span className="font-sans text-sm text-text-muted mb-1">
                         {offer.billingPeriod === 'monthly' ? t('formations.perMonth') : t('formations.oneTime')}
                     </span>
                 </div>
                 {offer.originalPrice && (
                     <div className="font-sans text-sm text-text-muted line-through mt-1">
-                        {offer.originalPrice} DT
+                        {offer.originalPrice} DT {offer.originalPriceUsd && `/ ${offer.originalPriceUsd} $`}
                     </div>
                 )}
             </div>
 
             <ul className="flex-grow space-y-4 mb-8">
-                {offer.features.map((feature, idx) => (
+                {features.map((feature, idx) => (
                     <li key={idx} className="flex items-start gap-3">
                         <span className="mt-0.5 rounded-full bg-primary/10 text-primary shrink-0 p-0.5">
                             <Check size={14} strokeWidth={3} />
@@ -59,8 +65,8 @@ export const OfferCard: React.FC<{ offer: Offer }> = ({ offer }) => {
             <button
                 onClick={handleSelect}
                 className={`w-full py-3.5 rounded-xl font-sans font-semibold text-sm transition-colors ${offer.recommended
-                        ? 'bg-primary text-dark hover:bg-primary-dark'
-                        : 'bg-dark text-text hover:bg-border border border-border'
+                    ? 'bg-primary text-dark hover:bg-primary-dark'
+                    : 'bg-dark text-text hover:bg-border border border-border'
                     }`}
             >
                 {t('formations.choosePlan')}
