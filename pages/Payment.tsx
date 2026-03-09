@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { PaymentMethodCard } from '../components/PaymentMethodCard';
 import { PAYMENT_CONFIG } from '../config/paymentConfig';
-import { UploadCloud, FileImage, X, Globe, MapPin, CreditCard } from 'lucide-react';
+import { UploadCloud, FileImage, X, Globe, MapPin, CreditCard, Mail, Phone } from 'lucide-react';
 
 export const Payment: React.FC = () => {
     const { t } = useTranslation();
@@ -436,56 +436,35 @@ export const Payment: React.FC = () => {
                         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
 
                         <div className="w-20 h-20 mx-auto bg-dark border-2 border-primary rounded-full flex items-center justify-center mb-6 shadow-lg shadow-primary/20 relative z-10">
-                            <CreditCard size={32} className="text-primary" />
+                            <Globe size={32} className="text-primary" />
                         </div>
 
                         <h3 className="font-heading font-bold text-2xl text-text mb-4 relative z-10">
-                            {PAYMENT_CONFIG.stripe.label}
+                            {t('payment.internationalTitle', 'International Customers')}
                         </h3>
                         <p className="font-sans text-text-muted mb-8 max-w-md mx-auto relative z-10">
-                            {PAYMENT_CONFIG.stripe.sublabel}
+                            {t('payment.internationalDesc', 'For international customers, please contact us to arrange payment:')}
                         </p>
 
-                        <button
-                            onClick={async () => {
-                                setIsSubmitting(true);
-                                setError(null);
-                                try {
-                                    const res = await fetch('/api/create-stripe-checkout', {
-                                        method: 'POST',
-                                        headers: { 'Content-Type': 'application/json' },
-                                        body: JSON.stringify({
-                                            planName,
-                                            amount: price,
-                                            currency: 'TND',
-                                        })
-                                    });
-                                    const data = await res.json();
-                                    if (data.url) {
-                                        window.location.href = data.url;
-                                    } else {
-                                        throw new Error('No checkout URL returned');
-                                    }
-                                } catch (e) {
-                                    setError("Erreur de connexion à Stripe.");
-                                    setIsSubmitting(false);
-                                }
-                            }}
-                            disabled={isSubmitting}
-                            className={`w-full max-w-sm mx-auto flex items-center justify-center gap-3 font-sans font-bold text-lg py-4 rounded-xl transition-all shadow-xl shadow-primary/10 relative z-10 ${!isSubmitting
-                                ? 'bg-primary text-dark hover:-translate-y-1 hover:shadow-primary/20'
-                                : 'bg-primary/50 text-dark/50 cursor-not-allowed'
-                                }`}
-                        >
-                            <CreditCard size={20} />
-                            {isSubmitting ? '...' : t('payment.stripeButton', 'Payer via Stripe')}
-                        </button>
+                        <div className="space-y-4 max-w-sm mx-auto relative z-10">
+                            <a
+                                href="mailto:contact@goldencall.digital"
+                                className="flex items-center justify-center gap-3 w-full font-sans font-bold text-lg py-4 rounded-xl transition-all bg-primary text-dark hover:-translate-y-1 hover:shadow-primary/20 shadow-xl shadow-primary/10"
+                            >
+                                <Mail size={20} />
+                                contact@goldencall.digital
+                            </a>
 
-                        {error && paymentType === 'international' && (
-                            <div className="mt-6 bg-red-500/10 border border-red-500/20 text-red-500 p-4 rounded-xl font-sans text-sm inline-block relative z-10">
-                                {error}
-                            </div>
-                        )}
+                            <a
+                                href="https://wa.me/21629373579"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center justify-center gap-3 w-full font-sans font-bold text-lg py-4 rounded-xl transition-all border-2 border-primary text-primary hover:bg-primary/10 hover:-translate-y-1"
+                            >
+                                <Phone size={20} />
+                                +216 29 373 579
+                            </a>
+                        </div>
                     </div>
                 )
                 }

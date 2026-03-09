@@ -45,9 +45,9 @@ export const Footer: React.FC = () => {
               <Phone size={18} />
               <span className="font-sans text-sm">+216 29 373 579</span>
             </a>
-            <a href="mailto:contact@goldencall.com" className="flex items-center gap-3 text-text-muted hover:text-primary transition-colors">
+            <a href="mailto:contact@goldencall.digital" className="flex items-center gap-3 text-text-muted hover:text-primary transition-colors">
               <Mail size={18} />
-              <span className="font-sans text-sm">contact@goldencall.com</span>
+              <span className="font-sans text-sm">contact@goldencall.digital</span>
             </a>
 
             <div className="flex gap-4 pt-2">

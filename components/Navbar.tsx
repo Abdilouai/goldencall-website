@@ -22,9 +22,13 @@ export const Navbar: React.FC = () => {
     setIsOpen(false);
   }, [location]);
 
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'fr' ? 'en' : 'fr';
-    i18n.changeLanguage(newLang);
+  const languages = ['fr', 'en', 'ar'] as const;
+  const languageLabels: Record<string, string> = { fr: 'FR', en: 'EN', ar: 'AR' };
+
+  const cycleLanguage = () => {
+    const currentIndex = languages.indexOf(i18n.language as typeof languages[number]);
+    const nextIndex = (currentIndex + 1) % languages.length;
+    i18n.changeLanguage(languages[nextIndex]);
   };
 
   const navLinks = [
@@ -37,8 +41,8 @@ export const Navbar: React.FC = () => {
   return (
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ${isScrolled
-          ? 'bg-dark/80 backdrop-blur-md py-3 shadow-lg shadow-black/20 border-b border-border'
-          : 'bg-transparent py-5'
+        ? 'bg-dark/80 backdrop-blur-md py-3 shadow-lg shadow-black/20 border-b border-border'
+        : 'bg-transparent py-5'
         }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -66,11 +70,11 @@ export const Navbar: React.FC = () => {
 
             <div className="flex items-center space-x-4 border-l border-border pl-4">
               <button
-                onClick={toggleLanguage}
+                onClick={cycleLanguage}
                 className="flex items-center gap-2 text-sm font-medium text-text-muted hover:text-text transition-colors"
               >
                 <Globe size={16} />
-                <span className="uppercase">{i18n.language === 'fr' ? 'FR | EN' : 'EN | FR'}</span>
+                <span className="uppercase">{languageLabels[i18n.language] || 'EN'}</span>
               </button>
 
               <Link
@@ -85,7 +89,7 @@ export const Navbar: React.FC = () => {
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-4">
             <button
-              onClick={toggleLanguage}
+              onClick={cycleLanguage}
               className="text-text-muted hover:text-text p-2"
             >
               <Globe size={20} />
