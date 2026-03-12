@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { PaymentMethodCard } from '../components/PaymentMethodCard';
 import { PAYMENT_CONFIG } from '../config/paymentConfig';
-import { UploadCloud, FileImage, X, Globe, MapPin, CreditCard, Mail, Phone } from 'lucide-react';
+import { UploadCloud, FileImage, X, Globe, MapPin, Mail, Phone } from 'lucide-react';
 
 export const Payment: React.FC = () => {
     const { t } = useTranslation();
@@ -22,7 +22,7 @@ export const Payment: React.FC = () => {
     const discount = originalPrice ? originalPrice - price : 0;
     const discountUsd = originalPriceUsd && priceUsd ? originalPriceUsd - priceUsd : 0;
 
-    const [selectedMethod, setSelectedMethod] = useState<string>('poste');
+    const [selectedMethod, setSelectedMethod] = useState<string>('d17');
     const [formData, setFormData] = useState({
         fullName: '',
         phone: '',
@@ -36,14 +36,6 @@ export const Payment: React.FC = () => {
     // Submission state
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
-
-    // Auto-select poste if it's the only enabled one
-    useEffect(() => {
-        if (!PAYMENT_CONFIG.poste.enabled) {
-            if (PAYMENT_CONFIG.d17.enabled) setSelectedMethod('d17');
-            else if (PAYMENT_CONFIG.bank.enabled) setSelectedMethod('bank');
-        }
-    }, []);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -78,7 +70,6 @@ export const Payment: React.FC = () => {
 
     const copyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text);
-        // Add toast notification logic here if desired
     };
 
     const toBase64 = (file: File): Promise<string> => {
@@ -87,7 +78,6 @@ export const Payment: React.FC = () => {
             reader.readAsDataURL(file);
             reader.onload = () => {
                 let result = reader.result as string;
-                // remove data:image/jpeg;base64, prefix
                 result = result.split(',')[1];
                 resolve(result);
             };
@@ -117,6 +107,7 @@ export const Payment: React.FC = () => {
                     method: selectedMethod,
                     planName: planName,
                     amount: price,
+                    message: formData.message,
                     receiptBase64: base64,
                     receiptFilename: file.name
                 })
@@ -126,7 +117,7 @@ export const Payment: React.FC = () => {
                 throw new Error('Payment submission failed');
             }
 
-            // Success
+            // Success — redirect to thank you page
             navigate('/merci', { state: { name: formData.fullName } });
 
         } catch (err) {
@@ -204,7 +195,7 @@ export const Payment: React.FC = () => {
                     >
                         <MapPin size={32} className={`mb-3 ${paymentType === 'local' ? 'text-primary' : 'text-text-muted'}`} />
                         <div className="font-heading font-bold text-text mb-1">{t('payment.typeLocal', 'Paiement Local')}</div>
-                        <div className="font-sans text-xs text-text-muted text-center">{t('payment.typeLocalDesc', 'La Poste, D17 ou Banque Tunisienne')}</div>
+                        <div className="font-sans text-xs text-text-muted text-center">{t('payment.typeLocalDesc', 'D17 ou Banque Tunisienne')}</div>
                     </button>
 
                     <button
@@ -226,16 +217,7 @@ export const Payment: React.FC = () => {
                             {t('payment.chooseMethod')}
                         </h2>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                            <PaymentMethodCard
-                                id="bank"
-                                icon="🏦"
-                                title={PAYMENT_CONFIG.bank.label}
-                                subtitle={PAYMENT_CONFIG.bank.sublabel}
-                                enabled={PAYMENT_CONFIG.bank.enabled}
-                                selected={selectedMethod === 'bank'}
-                                onSelect={setSelectedMethod}
-                            />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                             <PaymentMethodCard
                                 id="d17"
                                 icon="📱"
@@ -246,67 +228,79 @@ export const Payment: React.FC = () => {
                                 onSelect={setSelectedMethod}
                             />
                             <PaymentMethodCard
-                                id="poste"
-                                icon="✉️"
-                                title={PAYMENT_CONFIG.poste.label}
-                                subtitle={PAYMENT_CONFIG.poste.sublabel}
-                                enabled={PAYMENT_CONFIG.poste.enabled}
-                                selected={selectedMethod === 'poste'}
+                                id="bank"
+                                icon="🏦"
+                                title={PAYMENT_CONFIG.bank.label}
+                                subtitle={PAYMENT_CONFIG.bank.sublabel}
+                                enabled={PAYMENT_CONFIG.bank.enabled}
+                                selected={selectedMethod === 'bank'}
                                 onSelect={setSelectedMethod}
                             />
                         </div>
 
-                        {/* Block 3: Instructions & Form */}
+                        {/* Instructions & Form */}
                         <div className="bg-card border border-border rounded-2xl p-6 md:p-8">
 
                             {/* Instructions Box */}
                             <div className="bg-dark border border-border rounded-xl p-6 mb-8">
                                 <h3 className="font-heading font-bold text-xl text-text mb-6">
-                                    {selectedMethod === 'poste'
-                                        ? t('payment.postalInstructions')
-                                        : selectedMethod === 'd17'
-                                            ? t('payment.d17Instructions')
-                                            : t('payment.bankInstructions')}
+                                    {selectedMethod === 'd17'
+                                        ? t('payment.d17Instructions')
+                                        : t('payment.bankInstructions')}
                                 </h3>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                                    {/* Conditional Account Info based on selected method */}
+                                    {/* Row 1: Account Holder */}
                                     <div>
                                         <p className="font-sans text-xs text-text-muted uppercase tracking-wider mb-1">
-                                            {selectedMethod === 'd17' ? t('payment.d17Phone') : selectedMethod === 'poste' ? t('payment.accountHolder') : t('payment.bankName')}
+                                            {t('payment.accountHolder')}
                                         </p>
                                         <p className="font-sans font-medium text-text">
                                             {selectedMethod === 'd17'
-                                                ? PAYMENT_CONFIG.d17.phone
-                                                : selectedMethod === 'poste'
-                                                    ? PAYMENT_CONFIG.poste.accountHolder
-                                                    : PAYMENT_CONFIG.bank.bankName}
+                                                ? PAYMENT_CONFIG.d17.accountHolder
+                                                : PAYMENT_CONFIG.bank.accountHolder}
                                         </p>
                                     </div>
 
+                                    {/* Row 2: CCP / RIB */}
                                     <div>
                                         <p className="font-sans text-xs text-text-muted uppercase tracking-wider mb-1">
-                                            {selectedMethod === 'd17' ? t('payment.accountHolder') : selectedMethod === 'poste' ? t('payment.ccp') : t('payment.rib')}
+                                            {selectedMethod === 'd17'
+                                                ? t('payment.d17Ccp')
+                                                : t('payment.rib')}
                                         </p>
                                         <div className="flex items-center gap-3">
                                             <p className="font-sans font-medium text-text">
                                                 {selectedMethod === 'd17'
-                                                    ? PAYMENT_CONFIG.d17.accountHolder
-                                                    : selectedMethod === 'poste'
-                                                        ? PAYMENT_CONFIG.poste.ccp
-                                                        : PAYMENT_CONFIG.bank.rib}
+                                                    ? PAYMENT_CONFIG.d17.ccp
+                                                    : PAYMENT_CONFIG.bank.rib}
                                             </p>
-                                            {(selectedMethod === 'poste' || selectedMethod === 'bank') && (
-                                                <button
-                                                    onClick={() => copyToClipboard(selectedMethod === 'poste' ? PAYMENT_CONFIG.poste.ccp : PAYMENT_CONFIG.bank.rib)}
-                                                    className="text-primary hover:text-primary-dark font-sans text-sm font-bold flex items-center gap-1"
-                                                >
-                                                    {t('payment.copy')}
-                                                </button>
-                                            )}
+                                            <button
+                                                onClick={() => copyToClipboard(
+                                                    selectedMethod === 'd17'
+                                                        ? PAYMENT_CONFIG.d17.ccp
+                                                        : PAYMENT_CONFIG.bank.rib
+                                                )}
+                                                className="text-primary hover:text-primary-dark font-sans text-sm font-bold flex items-center gap-1"
+                                            >
+                                                {t('payment.copy')}
+                                            </button>
                                         </div>
                                     </div>
 
+                                    {/* Bank name — only for bank transfer */}
+                                    {selectedMethod === 'bank' && (
+                                        <div>
+                                            <p className="font-sans text-xs text-text-muted uppercase tracking-wider mb-1">
+                                                {t('payment.bankName')}
+                                            </p>
+                                            <p className="font-sans font-medium text-text">
+                                                {PAYMENT_CONFIG.bank.bankName}
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    {/* Amount to transfer */}
                                     <div>
                                         <p className="font-sans text-xs text-text-muted uppercase tracking-wider mb-1">
                                             {t('payment.amountToTransfer')}
@@ -319,11 +313,9 @@ export const Payment: React.FC = () => {
 
                                 <div className="bg-primary/10 border border-primary/20 rounded-lg p-4">
                                     <p className="font-sans text-sm text-primary">
-                                        {selectedMethod === 'poste'
-                                            ? t('payment.posteHelp')
-                                            : selectedMethod === 'd17'
-                                                ? t('payment.d17Help')
-                                                : t('payment.bankHelp')}
+                                        {selectedMethod === 'd17'
+                                            ? t('payment.d17Help')
+                                            : t('payment.bankHelp')}
                                     </p>
                                 </div>
                             </div>
@@ -416,6 +408,20 @@ export const Payment: React.FC = () => {
                                             </div>
                                         </div>
                                     )}
+                                </div>
+
+                                {/* Optional message */}
+                                <div className="mb-6">
+                                    <label className="block font-sans text-sm font-medium text-text mb-2">
+                                        {t('payment.message')}
+                                    </label>
+                                    <textarea
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={handleInputChange}
+                                        rows={3}
+                                        className="w-full bg-dark border border-border rounded-xl px-4 py-3 text-text placeholder-text-muted/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all resize-none"
+                                    />
                                 </div>
 
                                 <button
