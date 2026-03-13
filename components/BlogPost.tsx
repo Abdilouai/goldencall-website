@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
+import { ArrowLeft, Clock, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface BlogPostProps {
   title: string;
   category: string;
   readTime: string;
-  date: string;
   author: string;
   content: React.ReactNode;
   imageUrl?: string;
@@ -16,79 +16,76 @@ export const BlogPost: React.FC<BlogPostProps> = ({
   title,
   category,
   readTime,
-  date,
   author,
   content,
   imageUrl
 }) => {
+  const { t } = useTranslation();
+
   return (
-    <article className="min-h-screen bg-white">
+    <article className="min-h-screen bg-dark transition-colors duration-300 pt-12 pb-24">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-blue-600 text-white py-20">
-        <div className="max-w-4xl mx-auto px-4">
-          <Link 
-            to="/blog" 
-            className="inline-flex items-center text-white hover:text-gray-200 mb-6 transition-colors"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            Back to Blog
-          </Link>
-          
-          <span className="inline-block bg-white/20 text-white px-4 py-1 rounded-full text-sm font-medium mb-4">
-            {category}
-          </span>
-          
-          <h1 className="text-4xl md:text-5xl font-heading font-bold mb-6 leading-tight">
-            {title}
-          </h1>
-          
-          <div className="flex flex-wrap items-center gap-6 text-gray-100">
-            <div className="flex items-center">
-              <User className="w-5 h-5 mr-2" />
-              <span>{author}</span>
-            </div>
-            <div className="flex items-center">
-              <Calendar className="w-5 h-5 mr-2" />
-              <span>{date}</span>
-            </div>
-            <div className="flex items-center">
-              <Clock className="w-5 h-5 mr-2" />
-              <span>{readTime} read</span>
-            </div>
+      <div className="max-w-4xl mx-auto px-4 mb-12">
+        <Link
+          to="/articles"
+          className="inline-flex items-center text-text-muted hover:text-primary mb-8 transition-colors font-semibold"
+        >
+          <ArrowLeft className="w-5 h-5 mr-2" />
+          {t('articles.back')}
+        </Link>
+        <br />
+
+        <span className="inline-block bg-primary/10 text-primary border border-primary/20 px-4 py-1.5 rounded-full text-sm font-bold uppercase tracking-wider mb-6">
+          {category}
+        </span>
+
+        <h1 className="text-4xl md:text-5xl font-heading font-bold mb-6 leading-tight text-white">
+          {title}
+        </h1>
+
+        <div className="flex flex-wrap items-center gap-6 text-text-muted border-b border-border pb-8">
+          <div className="flex items-center">
+            <User className="w-5 h-5 mr-2" />
+            <span>{author}</span>
+          </div>
+          <div className="flex items-center">
+            <Clock className="w-5 h-5 mr-2" />
+            <span>{readTime} read</span>
           </div>
         </div>
       </div>
 
-      {/* Featured Image */}
+      {/* Featured Image - only show if there's an image */}
       {imageUrl && (
-        <div className="max-w-5xl mx-auto px-4 -mt-12">
-          <img 
-            src={imageUrl} 
+        <div className="max-w-5xl mx-auto px-4 mb-16">
+          <img
+            src={imageUrl}
             alt={title}
-            className="w-full h-96 object-cover rounded-lg shadow-2xl"
+            className="w-full h-[400px] md:h-[500px] object-cover rounded-2xl shadow-2xl border border-border/50"
           />
         </div>
       )}
 
       {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 py-16">
-        <div className="prose prose-lg max-w-none">
+      <div className="max-w-4xl mx-auto px-4">
+        {/* We use prose classes adapted for dark mode using existing Tailwind variables where possible, or manual overrides */}
+        <div className="prose prose-lg max-w-none text-text prose-headings:text-text prose-a:text-primary hover:prose-a:text-primary-dark prose-strong:text-text prose-blockquote:border-l-primary prose-blockquote:text-text-muted prose-li:marker:text-primary">
           {content}
         </div>
 
         {/* CTA Section */}
-        <div className="mt-16 bg-gradient-to-r from-primary to-blue-600 rounded-2xl p-8 text-center text-white">
-          <h3 className="text-2xl font-heading font-bold mb-4">
+        <div className="mt-20 bg-card border border-border rounded-2xl p-8 md:p-12 text-center shadow-xl">
+          <h3 className="text-2xl font-heading font-bold mb-4 text-text">
             Ready to Take Your Golden Call?
           </h3>
-          <p className="text-gray-100 mb-6">
+          <p className="text-text-muted mb-8 max-w-lg mx-auto text-lg">
             Let's work together to prepare you for success. Book your personalized coaching session today.
           </p>
-          <Link 
-            to="/book"
-            className="inline-block bg-white text-primary px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+          <Link
+            to="/formations"
+            className="inline-block bg-primary text-white px-8 py-4 rounded-xl font-bold hover:bg-primary-dark transition-all transform hover:scale-105 shadow-lg shadow-primary/20"
           >
-            Book Your Session Now
+            {t('nav.start')}
           </Link>
         </div>
       </div>

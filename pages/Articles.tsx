@@ -13,7 +13,7 @@ export const Articles: React.FC = () => {
             category: "Cabin Crew",
             readTime: "5 min",
             excerpt: "Learn what airlines are really looking for and the common pitfalls to avoid during the assessment day.",
-            date: "Oct 05, 2023",
+            slug: "cabin-crew-mistakes",
             author: "Admin"
         },
         {
@@ -22,7 +22,7 @@ export const Articles: React.FC = () => {
             category: "Interview Prep",
             readTime: "6 min",
             excerpt: "Master the technique used by top candidates to structure their answers and impress recruiters.",
-            date: "Oct 05, 2023",
+            slug: "star-method",
             author: "Admin"
         },
         {
@@ -31,7 +31,7 @@ export const Articles: React.FC = () => {
             category: "Aviation English",
             readTime: "4 min",
             excerpt: "Elevate your interview answers with these professional phrases that show confidence and fluency.",
-            date: "Sep 28, 2023",
+            slug: "english-phrases",
             author: "Admin"
         },
         {
@@ -40,7 +40,7 @@ export const Articles: React.FC = () => {
             category: "Business English",
             readTime: "5 min",
             excerpt: "Crucial words and phrases for managing and participating actively in business meetings.",
-            date: "Nov 12, 2023",
+            slug: "business-english",
             author: "Admin"
         },
         {
@@ -49,7 +49,7 @@ export const Articles: React.FC = () => {
             category: "Hospitality",
             readTime: "7 min",
             excerpt: "Transform your customer service interactions with polished hospitality English terminology.",
-            date: "Jan 03, 2024",
+            slug: "hospitality",
             author: "Admin"
         },
         {
@@ -58,7 +58,7 @@ export const Articles: React.FC = () => {
             category: "IT / Tech",
             readTime: "8 min",
             excerpt: "From software engineering terms to technical support communication strategies.",
-            date: "Feb 15, 2024",
+            slug: "tech-english",
             author: "Admin"
         }
     ];
@@ -82,8 +82,9 @@ export const Articles: React.FC = () => {
                 <div className="max-w-7xl mx-auto px-4">
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {resources.map((post) => (
-                            <div
+                            <Link
                                 key={post.id}
+                                to={`/articles/${post.slug}`}
                                 className="group bg-card rounded-2xl overflow-hidden shadow-lg border border-border hover:shadow-2xl hover:border-primary/50 transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full"
                             >
                                 {/* Visual Header Placeholder instead of Image */}
@@ -112,21 +113,14 @@ export const Articles: React.FC = () => {
                                                 <User className="w-3.5 h-3.5" />
                                                 <span>{post.author}</span>
                                             </div>
-                                            <div className="flex items-center gap-1.5">
-                                                <Calendar className="w-3.5 h-3.5" />
-                                                <span>{post.date}</span>
-                                            </div>
                                         </div>
 
-                                        <button
-                                            className="w-full flex items-center justify-center gap-2 bg-primary/10 hover:bg-primary text-primary hover:text-white py-3 rounded-lg font-bold transition-all duration-300 mt-2"
-                                            onClick={() => alert('Article viewing coming soon!')}
-                                        >
+                                        <div className="w-full flex items-center justify-center gap-2 bg-primary/10 group-hover:bg-primary text-primary group-hover:text-white py-3 rounded-lg font-bold transition-all duration-300 mt-2">
                                             {t('articles.readMore')} <ArrowRight className="w-4 h-4" />
-                                        </button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))}
                     </div>
                 </div>

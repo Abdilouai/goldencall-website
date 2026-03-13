@@ -7,6 +7,12 @@ import { Offers } from './pages/Offers';
 import { Payment } from './pages/Payment';
 import { ThankYou } from './pages/ThankYou';
 import { Articles } from './pages/Articles';
+import { CabinCrewMistakes } from './pages/articles/CabinCrewMistakes';
+import { StarMethod } from './pages/articles/StarMethod';
+import { EnglishPhrases } from './pages/articles/EnglishPhrases';
+import { BusinessEnglish } from './pages/articles/BusinessEnglish';
+import { Hospitality } from './pages/articles/Hospitality';
+import { TechEnglish } from './pages/articles/TechEnglish';
 import { WhatsAppButton } from './components/WhatsAppButton';
 
 // Scroll to top helper
@@ -38,6 +44,12 @@ const App: React.FC = () => {
             <Route path="/" element={<Home />} />
             <Route path="/formations" element={<Offers />} />
             <Route path="/articles" element={<Articles />} />
+            <Route path="/articles/cabin-crew-mistakes" element={<CabinCrewMistakes />} />
+            <Route path="/articles/star-method" element={<StarMethod />} />
+            <Route path="/articles/english-phrases" element={<EnglishPhrases />} />
+            <Route path="/articles/business-english" element={<BusinessEnglish />} />
+            <Route path="/articles/hospitality" element={<Hospitality />} />
+            <Route path="/articles/tech-english" element={<TechEnglish />} />
             <Route path="/paiement" element={<Payment />} />
             <Route path="/merci" element={<ThankYou />} />
           </Routes>
