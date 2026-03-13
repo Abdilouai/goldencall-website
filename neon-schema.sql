@@ -20,3 +20,18 @@ CREATE INDEX IF NOT EXISTS idx_payment_submissions_status ON payment_submissions
 
 -- Index for searching by date
 CREATE INDEX IF NOT EXISTS idx_payment_submissions_created ON payment_submissions(created_at DESC);
+
+-- Table for personalized offers
+CREATE TABLE IF NOT EXISTS personalized_offers (
+    id SERIAL PRIMARY KEY,
+    full_name TEXT NOT NULL,
+    whatsapp TEXT NOT NULL,
+    email TEXT NOT NULL,
+    objective TEXT NOT NULL,
+    hours_per_week TEXT NOT NULL,
+    status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'contacted', 'closed')),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Index for personalized_offers
+CREATE INDEX IF NOT EXISTS idx_personalized_offers_created ON personalized_offers(created_at DESC);

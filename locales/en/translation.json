@@ -52,10 +52,26 @@
         "tabCc": "Cabin Crew",
         "tabIelts": "IELTS",
         "tabPro": "Pro Interview",
+        "tabPersonalize": "Personalize your offer",
         "perMonth": "/ month",
         "oneTime": "one-time",
         "choosePlan": "Choose this plan →",
         "recommended": "RECOMMENDED"
+    },
+    "personalize": {
+        "title": "Personalize Your Offer",
+        "subtitle": "Tell us what you need, and we will create a custom plan for you.",
+        "fullName": "Full name *",
+        "whatsapp": "WhatsApp number (with country code) *",
+        "email": "Email address *",
+        "objective": "What is your main objective? *",
+        "objectivePlaceholder": "e.g., I want to reach IELTS band 7.5 in 2 months...",
+        "hoursPerWeek": "How many hours per week can you study? *",
+        "hoursPlaceholder": "e.g., 5 hours",
+        "submit": "Get my personalized offer →",
+        "loading": "Sending...",
+        "successTitle": "✅ Request received!",
+        "successMsg": "We will craft a personalized offer and contact you shortly."
     },
     "payment": {
         "orderSummary": "Order Summary",

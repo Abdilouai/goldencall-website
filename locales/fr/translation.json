@@ -52,10 +52,26 @@
         "tabCc": "Cabin Crew",
         "tabIelts": "IELTS",
         "tabPro": "Entretien Pro",
+        "tabPersonalize": "Personnaliser votre offre",
         "perMonth": "/ mois",
         "oneTime": "unique",
         "choosePlan": "Choisir ce plan →",
         "recommended": "RECOMMANDÉ"
+    },
+    "personalize": {
+        "title": "Personnalisez Votre Offre",
+        "subtitle": "Dites-nous ce dont vous avez besoin, et nous créerons un plan sur mesure pour vous.",
+        "fullName": "Nom complet *",
+        "whatsapp": "Numéro WhatsApp (avec indicatif) *",
+        "email": "Adresse email *",
+        "objective": "Quel est votre objectif principal ? *",
+        "objectivePlaceholder": "ex: Je veux atteindre le score IELTS 7.5 en 2 mois...",
+        "hoursPerWeek": "Combien d'heures par semaine pouvez-vous étudier ? *",
+        "hoursPlaceholder": "ex: 5 heures",
+        "submit": "Obtenir mon offre personnalisée →",
+        "loading": "Envoi en cours...",
+        "successTitle": "✅ Demande reçue !",
+        "successMsg": "Nous allons préparer une offre personnalisée et vous contacterons sous peu."
     },
     "payment": {
         "orderSummary": "Récapitulatif de votre commande",
