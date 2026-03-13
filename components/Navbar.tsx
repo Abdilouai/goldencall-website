@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Globe } from 'lucide-react';
+import { Menu, X, Globe, Moon, Sun } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const { t, i18n } = useTranslation();
@@ -22,13 +22,46 @@ export const Navbar: React.FC = () => {
     setIsOpen(false);
   }, [location]);
 
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      document.documentElement.classList.remove('dark');
+      setIsDarkMode(false);
+    } else {
+      document.documentElement.classList.add('dark');
+      setIsDarkMode(true);
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    if (!isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
   const languages = ['fr', 'en', 'ar'] as const;
   const languageLabels: Record<string, string> = { fr: 'FR', en: 'EN', ar: 'AR' };
 
+  const currentLangBase = i18n.language?.split('-')[0] || 'en';
+  const activeLang = languages.includes(currentLangBase as any) ? currentLangBase : 'en';
+
+  useEffect(() => {
+    document.documentElement.dir = activeLang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = activeLang;
+  }, [activeLang]);
+
   const cycleLanguage = () => {
-    const currentIndex = languages.indexOf(i18n.language as typeof languages[number]);
+    const currentIndex = languages.indexOf(activeLang as typeof languages[number]);
     const nextIndex = (currentIndex + 1) % languages.length;
-    i18n.changeLanguage(languages[nextIndex]);
+    const nextLang = languages[nextIndex];
+    i18n.changeLanguage(nextLang);
   };
 
   const navLinks = [
@@ -70,11 +103,19 @@ export const Navbar: React.FC = () => {
 
             <div className="flex items-center space-x-4 border-l border-border pl-4">
               <button
+                onClick={toggleDarkMode}
+                className="text-text-muted hover:text-text transition-colors"
+                aria-label="Toggle Dark Mode"
+              >
+                {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+              </button>
+
+              <button
                 onClick={cycleLanguage}
                 className="flex items-center gap-2 text-sm font-medium text-text-muted hover:text-text transition-colors"
               >
                 <Globe size={16} />
-                <span className="uppercase">{languageLabels[i18n.language] || 'EN'}</span>
+                <span className="uppercase">{languageLabels[activeLang] || 'EN'}</span>
               </button>
 
               <Link
@@ -88,6 +129,13 @@ export const Navbar: React.FC = () => {
 
           {/* Mobile menu button */}
           <div className="md:hidden flex items-center gap-4">
+            <button
+              onClick={toggleDarkMode}
+              className="text-text-muted hover:text-text p-2"
+              aria-label="Toggle Dark Mode"
+            >
+              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
             <button
               onClick={cycleLanguage}
               className="text-text-muted hover:text-text p-2"

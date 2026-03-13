@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
   <meta charset="UTF-8" />
@@ -47,20 +47,21 @@
 
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
             primary: {
-              DEFAULT: '#C9A84C',
-              dark: '#A07832'
+              DEFAULT: 'var(--color-primary)',
+              dark: 'var(--color-primary-dark)'
             },
-            dark: '#0A0A0F',
-            card: '#13131A',
+            dark: 'var(--color-dark)',
+            card: 'var(--color-card)',
             text: {
-              DEFAULT: '#F0EDE8',
-              muted: '#9A9080'
+              DEFAULT: 'var(--color-text)',
+              muted: 'var(--color-text-muted)'
             },
-            border: '#2A2520',
+            border: 'var(--color-border)',
           },
           fontFamily: {
             sans: ['"DM Sans"', 'sans-serif'],
@@ -72,10 +73,33 @@
   </script>
 
   <style>
+    :root {
+      /* Light mode */
+      --color-primary: #C9A84C;
+      --color-primary-dark: #A07832;
+      --color-dark: #FFFFFF;
+      --color-card: #F9FAFB;
+      --color-text: #111827;
+      --color-text-muted: #6B7280;
+      --color-border: #E5E7EB;
+    }
+
+    .dark {
+      /* Dark mode */
+      --color-primary: #C9A84C;
+      --color-primary-dark: #A07832;
+      --color-dark: #0A0A0F;
+      --color-card: #13131A;
+      --color-text: #F0EDE8;
+      --color-text-muted: #9A9080;
+      --color-border: #2A2520;
+    }
+
     body {
       font-family: 'DM Sans', sans-serif;
-      background-color: #0A0A0F;
-      color: #F0EDE8;
+      background-color: var(--color-dark);
+      color: var(--color-text);
+      transition: background-color 0.3s, color 0.3s;
     }
 
     h1,
@@ -93,16 +117,16 @@
     }
 
     ::-webkit-scrollbar-track {
-      background: #0A0A0F;
+      background: var(--color-dark);
     }
 
     ::-webkit-scrollbar-thumb {
-      background: #2A2520;
+      background: var(--color-border);
       border-radius: 4px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: #A07832;
+      background: var(--color-primary);
     }
   </style>
 

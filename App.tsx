@@ -6,6 +6,7 @@ import { Home } from './pages/Home';
 import { Offers } from './pages/Offers';
 import { Payment } from './pages/Payment';
 import { ThankYou } from './pages/ThankYou';
+import { WhatsAppButton } from './components/WhatsAppButton';
 
 // Scroll to top helper
 const ScrollToTop = () => {
@@ -40,6 +41,7 @@ const App: React.FC = () => {
           </Routes>
         </main>
         <Footer />
+        <WhatsAppButton />
       </div>
     </Router>
   );
