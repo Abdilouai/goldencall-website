@@ -6,6 +6,7 @@ import { Home } from './pages/Home';
 import { Offers } from './pages/Offers';
 import { Payment } from './pages/Payment';
 import { ThankYou } from './pages/ThankYou';
+import { Articles } from './pages/Articles';
 import { WhatsAppButton } from './components/WhatsAppButton';
 
 // Scroll to top helper
@@ -36,6 +37,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/formations" element={<Offers />} />
+            <Route path="/articles" element={<Articles />} />
             <Route path="/paiement" element={<Payment />} />
             <Route path="/merci" element={<ThankYou />} />
           </Routes>

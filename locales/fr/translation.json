@@ -4,7 +4,14 @@
         "formations": "Nos Formations",
         "about": "À propos",
         "contact": "Contact",
+        "articles": "Ressources",
         "start": "Commencer →"
+    },
+    "articles": {
+        "title": "Ressources Gratuites",
+        "subtitle": "Conseils d'experts sur les carrières aéronautiques et la maîtrise de l'anglais.",
+        "readMore": "Lire la suite →",
+        "back": "Retour"
     },
     "home": {
         "badge": "COACHING EN LIGNE · MONDE ENTIER",

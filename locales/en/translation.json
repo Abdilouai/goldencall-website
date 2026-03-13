@@ -4,7 +4,14 @@
         "formations": "Our Programs",
         "about": "About",
         "contact": "Contact",
+        "articles": "Articles",
         "start": "Get Started →"
+    },
+    "articles": {
+        "title": "Free Resources",
+        "subtitle": "Expert insights on aviation careers and English mastery.",
+        "readMore": "Read More →",
+        "back": "Back to Articles"
     },
     "home": {
         "badge": "ONLINE COACHING · WORLDWIDE",

@@ -67,6 +67,7 @@ export const Navbar: React.FC = () => {
   const navLinks = [
     { name: t('nav.home'), path: '/' },
     { name: t('nav.formations'), path: '/formations' },
+    { name: t('nav.articles'), path: '/articles' },
     { name: t('nav.about'), path: '/#about' },
     { name: t('nav.contact'), path: '/#contact' },
   ];
