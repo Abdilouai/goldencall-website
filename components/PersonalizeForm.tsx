@@ -8,7 +8,6 @@ export const PersonalizeForm: React.FC = () => {
     const navigate = useNavigate();
 
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [success, setSuccess] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -33,37 +32,16 @@ export const PersonalizeForm: React.FC = () => {
             });
 
             if (response.ok) {
-                setSuccess(true);
-                setTimeout(() => {
-                    navigate('/thank-you', { state: { name: data.fullName } });
-                }, 1500);
+                navigate('/thank-you', { state: { name: data.fullName } });
             } else {
                 console.error('Failed to submit');
             }
         } catch (error) {
             console.error('Error submitting form', error);
         } finally {
-            if (!success) {
-                setIsSubmitting(false);
-            }
+            setIsSubmitting(false);
         }
     };
-
-    if (success) {
-        return (
-            <div className="bg-card border border-primary/30 rounded-3xl p-8 md:p-12 shadow-2xl shadow-primary/10 max-w-2xl mx-auto flex flex-col items-center justify-center text-center animate-fade-in-up">
-                <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mb-6">
-                    <CheckCircle size={40} className="text-primary" />
-                </div>
-                <h2 className="font-heading font-bold text-2xl md:text-3xl text-text mb-4">
-                    {t('personalize.successTitle')}
-                </h2>
-                <p className="font-sans text-text-muted text-lg">
-                    {t('personalize.successMsg')}
-                </p>
-            </div>
-        );
-    }
 
     return (
         <div className="bg-card border border-border rounded-3xl p-8 md:p-12 shadow-2xl max-w-3xl mx-auto relative overflow-hidden animate-fade-in-up">

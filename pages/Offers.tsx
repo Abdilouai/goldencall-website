@@ -34,8 +34,8 @@ export const Offers: React.FC = () => {
                 </div>
 
                 {/* Tabs */}
-                <div className="flex justify-center mb-16 overflow-x-auto pb-4 scrollbar-hide">
-                    <div className="inline-flex bg-card border border-border rounded-full p-2">
+                <div className="flex justify-center px-4 mb-10 md:mb-16">
+                    <div className="flex flex-wrap justify-center gap-2 md:gap-3 bg-card border border-border rounded-3xl md:rounded-full p-2">
                         {[
                             { id: 'cabin-crew', label: t('formations.tabCc') },
                             { id: 'ielts', label: t('formations.tabIelts') },
@@ -45,7 +45,7 @@ export const Offers: React.FC = () => {
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id as ProgramType | 'personalize')}
-                                className={`font-sans font-bold text-sm px-8 py-3 rounded-full transition-all whitespace-nowrap ${activeTab === tab.id
+                                className={`font-sans font-bold text-xs sm:text-sm px-4 md:px-8 py-3 rounded-full transition-all whitespace-nowrap ${activeTab === tab.id
                                     ? 'bg-primary text-dark shadow-lg shadow-primary/20'
                                     : 'text-text-muted hover:text-text'
                                     }`}
