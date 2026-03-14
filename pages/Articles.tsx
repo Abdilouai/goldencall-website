@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { BookOpen, User, Calendar, ArrowRight } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 export const Articles: React.FC = () => {
     const { t } = useTranslation();
@@ -65,6 +66,13 @@ export const Articles: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-dark transition-colors duration-300">
+            <SEO
+                title="Articles & Resources"
+                description="Free guides and articles on cabin crew interview preparation, IELTS speaking tips, business English, and professional interview techniques. Learn with Golden Call."
+                keywords="cabin crew interview tips, IELTS speaking guide, business English articles, interview preparation resources"
+                canonicalPath="/articles"
+                ogType="article"
+            />
             {/* Hero Section */}
             <section className="bg-gradient-to-r from-primary to-primary-dark py-20">
                 <div className="max-w-7xl mx-auto px-4 text-center">

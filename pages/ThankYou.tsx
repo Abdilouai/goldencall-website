@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation, Link, Navigate } from 'react-router-dom';
 import { CheckCircle, MessageCircle, ArrowLeft, Clock, Sparkles } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 export const ThankYou: React.FC = () => {
     const { t } = useTranslation();
@@ -28,6 +29,11 @@ export const ThankYou: React.FC = () => {
 
     return (
         <div className="min-h-screen pt-20 pb-32 bg-dark flex items-center justify-center border-t border-border mt-16 relative overflow-hidden">
+            <SEO
+                title="Thank You"
+                description="Your registration with Golden Call Consulting has been confirmed. We will contact you within 24 hours."
+                canonicalPath="/merci"
+            />
 
             {/* Animated background decorations */}
             <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>

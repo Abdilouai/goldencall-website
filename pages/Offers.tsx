@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { OfferCard } from '../components/OfferCard';
 import { PersonalizeForm } from '../components/PersonalizeForm';
 import { OFFERS, ProgramType } from '../config/offers';
+import { SEO } from '../components/SEO';
 
 export const Offers: React.FC = () => {
     const { t } = useTranslation();
@@ -21,6 +22,12 @@ export const Offers: React.FC = () => {
 
     return (
         <div className="min-h-screen py-24 bg-dark">
+            <SEO
+                title="Programs & Pricing"
+                description="Choose from Cabin Crew English, IELTS Speaking, and Professional Interview coaching programs. Flexible pricing plans tailored to your goals. Start your training today."
+                keywords="cabin crew training programs, IELTS coaching prices, interview preparation courses, aviation English pricing"
+                canonicalPath="/formations"
+            />
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
                 {/* Header */}

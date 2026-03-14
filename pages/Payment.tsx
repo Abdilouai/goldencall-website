@@ -4,6 +4,7 @@ import { useLocation, useNavigate, Navigate } from 'react-router-dom';
 import { PaymentMethodCard } from '../components/PaymentMethodCard';
 import { PAYMENT_CONFIG } from '../config/paymentConfig';
 import { UploadCloud, FileImage, X, Globe, MapPin, Mail, Phone } from 'lucide-react';
+import { SEO } from '../components/SEO';
 
 export const Payment: React.FC = () => {
     const { t } = useTranslation();
@@ -132,6 +133,11 @@ export const Payment: React.FC = () => {
 
     return (
         <div className="min-h-screen py-16 bg-dark">
+            <SEO
+                title="Payment"
+                description="Complete your payment for Golden Call Consulting training programs. Secure local and international payment options available."
+                canonicalPath="/paiement"
+            />
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
                 {/* Block 1: Order Summary */}

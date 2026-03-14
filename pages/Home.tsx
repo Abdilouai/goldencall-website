@@ -3,12 +3,19 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Check, Plane, Target, Briefcase } from 'lucide-react';
 import { TestimonialCard, StatCounter } from '../components/UIComponents';
+import { SEO } from '../components/SEO';
 
 export const Home: React.FC = () => {
   const { t } = useTranslation();
 
   return (
     <div className="flex flex-col">
+      <SEO
+        title="Home"
+        description="Expert cabin crew English training, interview coaching, and IELTS speaking lessons. Personalized 1-on-1 sessions for candidates worldwide. Book today with Golden Call Consulting."
+        keywords="cabin crew english training, assessment day preparation, aviation interview coaching, IELTS speaking coach, golden call consulting"
+        canonicalPath="/"
+      />
       {/* 1. Hero Section */}
       <section className="relative min-h-[90vh] flex items-center pt-20 overflow-hidden">
         {/* Abstract Background Elements */}
