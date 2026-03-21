@@ -35,3 +35,24 @@ CREATE TABLE IF NOT EXISTS personalized_offers (
 
 -- Index for personalized_offers
 CREATE INDEX IF NOT EXISTS idx_personalized_offers_created ON personalized_offers(created_at DESC);
+
+-- Table for free sessions
+CREATE TABLE IF NOT EXISTS free_sessions (
+    id SERIAL PRIMARY KEY,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    country TEXT NOT NULL,
+    city TEXT NOT NULL,
+    contact_method TEXT NOT NULL,
+    interest_reason TEXT NOT NULL,
+    study_method TEXT NOT NULL,
+    session_date TEXT NOT NULL,
+    session_time TEXT NOT NULL,
+    status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'completed', 'cancelled')),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Index for free_sessions
+CREATE INDEX IF NOT EXISTS idx_free_sessions_date ON free_sessions(session_date);

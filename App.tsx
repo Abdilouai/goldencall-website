@@ -4,8 +4,6 @@ import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { Home } from './pages/Home';
 import { Offers } from './pages/Offers';
-import { Payment } from './pages/Payment';
-import { ThankYou } from './pages/ThankYou';
 import { Articles } from './pages/Articles';
 import { CabinCrewMistakes } from './pages/articles/CabinCrewMistakes';
 import { StarMethod } from './pages/articles/StarMethod';
@@ -50,8 +48,6 @@ const App: React.FC = () => {
             <Route path="/articles/business-english" element={<BusinessEnglish />} />
             <Route path="/articles/hospitality" element={<Hospitality />} />
             <Route path="/articles/tech-english" element={<TechEnglish />} />
-            <Route path="/paiement" element={<Payment />} />
-            <Route path="/merci" element={<ThankYou />} />
           </Routes>
         </main>
         <Footer />

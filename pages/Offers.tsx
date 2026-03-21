@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { OfferCard } from '../components/OfferCard';
+import { FreeSessionBooking } from '../components/FreeSessionBooking';
 import { PersonalizeForm } from '../components/PersonalizeForm';
-import { OFFERS, ProgramType } from '../config/offers';
+import { ProgramType } from '../config/offers';
 import { SEO } from '../components/SEO';
 
 export const Offers: React.FC = () => {
@@ -18,8 +18,6 @@ export const Offers: React.FC = () => {
         }
     }, [location]);
 
-    const filteredOffers = OFFERS.filter(offer => offer.program === activeTab);
-
     return (
         <div className="min-h-screen py-24 bg-dark">
             <SEO
@@ -33,10 +31,10 @@ export const Offers: React.FC = () => {
                 {/* Header */}
                 <div className="text-center mb-16">
                     <h1 className="font-heading font-bold text-4xl md:text-5xl text-text mb-6">
-                        {t('formations.title')}
+                        Book Your Free Session
                     </h1>
                     <p className="font-sans text-xl text-text-muted max-w-2xl mx-auto">
-                        {t('formations.subtitle')}
+                        Choose a program and select a convenient time for your free consultation.
                     </p>
                 </div>
 
@@ -63,14 +61,12 @@ export const Offers: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Offers Grid or Personalize Form */}
+                {/* Booking or Personalize Form */}
                 {activeTab === 'personalize' ? (
                     <PersonalizeForm />
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center max-w-5xl mx-auto items-start">
-                        {filteredOffers.map((offer) => (
-                            <OfferCard key={offer.id} offer={offer} />
-                        ))}
+                    <div className="mb-16">
+                        <FreeSessionBooking />
                     </div>
                 )}
 

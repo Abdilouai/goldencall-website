@@ -43,10 +43,10 @@ export const Home: React.FC = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-12">
-              <Link to="/formations" className="bg-primary hover:bg-primary-dark text-dark font-sans font-semibold text-center px-8 py-4 rounded-xl transition-all shadow-lg shadow-primary/20 hover:-translate-y-1">
-                {t('home.ctaPrimary')}
+              <Link to="/formations" className="bg-primary hover:bg-primary-dark text-dark font-sans font-bold text-center px-8 py-4 rounded-xl transition-all shadow-lg shadow-primary/20 hover:-translate-y-1 flex items-center justify-center gap-2 text-lg">
+                🎁 Book a Free Session
               </Link>
-              <a href="#formations" className="bg-card hover:bg-border border border-border text-text font-sans font-semibold text-center px-8 py-4 rounded-xl transition-all">
+              <a href="#formations" className="bg-card hover:bg-border border border-border text-text font-sans font-semibold text-center px-8 py-4 rounded-xl transition-all flex items-center justify-center">
                 {t('home.ctaSecondary')}
               </a>
             </div>
@@ -213,7 +213,7 @@ export const Home: React.FC = () => {
             {t('home.teaserSubtitle')}
           </p>
           <Link to="/formations" className="inline-block bg-dark text-text hover:bg-black font-sans font-bold text-lg px-10 py-5 rounded-2xl transition-all shadow-xl hover:-translate-y-1">
-            {t('home.teaserButton')}
+            Book your Free Session
           </Link>
         </div>
       </section>
