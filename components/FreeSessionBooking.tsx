@@ -3,6 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { Calendar as CalendarIcon, Clock, ChevronLeft, ChevronRight, CheckCircle } from 'lucide-react';
 
 const AVAILABLE_TIMES = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
+const PHONE_CODES = [
+    "+971", "+216", "+212", "+213", "+20", "+218", "+222", "+966", "+974", "+965", "+968", "+973", "+962", "+961", "+963", "+964", "+970", "+967",
+    "+33", "+44", "+49", "+39", "+34", "+32", "+41", "+31", "+43", "+46", "+47", "+45", "+351", "+30", "+353", "+358",
+    "+1", "+52", "+55", "+54", "+57", "+56", "+51", "+58",
+    "+90", "+27", "+61", "+64", "+81", "+82", "+84", "+86", "+91", "+92", "+94", "+65", "+60", "+62", "+66", "+63"
+];
 
 export const FreeSessionBooking: React.FC = () => {
     const { t } = useTranslation();
@@ -315,11 +321,9 @@ export const FreeSessionBooking: React.FC = () => {
                                 <label className="block text-sm font-semibold text-text mb-2">Mobile Phone Number <span className="text-red-500">*</span></label>
                                 <div className="flex gap-2">
                                     <select value={formData.phoneCode} onChange={e => setFormData({ ...formData, phoneCode: e.target.value })} className="bg-dark border border-border rounded-xl px-3 py-3 text-text focus:outline-none focus:border-primary transition-colors w-1/3">
-                                        <option value="+971">+971</option>
-                                        <option value="+216">+216</option>
-                                        <option value="+33">+33</option>
-                                        <option value="+1">+1</option>
-                                        <option value="+44">+44</option>
+                                        {PHONE_CODES.map(code => (
+                                            <option key={code} value={code}>{code}</option>
+                                        ))}
                                     </select>
                                     <input required type="tel" value={formData.phone} onChange={e => setFormData({ ...formData, phone: e.target.value })} className="w-2/3 bg-dark border border-border rounded-xl px-4 py-3 text-text focus:outline-none focus:border-primary transition-colors" />
                                 </div>
@@ -332,8 +336,6 @@ export const FreeSessionBooking: React.FC = () => {
                                 <select required value={formData.country} onChange={e => setFormData({ ...formData, country: e.target.value })} className="w-full bg-dark border border-border rounded-xl px-4 py-3 text-text focus:outline-none focus:border-primary transition-colors">
                                     <option value="" disabled>Select your country</option>
                                     <option value="Tunisia">Tunisia</option>
-                                    <option value="UAE">United Arab Emirates</option>
-                                    <option value="France">France</option>
                                     <option value="Other">Other</option>
                                 </select>
                             </div>
