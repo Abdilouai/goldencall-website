@@ -41,6 +41,20 @@ export const FreeSessionBooking: React.FC = () => {
     const getDaysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
     const getFirstDayOfMonth = (year: number, month: number) => new Date(year, month, 1).getDay();
 
+    const formatLocalTime = (tunisiaTime: string | null, date: Date | null, shortFormat = false): string => {
+        if (!tunisiaTime || !date) return '';
+        const [h, m] = tunisiaTime.split(':');
+        // Tunisia is UTC+1, so we subtract 1 hour to get UTC time
+        const utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), parseInt(h) - 1, parseInt(m)));
+        const localTimeStr = utcDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        
+        let dayOffset = '';
+        if (utcDate.toLocaleDateString() !== date.toLocaleDateString()) {
+            dayOffset = utcDate > date ? (shortFormat ? ' (+1d)' : ' (+1 day)') : (shortFormat ? ' (-1d)' : ' (-1 day)');
+        }
+        return `${localTimeStr}${dayOffset}`;
+    };
+
     const generateCalendarDays = () => {
         const year = currentMonth.getFullYear();
         const month = currentMonth.getMonth();
@@ -235,10 +249,16 @@ export const FreeSessionBooking: React.FC = () => {
                                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                                 </div>
                             ) : (
+                                <>
+                                <p className="text-xs text-text-muted mb-4 text-center border-b border-border/50 pb-3">
+                                    Times are shown in your local timezone:<br/>
+                                    <strong className="text-primary">{Intl.DateTimeFormat().resolvedOptions().timeZone}</strong>
+                                </p>
                                 <div className="grid grid-cols-2 gap-3 mb-6">
                                     {AVAILABLE_TIMES.map((time) => {
                                         const isBooked = bookedSlots.includes(time);
                                         const isSelected = selectedTime === time;
+                                        const localTimeLabel = formatLocalTime(time, selectedDate, true);
                                         return (
                                             <button
                                                 key={time}
@@ -251,11 +271,12 @@ export const FreeSessionBooking: React.FC = () => {
                                                             'bg-card border-border text-text hover:border-primary/50 hover:text-primary'}
                                                 `}
                                             >
-                                                {time}
+                                                {localTimeLabel}
                                             </button>
                                         );
                                     })}
                                 </div>
+                                </>
                             )}
 
                             <div className="mt-auto pt-4 border-t border-border">
@@ -288,7 +309,7 @@ export const FreeSessionBooking: React.FC = () => {
                             <div>
                                 <div className="text-sm text-text-muted font-semibold">Selected Session</div>
                                 <div className="text-text font-bold">
-                                    {selectedDate?.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })} at {selectedTime}
+                                    {selectedDate?.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })} at {formatLocalTime(selectedTime, selectedDate)}
                                 </div>
                             </div>
                         </div>
@@ -401,7 +422,7 @@ export const FreeSessionBooking: React.FC = () => {
                     </div>
                     <h2 className="font-heading font-bold text-4xl text-text mb-4">You're All Set!</h2>
                     <p className="text-xl text-text-muted mb-8 max-w-lg mx-auto">
-                        Your free session for <strong className="text-text">{selectedDate?.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })} at {selectedTime}</strong> has been successfully booked.
+                        Your free session for <strong className="text-text">{selectedDate?.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })} at {formatLocalTime(selectedTime, selectedDate)}</strong> has been successfully booked.
                     </p>
                     <p className="text-text-muted mb-10">
                         We will reach out to you via {formData.contactMethod} shortly to confirm and provide the meeting details.
