@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { neon } from '@neondatabase/serverless';
 import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
 
 // Extremely simple stateless token implementation (for demonstration since jwt package is missing)
 const JWT_SECRET = process.env.JWT_SECRET || 'goldencall-super-secret-key-2026';
@@ -37,9 +38,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
 
         const user = users[0];
-        const inputHash = crypto.createHash('sha256').update(password).digest('hex');
+        const isMatch = await bcrypt.compare(password, user.password_hash);
 
-        if (inputHash !== user.password_hash) {
+        if (!isMatch) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 

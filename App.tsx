@@ -9,11 +9,13 @@ import { CabinCrewMistakes } from './pages/articles/CabinCrewMistakes';
 import { StarMethod } from './pages/articles/StarMethod';
 import { EnglishPhrases } from './pages/articles/EnglishPhrases';
 import { BusinessEnglish } from './pages/articles/BusinessEnglish';
-import { Hospitality } from './pages/articles/Hospitality';
-import { TechEnglish } from './pages/articles/TechEnglish';
-import { WhatsAppButton } from './components/WhatsAppButton';
 import { TeacherLogin } from './pages/TeacherLogin';
-import { TeacherDashboard } from './pages/TeacherDashboard';
+import { TeacherLayout } from './components/teacher/TeacherLayout';
+import { Dashboard as TeacherDashboard } from './pages/teacher/Dashboard';
+import { MyStudents } from './pages/teacher/MyStudents';
+import { Meetings } from './pages/teacher/Meetings';
+import { Materials } from './pages/teacher/Materials';
+import { AdminReassign } from './pages/admin/AdminReassign';
 
 // Scroll to top helper
 const ScrollToTop = () => {
@@ -35,12 +37,31 @@ const ScrollToTop = () => {
 
 const MainLayout = () => {
   const location = useLocation();
-  const isTeacherRoute = location.pathname.startsWith('/teacher');
+  const isTeacherRoute = location.pathname.startsWith('/teacher') && location.pathname !== '/teacher/login';
+  const isAdminRoute = location.pathname.startsWith('/admin');
+  
+  const isCustomLayout = isTeacherRoute || isAdminRoute;
+
+  if (isCustomLayout) {
+      return (
+        <Routes>
+            <Route path="/teacher" element={<TeacherLayout />}>
+                <Route path="dashboard" element={<TeacherDashboard />} />
+                <Route path="students" element={<MyStudents />} />
+                <Route path="meetings" element={<Meetings />} />
+                <Route path="materials" element={<Materials />} />
+            </Route>
+            <Route path="/admin/reassign" element={
+                <div className="min-h-screen bg-dark text-text"><AdminReassign /></div>
+            } />
+        </Routes>
+      );
+  }
 
   return (
-      <div className={`min-h-screen ${isTeacherRoute ? '' : 'bg-dark'} font-sans text-text flex flex-col`}>
-        {!isTeacherRoute && <Navbar />}
-        <main className={`flex-grow ${!isTeacherRoute ? 'pt-20' : ''}`}>
+      <div className="min-h-screen bg-dark font-sans text-text flex flex-col">
+        <Navbar />
+        <main className="flex-grow pt-20">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/formations" element={<Offers />} />
@@ -51,14 +72,11 @@ const MainLayout = () => {
             <Route path="/articles/business-english" element={<BusinessEnglish />} />
             <Route path="/articles/hospitality" element={<Hospitality />} />
             <Route path="/articles/tech-english" element={<TechEnglish />} />
-            
-            {/* Teacher Routes */}
             <Route path="/teacher/login" element={<TeacherLogin />} />
-            <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
           </Routes>
         </main>
-        {!isTeacherRoute && <Footer />}
-        {!isTeacherRoute && <WhatsAppButton />}
+        <Footer />
+        <WhatsAppButton />
       </div>
   );
 };

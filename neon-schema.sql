@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS teachers (
 -- Note: In production you need to run this ALTER TABLE once.
 -- ALTER TABLE free_sessions ADD COLUMN IF NOT EXISTS teacher_id INTEGER REFERENCES teachers(id);
 
--- Pre-hashed password for 'password123' using SHA-256 (hex)
+-- Pre-hashed password for 'password123' using bcrypt
 -- INSERT INTO teachers (name, email, password_hash) VALUES 
--- ('Teacher One', 'teacher1@goldencall.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f'),
--- ('Teacher Two', 'teacher2@goldencall.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f');
+-- ('Teacher One', 'teacher1@goldencall.com', '$2a$10$9K2t5q33Q5B.SgJ3c8/z3e2e5sU3A1xV3e5m1t3aV5dM9bL5xXzRy'),
+-- ('Teacher Two', 'teacher2@goldencall.com', '$2a$10$9K2t5q33Q5B.SgJ3c8/z3e2e5sU3A1xV3e5m1t3aV5dM9bL5xXzRy');
