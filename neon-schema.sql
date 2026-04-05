@@ -56,3 +56,20 @@ CREATE TABLE IF NOT EXISTS free_sessions (
 
 -- Index for free_sessions
 CREATE INDEX IF NOT EXISTS idx_free_sessions_date ON free_sessions(session_date);
+
+-- Table for Teachers
+CREATE TABLE IF NOT EXISTS teachers (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Note: In production you need to run this ALTER TABLE once.
+-- ALTER TABLE free_sessions ADD COLUMN IF NOT EXISTS teacher_id INTEGER REFERENCES teachers(id);
+
+-- Pre-hashed password for 'password123' using SHA-256 (hex)
+-- INSERT INTO teachers (name, email, password_hash) VALUES 
+-- ('Teacher One', 'teacher1@goldencall.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f'),
+-- ('Teacher Two', 'teacher2@goldencall.com', 'ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f');

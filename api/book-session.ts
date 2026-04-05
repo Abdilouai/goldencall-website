@@ -42,14 +42,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             return res.status(400).json({ error: 'This time slot is already booked.' });
         }
 
+        // --- Teacher Assignment Logic (Round-Robin/Load Balancing) ---
+        // Find the active teacher with the fewest pending sessions.
+        // We do a LEFT JOIN to count pending cases and pick the one with MIN count.
+        const teachersStats = await sql`
+            SELECT t.id, COUNT(fs.id) as pending_count
+            FROM teachers t
+            LEFT JOIN free_sessions fs ON t.id = fs.teacher_id AND fs.status = 'pending'
+            GROUP BY t.id
+            ORDER BY pending_count ASC, t.id ASC
+            LIMIT 1
+        `;
+
+        let assignedTeacherId = null;
+        if (teachersStats.length > 0) {
+            assignedTeacherId = teachersStats[0].id;
+        }
+
         const result = await sql`
             INSERT INTO free_sessions (
                 first_name, last_name, email, phone, country, city, 
-                contact_method, interest_reason, study_method, session_date, session_time, status
+                contact_method, interest_reason, study_method, session_date, session_time, status, teacher_id
             ) VALUES (
                 ${firstName}, ${lastName}, ${email}, ${phone}, ${country || ''}, ${city || ''},
                 ${contactMethod || ''}, ${interestReason || ''}, ${studyMethod || ''}, 
-                ${sessionDate}, ${sessionTime}, 'pending'
+                ${sessionDate}, ${sessionTime}, 'pending', ${assignedTeacherId}
             )
             RETURNING id
         `;

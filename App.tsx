@@ -12,6 +12,8 @@ import { BusinessEnglish } from './pages/articles/BusinessEnglish';
 import { Hospitality } from './pages/articles/Hospitality';
 import { TechEnglish } from './pages/articles/TechEnglish';
 import { WhatsAppButton } from './components/WhatsAppButton';
+import { TeacherLogin } from './pages/TeacherLogin';
+import { TeacherDashboard } from './pages/TeacherDashboard';
 
 // Scroll to top helper
 const ScrollToTop = () => {
@@ -31,13 +33,14 @@ const ScrollToTop = () => {
   return null;
 };
 
-const App: React.FC = () => {
+const MainLayout = () => {
+  const location = useLocation();
+  const isTeacherRoute = location.pathname.startsWith('/teacher');
+
   return (
-    <Router>
-      <ScrollToTop />
-      <div className="min-h-screen bg-dark font-sans text-text flex flex-col">
-        <Navbar />
-        <main className="flex-grow pt-20">
+      <div className={`min-h-screen ${isTeacherRoute ? '' : 'bg-dark'} font-sans text-text flex flex-col`}>
+        {!isTeacherRoute && <Navbar />}
+        <main className={`flex-grow ${!isTeacherRoute ? 'pt-20' : ''}`}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/formations" element={<Offers />} />
@@ -48,11 +51,23 @@ const App: React.FC = () => {
             <Route path="/articles/business-english" element={<BusinessEnglish />} />
             <Route path="/articles/hospitality" element={<Hospitality />} />
             <Route path="/articles/tech-english" element={<TechEnglish />} />
+            
+            {/* Teacher Routes */}
+            <Route path="/teacher/login" element={<TeacherLogin />} />
+            <Route path="/teacher/dashboard" element={<TeacherDashboard />} />
           </Routes>
         </main>
-        <Footer />
-        <WhatsAppButton />
+        {!isTeacherRoute && <Footer />}
+        {!isTeacherRoute && <WhatsAppButton />}
       </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <ScrollToTop />
+      <MainLayout />
     </Router>
   );
 };
