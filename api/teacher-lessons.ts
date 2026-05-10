@@ -1,6 +1,29 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { neon } from '@neondatabase/serverless';
 
+import crypto from 'crypto';
+
+const JWT_SECRET = process.env.JWT_SECRET || 'goldencall-super-secret-key-2026';
+
+function verifySimpleToken(token: string) {
+    try {
+        const [header, body, signature] = token.split('.');
+        const expectedSignature = crypto.createHmac('sha256', JWT_SECRET).update(`${header}.${body}`).digest('base64url');
+        
+        if (signature !== expectedSignature) {
+            return null;
+        }
+
+        const payload = JSON.parse(Buffer.from(body, 'base64url').toString('utf-8'));
+        if (payload.exp && payload.exp < Date.now()) {
+            return null; // Expired
+        }
+        return payload;
+    } catch {
+        return null;
+    }
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
     const authHeader = req.headers.authorization;
 
@@ -9,13 +32,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     const token = authHeader.split(' ')[1];
-    
-    // In a real app we'd decode JWT, but for this demo token is just the teacher ID
-    const teacherId = parseInt(token);
+    const user = verifySimpleToken(token);
 
-    if (isNaN(teacherId)) {
+    if (!user || !user.id) {
         return res.status(401).json({ error: 'Invalid Token' });
     }
+    
+    const teacherId = user.id;
 
     try {
         const databaseUrl = process.env.DATABASE_URL;
