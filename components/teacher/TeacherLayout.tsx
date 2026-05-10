@@ -33,6 +33,7 @@ export const TeacherLayout: React.FC = () => {
         { name: 'Dashboard', path: '/teacher/dashboard', icon: LayoutDashboard },
         { name: 'My Students', path: '/teacher/students', icon: Users },
         { name: 'Meetings', path: '/teacher/meetings', icon: Calendar },
+        { name: 'Lessons & Payroll', path: '/teacher/lessons', icon: BookOpen },
         { name: 'Materials', path: '/teacher/materials', icon: BookOpen },
     ];
 

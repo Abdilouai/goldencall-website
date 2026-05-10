@@ -18,7 +18,9 @@ import { Dashboard as TeacherDashboard } from './pages/teacher/Dashboard';
 import { MyStudents } from './pages/teacher/MyStudents';
 import { Meetings } from './pages/teacher/Meetings';
 import { Materials } from './pages/teacher/Materials';
+import { Lessons as TeacherLessons } from './pages/teacher/Lessons';
 import { AdminReassign } from './pages/admin/AdminReassign';
+import { AdminLessons } from './pages/admin/AdminLessons';
 
 // Scroll to top helper
 const ScrollToTop = () => {
@@ -53,9 +55,13 @@ const MainLayout = () => {
                 <Route path="students" element={<MyStudents />} />
                 <Route path="meetings" element={<Meetings />} />
                 <Route path="materials" element={<Materials />} />
+                <Route path="lessons" element={<TeacherLessons />} />
             </Route>
             <Route path="/admin/reassign" element={
                 <div className="min-h-screen bg-dark text-text"><AdminReassign /></div>
+            } />
+            <Route path="/admin/lessons" element={
+                <div className="min-h-screen bg-dark text-text"><AdminLessons /></div>
             } />
         </Routes>
       );

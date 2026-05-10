@@ -73,3 +73,18 @@ CREATE TABLE IF NOT EXISTS teachers (
 -- INSERT INTO teachers (name, email, password_hash) VALUES 
 -- ('Teacher One', 'teacher1@goldencall.com', '$2a$10$9K2t5q33Q5B.SgJ3c8/z3e2e5sU3A1xV3e5m1t3aV5dM9bL5xXzRy'),
 -- ('Teacher Two', 'teacher2@goldencall.com', '$2a$10$9K2t5q33Q5B.SgJ3c8/z3e2e5sU3A1xV3e5m1t3aV5dM9bL5xXzRy');
+
+-- Table for Lessons (Payroll & Tracking)
+CREATE TABLE IF NOT EXISTS lessons (
+    id SERIAL PRIMARY KEY,
+    teacher_id INTEGER REFERENCES teachers(id),
+    student_id INTEGER REFERENCES free_sessions(id),
+    course_name TEXT NOT NULL,
+    price NUMERIC DEFAULT 10.0,
+    attendance TEXT DEFAULT 'present' CHECK (attendance IN ('present', 'absent')),
+    lesson_date TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Index for searching lessons by teacher
+CREATE INDEX IF NOT EXISTS idx_lessons_teacher ON lessons(teacher_id);
