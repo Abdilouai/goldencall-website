@@ -52,96 +52,13 @@
     });
   </script>
 
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
     rel="stylesheet">
 
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            primary: {
-              DEFAULT: 'var(--color-primary)',
-              dark: 'var(--color-primary-dark)'
-            },
-            dark: 'var(--color-dark)',
-            card: 'var(--color-card)',
-            text: {
-              DEFAULT: 'var(--color-text)',
-              muted: 'var(--color-text-muted)'
-            },
-            border: 'var(--color-border)',
-          },
-          fontFamily: {
-            sans: ['"DM Sans"', 'sans-serif'],
-            heading: ['"Playfair Display"', 'serif'],
-          },
-        }
-      }
-    }
-  </script>
-
-  <style>
-    :root {
-      /* Light mode */
-      --color-primary: #C9A84C;
-      --color-primary-dark: #A07832;
-      --color-dark: #FFFFFF;
-      --color-card: #F9FAFB;
-      --color-text: #111827;
-      --color-text-muted: #6B7280;
-      --color-border: #E5E7EB;
-    }
-
-    .dark {
-      /* Dark mode */
-      --color-primary: #C9A84C;
-      --color-primary-dark: #A07832;
-      --color-dark: #0A0A0F;
-      --color-card: #13131A;
-      --color-text: #F0EDE8;
-      --color-text-muted: #9A9080;
-      --color-border: #2A2520;
-    }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background-color: var(--color-dark);
-      color: var(--color-text);
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      font-family: 'Playfair Display', serif;
-    }
-
-    /* Global scrollbar styling */
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--color-dark);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--color-border);
-      border-radius: 4px;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--color-primary);
-    }
-  </style>
+  <!-- Production Built Tailwind & Global Style Token System -->
+  <link rel="stylesheet" href="/index.css" />
 
   <!-- Schema.org Organization -->
   <script type="application/ld+json">

@@ -1,0 +1,94 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Premium Palette - Warm Amber & Champagne Gold */
+  --color-primary: #C9A84C;
+  --color-primary-dark: #A07832;
+  --color-dark: #FFFFFF;
+  --color-card: #F9FAFB;
+  --color-text: #111827;
+  --color-text-muted: #4B5563;
+  --color-border: #E5E7EB;
+}
+
+.dark {
+  /* Sleek Dark Mode - High-End Luxury Coaching Aesthetic */
+  --color-primary: #D4AF37; /* Burnished Gold */
+  --color-primary-dark: #B8860B;
+  --color-dark: #07070A; /* Deeper midnight background */
+  --color-card: #0F0F16; /* Clean card contrast */
+  --color-text: #F3F1ED; /* Cream text for readability */
+  --color-text-muted: #8E877E; /* Warm metallic grey */
+  --color-border: #1E1C18; /* Elegant fine-line borders */
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-dark text-text transition-colors duration-300 font-sans;
+    background-color: var(--color-dark);
+    color: var(--color-text);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading tracking-tight;
+  }
+
+  /* Selection highlight */
+  ::selection {
+    background-color: rgba(201, 168, 76, 0.25);
+    color: var(--color-primary);
+  }
+}
+
+/* Premium Global Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 100px;
+  border: 2px solid var(--color-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Premium utility animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

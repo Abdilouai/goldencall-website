@@ -167,34 +167,82 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. Testimonials */}
-      <section className="py-24 bg-dark overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-heading font-bold text-4xl text-text mb-12">{t('home.testimonialsTitle')}</h2>
+      {/* 5. Editorial Testimonials & Success Stories */}
+      <section className="py-32 bg-dark relative overflow-hidden">
+        {/* Soft background golden gradients */}
+        <div className="absolute top-1/2 left-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px] pointer-events-none"></div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+            
+            {/* Left Sidebar: Trust, Authority & Core Message */}
+            <div className="lg:col-span-4 lg:sticky lg:top-28">
+              <div className="inline-block bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-6">
+                <span className="font-sans font-bold text-[9px] tracking-widest text-primary uppercase">
+                  ⭐ Real Success Stories
+                </span>
+              </div>
+              
+              <h2 className="font-heading font-bold text-4xl md:text-5xl leading-tight text-text mb-6">
+                {t('home.testimonialsTitle')}
+              </h2>
+              
+              <p className="font-sans text-base text-text-muted leading-relaxed mb-8 max-w-sm">
+                We don't just teach English. We build global career pathways, helping students clear intense aviation board reviews, score band-high in IELTS, and secure dream jobs.
+              </p>
+              
+              {/* Trust Indicators */}
+              <div className="space-y-6 border-t border-border/40 pt-8">
+                <div>
+                  <div className="font-heading font-bold text-3xl text-primary mb-1">95%</div>
+                  <div className="font-sans text-xs text-text-muted tracking-wider uppercase font-semibold">Airline Interview Success Rate</div>
+                </div>
+                <div>
+                  <div className="font-heading font-bold text-3xl text-primary mb-1">150+</div>
+                  <div className="font-sans text-xs text-text-muted tracking-wider uppercase font-semibold">Candidates Placed Worldwide</div>
+                </div>
+              </div>
+            </div>
 
-          <div className="flex overflow-x-auto gap-6 pb-8 snap-x scrollbar-hide">
-            <div className="snap-center shrink-0 w-4 md:w-0"></div>
-            <TestimonialCard
-              name="Sonia B."
-              role="Cabin Crew Prep"
-              quote="Golden Call m'a aidée à comprendre ce que les compagnies aériennes recherchent vraiment. J'ai été prise chez Emirates du premier coup."
-            />
-            <TestimonialCard
-              name="Youssef T."
-              role="IELTS Coaching"
-              quote="Une approche claire et ciblée. J'ai bloqué sur l'oral pendant des mois, mais avec ce coaching j'ai obtenu mon 7.5 facilement."
-            />
-            <TestimonialCard
-              name="Amira K."
-              role="Entretien Professionnel"
-              quote="La simulation d'entretien a fait une différence énorme. Le feedback était direct et m'a permis de reprendre confiance en moi."
-            />
-            <TestimonialCard
-              name="Nessrine M."
-              role="Cabin Crew Prep"
-              quote="Merci pour la préparation au group assessment. Tout s'est passé exactement comme on l'avait simulé!"
-            />
-            <div className="snap-center shrink-0 w-4 md:w-0"></div>
+            {/* Right Side: Staggered Masonry Grid */}
+            <div className="lg:col-span-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                
+                {/* Column 1 */}
+                <div className="space-y-8">
+                  <TestimonialCard
+                    name="Sonia B."
+                    role="Cabin Crew Preparation"
+                    successMilestone="Hired: Emirates"
+                    quote="Golden Call m'a aidée à comprendre ce que les compagnies aériennes recherchent vraiment. J'ai été prise chez Emirates du premier coup. Les simulations d'entretien étaient d'un réalisme frappant."
+                  />
+                  <TestimonialCard
+                    name="Amira K."
+                    role="Entretien Professionnel"
+                    successMilestone="Career Promoted"
+                    quote="La simulation d'entretien a fait une différence énorme. Le feedback était direct, sincère, et m'a permis de corriger ma posture verbale et de reprendre confiance en moi à un moment charnière."
+                  />
+                </div>
+
+                {/* Column 2 - Staggered Downward to Create Editorial Rhythm */}
+                <div className="space-y-8 md:translate-y-12">
+                  <TestimonialCard
+                    name="Youssef T."
+                    role="IELTS Coaching"
+                    successMilestone="IELTS Band 7.5"
+                    quote="Une approche claire et ciblée. J'ai bloqué sur l'expression orale pendant des mois, mais avec ce coaching personnalisé, j'ai obtenu mon 7.5 très facilement et sans stress."
+                  />
+                  <TestimonialCard
+                    name="Nessrine M."
+                    role="Cabin Crew Preparation"
+                    successMilestone="Qatar Airways Prep"
+                    quote="Un grand merci pour la préparation au group assessment. Tout s'est passé exactement comme on l'avait simulé pendant les cours ! C'était le meilleur investissement pour ma carrière."
+                  />
+                </div>
+
+              </div>
+            </div>
+
           </div>
         </div>
       </section>

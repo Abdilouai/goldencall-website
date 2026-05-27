@@ -5,31 +5,50 @@ export const TestimonialCard: React.FC<{
     name: string;
     role: string;
     quote: string;
+    successMilestone?: string;
+    rating?: number;
     image?: string;
-}> = ({ name, role, quote, image }) => {
+}> = ({ name, role, quote, successMilestone, rating = 5, image }) => {
     return (
-        <div className="min-w-[300px] md:min-w-[400px] bg-card border border-border rounded-2xl p-8 flex flex-col shrink-0">
-            <div className="flex gap-1 mb-6">
-                {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={16} className="fill-primary text-primary" />
+        <div className="flex flex-col bg-card border border-border/60 rounded-3xl p-8 md:p-10 shadow-xl transition-all duration-300 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/5 group relative overflow-hidden">
+            {/* Top-Right Success Milestone Badge */}
+            {successMilestone && (
+                <div className="absolute top-4 right-4 bg-primary/10 border border-primary/20 rounded-full px-3 py-1">
+                    <span className="font-sans font-bold text-[9px] tracking-wider text-primary uppercase">
+                        ✓ {successMilestone}
+                    </span>
+                </div>
+            )}
+
+            {/* Stars */}
+            <div className="flex gap-1.5 mb-6">
+                {[...Array(rating)].map((_, i) => (
+                    <Star key={i} size={14} className="fill-primary text-primary stroke-[1]" />
                 ))}
             </div>
-            <p className="font-sans text-text-muted text-base leading-relaxed mb-8 flex-grow">
-                "{quote}"
-            </p>
-            <div className="flex items-center gap-4 mt-auto">
-                <div className="w-12 h-12 rounded-full bg-dark overflow-hidden shrink-0 border border-border">
+
+            {/* Quote Block */}
+            <blockquote className="font-sans text-text/90 text-[15px] md:text-base leading-relaxed mb-8 flex-grow italic relative">
+                <span className="text-primary font-heading text-4xl leading-none absolute -top-3 -left-2 opacity-25 pointer-events-none">“</span>
+                <p className="relative z-10 pl-4 border-l border-primary/20">
+                    {quote}
+                </p>
+            </blockquote>
+
+            {/* Author details */}
+            <div className="flex items-center gap-4 mt-auto pt-6 border-t border-border/30">
+                <div className="w-12 h-12 rounded-full overflow-hidden shrink-0 border border-primary/10 bg-dark/60 flex items-center justify-center relative group-hover:border-primary/35 transition-all">
                     {image ? (
                         <img src={image} alt={name} className="w-full h-full object-cover" />
                     ) : (
-                        <div className="w-full h-full flex items-center justify-center text-primary font-heading font-bold text-xl">
+                        <div className="w-full h-full flex items-center justify-center text-primary font-heading font-semibold text-lg bg-gradient-to-br from-primary/5 to-primary/15">
                             {name.charAt(0)}
                         </div>
                     )}
                 </div>
                 <div>
-                    <h4 className="font-sans font-bold text-text text-sm">{name}</h4>
-                    <p className="font-sans text-text-muted text-xs mt-0.5">{role}</p>
+                    <h4 className="font-sans font-bold text-text text-sm tracking-wide group-hover:text-primary transition-colors">{name}</h4>
+                    <p className="font-sans text-text-muted text-xs mt-0.5 tracking-wider uppercase font-semibold">{role}</p>
                 </div>
             </div>
         </div>
