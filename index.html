@@ -65,18 +65,12 @@
     fbq('init', '517991158551582');
     fbq('track', 'PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=517991158551582&ev=PageView&noscript=1"
-    /></noscript>
   <!-- End Meta Pixel Code -->
 
   <!-- Google Fonts -->
   <link
     href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap"
     rel="stylesheet">
-
-  <!-- Production Built Tailwind & Global Style Token System -->
-  <link rel="stylesheet" href="/index.css" />
 
   <!-- Schema.org Organization -->
   <script type="application/ld+json">
@@ -144,6 +138,10 @@
 </head>
 
 <body>
+  <!-- Meta Pixel noscript fallback (placed in body to comply with HTML5 specifications) -->
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=517991158551582&ev=PageView&noscript=1"
+    /></noscript>
   <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>
