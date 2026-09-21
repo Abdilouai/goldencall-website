@@ -22,6 +22,7 @@ import { Lessons as TeacherLessons } from './pages/teacher/Lessons';
 import { AdminReassign } from './pages/admin/AdminReassign';
 import { AdminLessons } from './pages/admin/AdminLessons';
 import { ThankYou } from './pages/ThankYou';
+import { FrenchCourses } from './pages/FrenchCourses';
 
 // Scroll to top helper
 const ScrollToTop = () => {
@@ -75,6 +76,7 @@ const MainLayout = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/formations" element={<Offers />} />
+            <Route path="/cours-francais" element={<FrenchCourses />} />
             <Route path="/articles" element={<Articles />} />
             <Route path="/articles/cabin-crew-mistakes" element={<CabinCrewMistakes />} />
             <Route path="/articles/star-method" element={<StarMethod />} />

@@ -8,13 +8,17 @@ export const ThankYou: React.FC = () => {
     const { t } = useTranslation();
     const location = useLocation();
     
-    // Retrieve applicant/student name from state if navigated programmatically
+    // Retrieve applicant/student name and pack from state if navigated programmatically
     const stateName = location.state?.name;
+    const packName = location.state?.packName;
+    const subject = location.state?.subject;
     const displayName = stateName || t('thankYou.unknown');
 
     const whatsappNumber = "+21629373579";
     const customMessage = encodeURIComponent(
-        `Hello Golden Call! I've just submitted my personalized coaching program request and would love to speed up the confirmation. My name is ${displayName}.`
+        subject === 'French' || packName
+            ? `Bonjour Golden Call ! Je viens de m'inscrire au cours de Français : ${packName || 'Pack Français'}. Mon nom est ${displayName}.`
+            : `Hello Golden Call! I've just submitted my personalized coaching program request and would love to speed up the confirmation. My name is ${displayName}.`
     );
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${customMessage}`;
 
@@ -53,6 +57,13 @@ export const ThankYou: React.FC = () => {
                         <ShieldCheck size={14} />
                         {t('thankYou.subtitle')}
                     </p>
+
+                    {packName && (
+                        <div className="mb-6 p-3 bg-dark/60 border border-primary/30 rounded-2xl">
+                            <span className="text-xs text-text-muted font-sans uppercase tracking-wider block mb-1">Pack sélectionné</span>
+                            <span className="font-heading font-bold text-lg text-primary">{packName}</span>
+                        </div>
+                    )}
 
                     {/* Message Details */}
                     <div className="space-y-4 mb-10 text-text-muted font-sans text-sm md:text-base leading-relaxed">

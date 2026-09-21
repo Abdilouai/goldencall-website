@@ -2,6 +2,7 @@
     "nav": {
         "home": "Home",
         "formations": "Our Programs",
+        "frenchCourses": "French Courses",
         "about": "About",
         "contact": "Contact",
         "articles": "Articles",
@@ -43,8 +44,12 @@
         "step3Desc": "Get immediate access to your space and start with your coach.",
         "testimonialsTitle": "What our students say",
         "teaserTitle": "Ready to get started?",
-        "teaserSubtitle": "Invest in your future today. Our offers start from 99 DT / month.",
-        "teaserButton": "View all our offers →"
+        "teaserSubtitle": "Invests in your future today. Our offers start from 99 DT / month.",
+        "teaserButton": "View all our offers →",
+        "frenchBadge": "NEW · ONLINE FRENCH COURSES",
+        "frenchTitle": "Online French Packs & BAC Preparation",
+        "frenchDesc": "Personalized progression from Beginner A1 to Advanced B2, plus intensive Baccalauréat preparation. Live online classes with PDF materials included, starting from 140 DT/month.",
+        "frenchCta": "Explore the 6 French packs →"
     },
     "formations": {
         "title": "Programs & Pricing",
@@ -128,5 +133,22 @@
     "footer": {
         "tagline": "Online professional training · Worldwide",
         "rights": "© 2025 Golden Call · All rights reserved"
+    },
+    "frenchCourses": {
+        "badge": "ONLINE FRENCH COURSES · PAYMENT IN DT",
+        "title": "Online French Packs",
+        "subtitle": "Comprehensive programs tailored to every level and intensive preparation for the Baccalauréat. 100% online, with certified teachers and individual follow-up.",
+        "filterAll": "All Packs (6)",
+        "filterGeneral": "Levels A1 — B2 (4)",
+        "filterBac": "Special BAC (2)",
+        "feature1Title": "Specialized Teachers",
+        "feature1Desc": "Experienced educators to guide you step-by-step in your spoken and written French progression.",
+        "feature2Title": "Materials & Corrections Included",
+        "feature2Desc": "Access PDF summaries, review sheets, and personalized exercise corrections.",
+        "feature3Title": "Local Payment in DT",
+        "feature3Desc": "Pay easily via D17 or Tunisian bank transfer, without needing an international card.",
+        "helpTitle": "Need help choosing your pack?",
+        "helpSubtitle": "Contact our advisors directly on WhatsApp for a level assessment or any question regarding the BAC curriculum.",
+        "chatWhatsapp": "Chat on WhatsApp"
     }
 }

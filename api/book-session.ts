@@ -32,14 +32,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             return res.status(400).json({ error: 'Missing required fields' });
         }
 
-        // Check if slot is taken
-        const existing = await sql`
-            SELECT id FROM free_sessions 
-            WHERE session_date = ${sessionDate} AND session_time = ${sessionTime} AND status != 'cancelled'
-        `;
+        // Check if slot is taken (only for 1-on-1 free consultation sessions, not course pack enrollments)
+        const isCourseEnrollment = interestReason && typeof interestReason === 'string' && interestReason.startsWith('French:');
+        if (!isCourseEnrollment) {
+            const existing = await sql`
+                SELECT id FROM free_sessions 
+                WHERE session_date = ${sessionDate} AND session_time = ${sessionTime} AND status != 'cancelled'
+            `;
 
-        if (existing.length > 0) {
-            return res.status(400).json({ error: 'This time slot is already booked.' });
+            if (existing.length > 0) {
+                return res.status(400).json({ error: 'This time slot is already booked.' });
+            }
         }
 
         // --- Teacher Assignment Logic (Round-Robin/Load Balancing) ---

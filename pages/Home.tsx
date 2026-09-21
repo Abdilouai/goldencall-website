@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { Check, Plane, Target, Briefcase } from 'lucide-react';
+import { Check, Plane, Target, Briefcase, BookOpen, Sparkles, ArrowRight } from 'lucide-react';
 import { TestimonialCard, StatCounter } from '../components/UIComponents';
 import { SEO } from '../components/SEO';
 
@@ -121,6 +121,60 @@ export const Home: React.FC = () => {
               <p className="font-sans text-text-muted leading-relaxed mb-8">{t('home.programProDesc')}</p>
               <Link to="/formations" state={{ tab: 'interview' }} className="flex items-center gap-2 font-sans font-bold text-sm text-primary hover:text-primary-dark transition-colors mt-auto">
                 {t('home.seeOffers')}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2.5 French Courses Teaser */}
+      <section className="py-20 bg-dark relative overflow-hidden">
+        <div className="absolute top-1/2 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="bg-card border border-primary/30 rounded-3xl p-8 md:p-14 relative overflow-hidden shadow-2xl">
+            <div className="max-w-3xl">
+              <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5 mb-6">
+                <span>🇫🇷</span>
+                <span className="font-sans font-bold text-[10px] tracking-widest text-primary uppercase">
+                  {t('home.frenchBadge', 'NOUVEAU · ENSEIGNEMENT DU FRANÇAIS')}
+                </span>
+              </div>
+
+              <h2 className="font-heading font-bold text-3xl md:text-5xl text-text mb-4 tracking-tight">
+                {t('home.frenchTitle', 'Packs Français en Ligne & Préparation BAC')}
+              </h2>
+
+              <p className="font-sans text-base md:text-lg text-text-muted leading-relaxed mb-8">
+                {t('home.frenchDesc', 'Progression personnalisée du niveau Débutant A1 jusqu’au niveau Avancé B2, ainsi qu’une préparation intensive au Baccalauréat. Cours interactifs en ligne avec supports PDF inclus, dès 140 DT/mois.')}
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                <div className="flex items-center gap-3 bg-dark/50 border border-border p-4 rounded-xl">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    <BookOpen size={20} />
+                  </div>
+                  <div>
+                    <div className="font-heading font-bold text-sm text-text">Niveaux A1 à B2</div>
+                    <div className="font-sans text-xs text-text-muted">4 packs complets · Dès 140 DT/m</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-3 bg-dark/50 border border-border p-4 rounded-xl">
+                  <div className="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                    <Sparkles size={20} />
+                  </div>
+                  <div>
+                    <div className="font-heading font-bold text-sm text-text">Spécial BAC & Intensif</div>
+                    <div className="font-sans text-xs text-text-muted">Examens blancs & sujets · Dès 180 DT/m</div>
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                to="/cours-francais"
+                className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-dark font-sans font-bold text-base px-8 py-4 rounded-xl transition-all shadow-lg shadow-primary/20 hover:-translate-y-0.5"
+              >
+                {t('home.frenchCta', 'Découvrir les 6 packs de français →')}
               </Link>
             </div>
           </div>

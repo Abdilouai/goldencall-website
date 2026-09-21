@@ -31,6 +31,9 @@ export const Footer: React.FC = () => {
             <Link to="/formations" className="text-text-muted hover:text-primary transition-colors font-sans text-sm">
               {t('nav.formations')}
             </Link>
+            <Link to="/cours-francais" className="text-text-muted hover:text-primary transition-colors font-sans text-sm">
+              {t('nav.frenchCourses')}
+            </Link>
             <Link to="/#about" className="text-text-muted hover:text-primary transition-colors font-sans text-sm">
               {t('nav.about')}
             </Link>

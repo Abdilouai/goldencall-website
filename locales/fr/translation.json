@@ -2,6 +2,7 @@
     "nav": {
         "home": "Accueil",
         "formations": "Nos Formations",
+        "frenchCourses": "Cours de Français",
         "about": "À propos",
         "contact": "Contact",
         "articles": "Ressources",
@@ -44,7 +45,11 @@
         "testimonialsTitle": "Ce que disent nos étudiants",
         "teaserTitle": "Prêt(e) à commencer ?",
         "teaserSubtitle": "Investissez dans votre avenir dès aujourd'hui. Nos offres commencent à partir de 99 DT / mois.",
-        "teaserButton": "Voir toutes nos offres →"
+        "teaserButton": "Voir toutes nos offres →",
+        "frenchBadge": "NOUVEAU · ENSEIGNEMENT DU FRANÇAIS",
+        "frenchTitle": "Packs Français en Ligne & Préparation BAC",
+        "frenchDesc": "Progression personnalisée du niveau Débutant A1 jusqu’au niveau Avancé B2, ainsi qu’une préparation intensive au Baccalauréat. Cours interactifs en ligne avec supports PDF inclus, dès 140 DT/mois.",
+        "frenchCta": "Découvrir les 6 packs de français →"
     },
     "formations": {
         "title": "Nos Formations & Tarifs",
@@ -128,5 +133,22 @@
     "footer": {
         "tagline": "Formation professionnelle en ligne · Monde Entier",
         "rights": "© 2025 Golden Call · Tous droits réservés"
+    },
+    "frenchCourses": {
+        "badge": "COURS DE FRANÇAIS EN LIGNE · PAIEMENT EN DT",
+        "title": "Packs Français en Ligne",
+        "subtitle": "Des formations complètes adaptées à chaque niveau et une préparation intensive au Baccalauréat. 100% en ligne, avec enseignants certifiés et suivi personnalisé.",
+        "filterAll": "Tous les packs (6)",
+        "filterGeneral": "Niveaux A1 — B2 (4)",
+        "filterBac": "Spécial BAC (2)",
+        "feature1Title": "Enseignants Spécialisés",
+        "feature1Desc": "Des professeurs expérimentés pour vous guider pas à pas dans votre progression orale et écrite.",
+        "feature2Title": "Supports & Corrections Inclus",
+        "feature2Desc": "Accédez aux résumés de cours en PDF, aux fiches de révision et aux corrections personnalisées.",
+        "feature3Title": "Paiement Local en DT",
+        "feature3Desc": "Réglez facilement par D17 ou virement bancaire tunisien, sans carte internationale.",
+        "helpTitle": "Besoin d’aide pour choisir votre pack ?",
+        "helpSubtitle": "Contactez nos conseillers directement sur WhatsApp pour un test de niveau ou pour toute question sur le programme BAC.",
+        "chatWhatsapp": "Discuter sur WhatsApp"
     }
 }
