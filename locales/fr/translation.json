@@ -49,7 +49,11 @@
         "frenchBadge": "NOUVEAU · ENSEIGNEMENT DU FRANÇAIS",
         "frenchTitle": "Packs Français en Ligne & Préparation BAC",
         "frenchDesc": "Progression personnalisée du niveau Débutant A1 jusqu’au niveau Avancé B2, ainsi qu’une préparation intensive au Baccalauréat. Cours interactifs en ligne avec supports PDF inclus, dès 140 DT/mois.",
-        "frenchCta": "Découvrir les 6 packs de français →"
+        "frenchCta": "Découvrir les 6 packs de français →",
+        "frenchHighlight1Title": "Niveaux A1 à B2",
+        "frenchHighlight1Desc": "4 packs complets · Dès 140 DT/mois",
+        "frenchHighlight2Title": "Spécial BAC & Intensif",
+        "frenchHighlight2Desc": "Examens blancs & sujets · Dès 180 DT/mois"
     },
     "formations": {
         "title": "Nos Formations & Tarifs",
@@ -128,7 +132,11 @@
         "teamNote": "Notre équipe est impatiente de travailler avec vous !",
         "backHome": "Retour à l'accueil",
         "whatsapp": "Nous contacter sur WhatsApp",
-        "unknown": "cher(e) candidat(e)"
+        "unknown": "cher(e) candidat(e)",
+        "selectedPack": "Pack sélectionné",
+        "enrollSubtitle": "Demande d’inscription confirmée",
+        "enrollMsg1": "Nous avons bien reçu votre demande d’inscription.",
+        "enrollMsg2": "Notre équipe vous contactera dans les 24 prochaines heures pour confirmer vos horaires, votre enseignant et les modalités de paiement."
     },
     "footer": {
         "tagline": "Formation professionnelle en ligne · Monde Entier",
@@ -149,6 +157,28 @@
         "feature3Desc": "Réglez facilement par D17 ou virement bancaire tunisien, sans carte internationale.",
         "helpTitle": "Besoin d’aide pour choisir votre pack ?",
         "helpSubtitle": "Contactez nos conseillers directement sur WhatsApp pour un test de niveau ou pour toute question sur le programme BAC.",
-        "chatWhatsapp": "Discuter sur WhatsApp"
+        "chatWhatsapp": "Discuter sur WhatsApp",
+        "enrollBadge": "Inscription en ligne",
+        "enrollPriceLabel": "Tarif :",
+        "enrollClose": "Fermer",
+        "enrollFirstName": "Prénom",
+        "enrollFirstNamePlaceholder": "Ex : Ahmed",
+        "enrollLastName": "Nom",
+        "enrollLastNamePlaceholder": "Ex : Ben Ali",
+        "enrollEmail": "Adresse email",
+        "enrollEmailPlaceholder": "nom@exemple.com",
+        "enrollPhone": "Numéro de téléphone (WhatsApp)",
+        "enrollPhonePlaceholder": "29 373 579",
+        "enrollCity": "Ville / Région",
+        "enrollCityPlaceholder": "Ex : Tunis, Sousse, Sfax...",
+        "enrollContactMethod": "Mode de contact préféré",
+        "enrollContactWhatsapp": "WhatsApp",
+        "enrollContactPhone": "Appel téléphonique",
+        "enrollContactEmail": "Email",
+        "enrollSubmit": "Confirmer mon inscription ({{price}} DT/mois)",
+        "enrollSubmitting": "Envoi en cours...",
+        "enrollPrivacy": "Vos coordonnées restent strictement confidentielles. Nous vous contacterons pour finaliser votre accès et vos horaires de cours.",
+        "enrollErrorGeneric": "Une erreur est survenue lors de votre inscription. Veuillez réessayer.",
+        "enrollErrorNetwork": "Erreur réseau. Veuillez vérifier votre connexion ou nous contacter via WhatsApp."
     }
 }

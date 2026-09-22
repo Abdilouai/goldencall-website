@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { Sparkles, GraduationCap, BookCheck, Shield, CheckCircle2, X, MessageSquare, ArrowRight, Loader2 } from 'lucide-react';
+import { GraduationCap, BookCheck, Shield, CheckCircle2, X, MessageSquare, ArrowRight, Loader2 } from 'lucide-react';
 import { FRENCH_PACKS, FrenchPack } from '../config/frenchCourses';
 import { FrenchPackCard } from '../components/FrenchPackCard';
 import { SEO } from '../components/SEO';
 
 export const FrenchCourses: React.FC = () => {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const [activeFilter, setActiveFilter] = useState<'all' | 'general' | 'bac'>('all');
@@ -69,9 +69,9 @@ export const FrenchCourses: React.FC = () => {
                 body: JSON.stringify(payload)
             });
 
-            const data = await res.json();
+            const data = await res.json().catch(() => null);
 
-            if (res.ok && data.success) {
+            if (res.ok && data?.success) {
                 // Fire Meta Pixel Lead Event
                 if (typeof window !== 'undefined' && (window as any).fbq) {
                     (window as any).fbq('track', 'Lead', {
@@ -92,18 +92,18 @@ export const FrenchCourses: React.FC = () => {
                     }
                 });
             } else {
-                setErrorMessage(data.error || 'Une erreur est survenue lors de votre inscription. Veuillez réessayer.');
+                setErrorMessage(data?.error || t('frenchCourses.enrollErrorGeneric'));
             }
         } catch (err) {
             console.error('Enrollment error:', err);
-            setErrorMessage('Erreur réseau. Veuillez vérifier votre connexion ou nous contacter via WhatsApp.');
+            setErrorMessage(t('frenchCourses.enrollErrorNetwork'));
         } finally {
             setIsSubmitting(false);
         }
     };
 
     // Schema.org Structured Data for French Courses
-    const courseSchema = {
+    const courseSchema = useMemo(() => ({
         "@context": "https://schema.org",
         "@type": "ItemList",
         "name": "Cours de Français en Ligne - Golden Call",
@@ -126,7 +126,7 @@ export const FrenchCourses: React.FC = () => {
             },
             "inLanguage": "fr"
         }))
-    };
+    }), []);
 
     return (
         <div className="min-h-screen py-24 bg-dark">
@@ -271,7 +271,7 @@ export const FrenchCourses: React.FC = () => {
                             type="button"
                             onClick={handleCloseEnroll}
                             className="absolute top-4 right-4 p-2 text-text-muted hover:text-text rounded-full hover:bg-dark transition-colors"
-                            aria-label="Fermer"
+                            aria-label={t('frenchCourses.enrollClose')}
                         >
                             <X size={20} />
                         </button>
@@ -279,7 +279,7 @@ export const FrenchCourses: React.FC = () => {
                         <div className="mb-6">
                             <div className="inline-block bg-primary/10 border border-primary/20 rounded-full px-3 py-1 mb-2">
                                 <span className="font-sans font-bold text-[10px] tracking-wider text-primary uppercase">
-                                    Inscription en ligne
+                                    {t('frenchCourses.enrollBadge')}
                                 </span>
                             </div>
                             <h3 className="font-heading font-bold text-2xl text-text">
@@ -287,7 +287,7 @@ export const FrenchCourses: React.FC = () => {
                                 {selectedPack.subtitle && <span className="text-primary ml-2 font-sans text-base font-semibold">— {selectedPack.subtitle}</span>}
                             </h3>
                             <p className="font-sans text-sm text-text-muted mt-1">
-                                Tarif : <strong className="text-primary font-bold">{selectedPack.price} DT</strong> {t('formations.perMonth', '/ mois')}
+                                {t('frenchCourses.enrollPriceLabel')} <strong className="text-primary font-bold">{selectedPack.price} DT</strong> {t('formations.perMonth')}
                             </p>
                         </div>
 
@@ -301,27 +301,27 @@ export const FrenchCourses: React.FC = () => {
                             <div className="grid grid-cols-2 gap-3">
                                 <div>
                                     <label className="block text-xs font-sans font-semibold text-text mb-1">
-                                        Prénom <span className="text-red-500">*</span>
+                                        {t('frenchCourses.enrollFirstName')} <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         required
                                         value={enrollForm.firstName}
                                         onChange={e => setEnrollForm({ ...enrollForm, firstName: e.target.value })}
-                                        placeholder="Ex: Ahmed"
+                                        placeholder={t('frenchCourses.enrollFirstNamePlaceholder')}
                                         className="w-full bg-dark border border-border rounded-xl px-3.5 py-2.5 text-sm text-text focus:outline-none focus:border-primary transition-colors"
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-xs font-sans font-semibold text-text mb-1">
-                                        Nom <span className="text-red-500">*</span>
+                                        {t('frenchCourses.enrollLastName')} <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         required
                                         value={enrollForm.lastName}
                                         onChange={e => setEnrollForm({ ...enrollForm, lastName: e.target.value })}
-                                        placeholder="Ex: Ben Ali"
+                                        placeholder={t('frenchCourses.enrollLastNamePlaceholder')}
                                         className="w-full bg-dark border border-border rounded-xl px-3.5 py-2.5 text-sm text-text focus:outline-none focus:border-primary transition-colors"
                                     />
                                 </div>
@@ -329,21 +329,21 @@ export const FrenchCourses: React.FC = () => {
 
                             <div>
                                 <label className="block text-xs font-sans font-semibold text-text mb-1">
-                                    Adresse Email <span className="text-red-500">*</span>
+                                    {t('frenchCourses.enrollEmail')} <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="email"
                                     required
                                     value={enrollForm.email}
                                     onChange={e => setEnrollForm({ ...enrollForm, email: e.target.value })}
-                                    placeholder="nom@exemple.com"
+                                    placeholder={t('frenchCourses.enrollEmailPlaceholder')}
                                     className="w-full bg-dark border border-border rounded-xl px-3.5 py-2.5 text-sm text-text focus:outline-none focus:border-primary transition-colors"
                                 />
                             </div>
 
                             <div>
                                 <label className="block text-xs font-sans font-semibold text-text mb-1">
-                                    Numéro de Téléphone (WhatsApp) <span className="text-red-500">*</span>
+                                    {t('frenchCourses.enrollPhone')} <span className="text-red-500">*</span>
                                 </label>
                                 <div className="flex gap-2">
                                     <span className="bg-dark border border-border rounded-xl px-3 py-2.5 text-xs text-text-muted flex items-center font-bold">
@@ -354,7 +354,7 @@ export const FrenchCourses: React.FC = () => {
                                         required
                                         value={enrollForm.phone}
                                         onChange={e => setEnrollForm({ ...enrollForm, phone: e.target.value })}
-                                        placeholder="29 373 579"
+                                        placeholder={t('frenchCourses.enrollPhonePlaceholder')}
                                         className="flex-1 bg-dark border border-border rounded-xl px-3.5 py-2.5 text-sm text-text focus:outline-none focus:border-primary transition-colors"
                                     />
                                 </div>
@@ -362,29 +362,29 @@ export const FrenchCourses: React.FC = () => {
 
                             <div>
                                 <label className="block text-xs font-sans font-semibold text-text mb-1">
-                                    Ville / Région
+                                    {t('frenchCourses.enrollCity')}
                                 </label>
                                 <input
                                     type="text"
                                     value={enrollForm.city}
                                     onChange={e => setEnrollForm({ ...enrollForm, city: e.target.value })}
-                                    placeholder="Ex: Tunis, Sousse, Sfax..."
+                                    placeholder={t('frenchCourses.enrollCityPlaceholder')}
                                     className="w-full bg-dark border border-border rounded-xl px-3.5 py-2.5 text-sm text-text focus:outline-none focus:border-primary transition-colors"
                                 />
                             </div>
 
                             <div>
                                 <label className="block text-xs font-sans font-semibold text-text mb-1">
-                                    Mode de contact préféré
+                                    {t('frenchCourses.enrollContactMethod')}
                                 </label>
                                 <select
                                     value={enrollForm.contactMethod}
                                     onChange={e => setEnrollForm({ ...enrollForm, contactMethod: e.target.value })}
                                     className="w-full bg-dark border border-border rounded-xl px-3.5 py-2.5 text-sm text-text focus:outline-none focus:border-primary transition-colors"
                                 >
-                                    <option value="WhatsApp">WhatsApp</option>
-                                    <option value="Phone Call">Appel téléphonique</option>
-                                    <option value="Email">Email</option>
+                                    <option value="WhatsApp">{t('frenchCourses.enrollContactWhatsapp')}</option>
+                                    <option value="Phone Call">{t('frenchCourses.enrollContactPhone')}</option>
+                                    <option value="Email">{t('frenchCourses.enrollContactEmail')}</option>
                                 </select>
                             </div>
 
@@ -397,19 +397,19 @@ export const FrenchCourses: React.FC = () => {
                                     {isSubmitting ? (
                                         <>
                                             <Loader2 size={18} className="animate-spin" />
-                                            Envoi en cours...
+                                            {t('frenchCourses.enrollSubmitting')}
                                         </>
                                     ) : (
                                         <>
                                             <CheckCircle2 size={18} />
-                                            Confirmer mon inscription ({selectedPack.price} DT/mois)
+                                            {t('frenchCourses.enrollSubmit', { price: selectedPack.price })}
                                         </>
                                     )}
                                 </button>
                             </div>
 
                             <p className="text-[11px] text-text-muted text-center leading-normal">
-                                🔒 Vos coordonnées restent strictement confidentielles. Nous vous contacterons pour finaliser votre accès et vos horaires de cours.
+                                🔒 {t('frenchCourses.enrollPrivacy')}
                             </p>
                         </form>
                     </div>

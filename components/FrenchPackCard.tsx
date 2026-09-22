@@ -8,10 +8,16 @@ interface FrenchPackCardProps {
     onSelect: (pack: FrenchPack) => void;
 }
 
+// Packs already reported to the Pixel during this page view, so a repeated
+// hover on the same card does not send a duplicate ViewContent event.
+const viewedPacks = new Set<string>();
+
 export const FrenchPackCard: React.FC<FrenchPackCardProps> = ({ pack, onSelect }) => {
     const { t } = useTranslation();
 
     const handleMouseEnter = () => {
+        if (viewedPacks.has(pack.id)) return;
+        viewedPacks.add(pack.id);
         if (typeof window !== 'undefined' && (window as any).fbq) {
             (window as any).fbq('track', 'ViewContent', {
                 content_name: `${pack.name}${pack.subtitle ? ` — ${pack.subtitle}` : ''}`,
@@ -52,11 +58,9 @@ export const FrenchPackCard: React.FC<FrenchPackCardProps> = ({ pack, onSelect }
 
             {/* Header: Title & Subtitle */}
             <div className="mb-6">
-                {pack.subtitle && (
-                    <div className="text-[11px] font-sans font-bold uppercase tracking-widest text-primary mb-1">
-                        {pack.subtitle}
-                    </div>
-                )}
+                <div className="text-[11px] font-sans font-bold uppercase tracking-widest text-primary mb-1 min-h-[1rem]">
+                    {pack.subtitle || '\u00A0'}
+                </div>
                 <h3 className="font-heading text-2xl text-text font-bold mb-3 tracking-tight">
                     {pack.name}
                 </h3>

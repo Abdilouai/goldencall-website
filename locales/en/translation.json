@@ -49,7 +49,11 @@
         "frenchBadge": "NEW · ONLINE FRENCH COURSES",
         "frenchTitle": "Online French Packs & BAC Preparation",
         "frenchDesc": "Personalized progression from Beginner A1 to Advanced B2, plus intensive Baccalauréat preparation. Live online classes with PDF materials included, starting from 140 DT/month.",
-        "frenchCta": "Explore the 6 French packs →"
+        "frenchCta": "Explore the 6 French packs →",
+        "frenchHighlight1Title": "Levels A1 to B2",
+        "frenchHighlight1Desc": "4 complete packs · From 140 DT/month",
+        "frenchHighlight2Title": "Special BAC & Intensive",
+        "frenchHighlight2Desc": "Mock exams & past papers · From 180 DT/month"
     },
     "formations": {
         "title": "Programs & Pricing",
@@ -128,7 +132,11 @@
         "teamNote": "Our team is excited to work with you!",
         "backHome": "Back to Home",
         "whatsapp": "Contact us on WhatsApp",
-        "unknown": "candidate"
+        "unknown": "candidate",
+        "selectedPack": "Selected pack",
+        "enrollSubtitle": "Enrollment request confirmed",
+        "enrollMsg1": "We have successfully received your enrollment request.",
+        "enrollMsg2": "Our team will contact you within the next 24 hours to confirm your schedule, your teacher and the payment details."
     },
     "footer": {
         "tagline": "Online professional training · Worldwide",
@@ -149,6 +157,28 @@
         "feature3Desc": "Pay easily via D17 or Tunisian bank transfer, without needing an international card.",
         "helpTitle": "Need help choosing your pack?",
         "helpSubtitle": "Contact our advisors directly on WhatsApp for a level assessment or any question regarding the BAC curriculum.",
-        "chatWhatsapp": "Chat on WhatsApp"
+        "chatWhatsapp": "Chat on WhatsApp",
+        "enrollBadge": "Online enrollment",
+        "enrollPriceLabel": "Price:",
+        "enrollClose": "Close",
+        "enrollFirstName": "First name",
+        "enrollFirstNamePlaceholder": "e.g. Ahmed",
+        "enrollLastName": "Last name",
+        "enrollLastNamePlaceholder": "e.g. Ben Ali",
+        "enrollEmail": "Email address",
+        "enrollEmailPlaceholder": "name@example.com",
+        "enrollPhone": "Phone number (WhatsApp)",
+        "enrollPhonePlaceholder": "29 373 579",
+        "enrollCity": "City / Region",
+        "enrollCityPlaceholder": "e.g. Tunis, Sousse, Sfax...",
+        "enrollContactMethod": "Preferred contact method",
+        "enrollContactWhatsapp": "WhatsApp",
+        "enrollContactPhone": "Phone call",
+        "enrollContactEmail": "Email",
+        "enrollSubmit": "Confirm my enrollment ({{price}} DT/month)",
+        "enrollSubmitting": "Sending...",
+        "enrollPrivacy": "Your details stay strictly confidential. We will contact you to finalize your access and your class schedule.",
+        "enrollErrorGeneric": "Something went wrong while registering you. Please try again.",
+        "enrollErrorNetwork": "Network error. Please check your connection or contact us on WhatsApp."
     }
 }

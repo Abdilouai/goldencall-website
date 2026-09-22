@@ -49,7 +49,11 @@
         "frenchBadge": "جديد · دروس اللغة الفرنسية عبر الإنترنت",
         "frenchTitle": "باقات الفرنسية عبر الإنترنت والتحضير للباكالوريا",
         "frenchDesc": "تطور مخصص من المستوى المبتدئ A1 إلى المتقدم B2، بالإضافة إلى إعداد مكثف للباكالوريا. دروس تفاعلية عبر الإنترنت مع ملفات PDF، ابتداءً من 140 دينار/شهر.",
-        "frenchCta": "اكتشف باقات الفرنسية الـ 6 ←"
+        "frenchCta": "اكتشف باقات الفرنسية الـ 6 ←",
+        "frenchHighlight1Title": "المستويات من A1 إلى B2",
+        "frenchHighlight1Desc": "4 باقات كاملة · ابتداءً من 140 دينار/شهر",
+        "frenchHighlight2Title": "خاص بالباكالوريا والمكثّف",
+        "frenchHighlight2Desc": "امتحانات تجريبية ومواضيع · ابتداءً من 180 دينار/شهر"
     },
     "formations": {
         "title": "البرامج والأسعار",
@@ -128,7 +132,11 @@
         "teamNote": "فريقنا متحمس للعمل معك!",
         "backHome": "العودة للرئيسية",
         "whatsapp": "تواصل معنا عبر واتساب",
-        "unknown": "مرشح"
+        "unknown": "مرشح",
+        "selectedPack": "الباقة المختارة",
+        "enrollSubtitle": "تم تأكيد طلب التسجيل",
+        "enrollMsg1": "لقد استلمنا طلب تسجيلك بنجاح.",
+        "enrollMsg2": "سيتواصل معك فريقنا خلال الـ 24 ساعة القادمة لتأكيد مواعيدك وأستاذك وطريقة الدفع."
     },
     "footer": {
         "tagline": "تدريب مهني عبر الإنترنت · في جميع أنحاء العالم",
@@ -149,6 +157,28 @@
         "feature3Desc": "ادفع بسهولة عبر تطبيق D17 أو التحويل البنكي التونسي بدون بطاقة دولية.",
         "helpTitle": "هل تحتاج إلى مساعدة في اختيار باقتك؟",
         "helpSubtitle": "تواصل مع مستشارينا مباشرة عبر واتساب لتحديد مستواك أو لأي استفسار حول برنامج الباكالوريا.",
-        "chatWhatsapp": "تحدث عبر واتساب"
+        "chatWhatsapp": "تحدث عبر واتساب",
+        "enrollBadge": "التسجيل عبر الإنترنت",
+        "enrollPriceLabel": "السعر:",
+        "enrollClose": "إغلاق",
+        "enrollFirstName": "الاسم",
+        "enrollFirstNamePlaceholder": "مثال: أحمد",
+        "enrollLastName": "اللقب",
+        "enrollLastNamePlaceholder": "مثال: بن علي",
+        "enrollEmail": "البريد الإلكتروني",
+        "enrollEmailPlaceholder": "name@example.com",
+        "enrollPhone": "رقم الهاتف (واتساب)",
+        "enrollPhonePlaceholder": "29 373 579",
+        "enrollCity": "المدينة / الجهة",
+        "enrollCityPlaceholder": "مثال: تونس، سوسة، صفاقس...",
+        "enrollContactMethod": "وسيلة التواصل المفضّلة",
+        "enrollContactWhatsapp": "واتساب",
+        "enrollContactPhone": "مكالمة هاتفية",
+        "enrollContactEmail": "البريد الإلكتروني",
+        "enrollSubmit": "تأكيد تسجيلي ({{price}} دينار/شهر)",
+        "enrollSubmitting": "جارٍ الإرسال...",
+        "enrollPrivacy": "تبقى بياناتك سرية تماماً. سنتواصل معك لإتمام تفعيل حسابك ومواعيد دروسك.",
+        "enrollErrorGeneric": "حدث خطأ أثناء التسجيل. يرجى المحاولة مرة أخرى.",
+        "enrollErrorNetwork": "خطأ في الشبكة. يرجى التحقق من اتصالك أو التواصل معنا عبر واتساب."
     }
 }

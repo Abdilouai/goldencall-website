@@ -14,9 +14,12 @@ export const ThankYou: React.FC = () => {
     const subject = location.state?.subject;
     const displayName = stateName || t('thankYou.unknown');
 
-    const whatsappNumber = "+21629373579";
+    // Course-pack enrollments collect no payment, so they get their own wording.
+    const isEnrollment = subject === 'French' || Boolean(packName);
+
+    const whatsappNumber = "21629373579";
     const customMessage = encodeURIComponent(
-        subject === 'French' || packName
+        isEnrollment
             ? `Bonjour Golden Call ! Je viens de m'inscrire au cours de Français : ${packName || 'Pack Français'}. Mon nom est ${displayName}.`
             : `Hello Golden Call! I've just submitted my personalized coaching program request and would love to speed up the confirmation. My name is ${displayName}.`
     );
@@ -55,20 +58,20 @@ export const ThankYou: React.FC = () => {
                     
                     <p className="font-sans font-semibold text-primary tracking-wide text-xs uppercase mb-6 flex items-center justify-center gap-1.5">
                         <ShieldCheck size={14} />
-                        {t('thankYou.subtitle')}
+                        {t(isEnrollment ? 'thankYou.enrollSubtitle' : 'thankYou.subtitle')}
                     </p>
 
                     {packName && (
                         <div className="mb-6 p-3 bg-dark/60 border border-primary/30 rounded-2xl">
-                            <span className="text-xs text-text-muted font-sans uppercase tracking-wider block mb-1">Pack sélectionné</span>
+                            <span className="text-xs text-text-muted font-sans uppercase tracking-wider block mb-1">{t('thankYou.selectedPack')}</span>
                             <span className="font-heading font-bold text-lg text-primary">{packName}</span>
                         </div>
                     )}
 
                     {/* Message Details */}
                     <div className="space-y-4 mb-10 text-text-muted font-sans text-sm md:text-base leading-relaxed">
-                        <p>{t('thankYou.msg1')}</p>
-                        <p>{t('thankYou.msg2')}</p>
+                        <p>{t(isEnrollment ? 'thankYou.enrollMsg1' : 'thankYou.msg1')}</p>
+                        <p>{t(isEnrollment ? 'thankYou.enrollMsg2' : 'thankYou.msg2')}</p>
                         <div className="inline-block px-4 py-1.5 bg-dark border border-border rounded-full font-heading font-medium text-xs italic text-primary/80 mt-2">
                             ✨ {t('thankYou.teamNote')}
                         </div>

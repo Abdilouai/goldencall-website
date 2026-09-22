@@ -154,8 +154,8 @@ export const Home: React.FC = () => {
                     <BookOpen size={20} />
                   </div>
                   <div>
-                    <div className="font-heading font-bold text-sm text-text">Niveaux A1 à B2</div>
-                    <div className="font-sans text-xs text-text-muted">4 packs complets · Dès 140 DT/m</div>
+                    <div className="font-heading font-bold text-sm text-text">{t('home.frenchHighlight1Title')}</div>
+                    <div className="font-sans text-xs text-text-muted">{t('home.frenchHighlight1Desc')}</div>
                   </div>
                 </div>
 
@@ -164,8 +164,8 @@ export const Home: React.FC = () => {
                     <Sparkles size={20} />
                   </div>
                   <div>
-                    <div className="font-heading font-bold text-sm text-text">Spécial BAC & Intensif</div>
-                    <div className="font-sans text-xs text-text-muted">Examens blancs & sujets · Dès 180 DT/m</div>
+                    <div className="font-heading font-bold text-sm text-text">{t('home.frenchHighlight2Title')}</div>
+                    <div className="font-sans text-xs text-text-muted">{t('home.frenchHighlight2Desc')}</div>
                   </div>
                 </div>
               </div>
