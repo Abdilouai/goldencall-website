@@ -11,6 +11,14 @@ export default defineConfig({
       },
       // Exclude API files from client bundle so Rollup doesn't try to compile backend code
       external: [/\/api\/.*/],
+      output: {
+        // Keep the framework in its own chunk: it barely changes between
+        // deploys, so returning visitors keep it cached instead of
+        // re-downloading it with every content update.
+        manualChunks(id) {
+          if (id.includes('node_modules')) return 'vendor';
+        },
+      },
     },
   },
   server: {

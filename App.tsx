@@ -1,28 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { Home } from './pages/Home';
-import { Offers } from './pages/Offers';
-import { Articles } from './pages/Articles';
-import { CabinCrewMistakes } from './pages/articles/CabinCrewMistakes';
-import { StarMethod } from './pages/articles/StarMethod';
-import { EnglishPhrases } from './pages/articles/EnglishPhrases';
-import { BusinessEnglish } from './pages/articles/BusinessEnglish';
-import { Hospitality } from './pages/articles/Hospitality';
-import { TechEnglish } from './pages/articles/TechEnglish';
 import { WhatsAppButton } from './components/WhatsAppButton';
-import { TeacherLogin } from './pages/TeacherLogin';
-import { TeacherLayout } from './components/teacher/TeacherLayout';
-import { Dashboard as TeacherDashboard } from './pages/teacher/Dashboard';
-import { MyStudents } from './pages/teacher/MyStudents';
-import { Meetings } from './pages/teacher/Meetings';
-import { Materials } from './pages/teacher/Materials';
-import { Lessons as TeacherLessons } from './pages/teacher/Lessons';
-import { AdminReassign } from './pages/admin/AdminReassign';
-import { AdminLessons } from './pages/admin/AdminLessons';
-import { ThankYou } from './pages/ThankYou';
-import { FrenchCourses } from './pages/FrenchCourses';
+
+// Only the landing page ships in the initial bundle. Every other route is
+// fetched on demand, so a first-time visitor no longer downloads the articles,
+// the teacher portal and the admin screens before seeing the home page.
+const namedLazy = <T extends string>(loader: () => Promise<any>, name: T) =>
+    lazy(() => loader().then(m => ({ default: m[name] })));
+
+const Offers = namedLazy(() => import('./pages/Offers'), 'Offers');
+const FrenchCourses = namedLazy(() => import('./pages/FrenchCourses'), 'FrenchCourses');
+const ThankYou = namedLazy(() => import('./pages/ThankYou'), 'ThankYou');
+const Articles = namedLazy(() => import('./pages/Articles'), 'Articles');
+const CabinCrewMistakes = namedLazy(() => import('./pages/articles/CabinCrewMistakes'), 'CabinCrewMistakes');
+const StarMethod = namedLazy(() => import('./pages/articles/StarMethod'), 'StarMethod');
+const EnglishPhrases = namedLazy(() => import('./pages/articles/EnglishPhrases'), 'EnglishPhrases');
+const BusinessEnglish = namedLazy(() => import('./pages/articles/BusinessEnglish'), 'BusinessEnglish');
+const Hospitality = namedLazy(() => import('./pages/articles/Hospitality'), 'Hospitality');
+const TechEnglish = namedLazy(() => import('./pages/articles/TechEnglish'), 'TechEnglish');
+const TeacherLogin = namedLazy(() => import('./pages/TeacherLogin'), 'TeacherLogin');
+const TeacherLayout = namedLazy(() => import('./components/teacher/TeacherLayout'), 'TeacherLayout');
+const TeacherDashboard = namedLazy(() => import('./pages/teacher/Dashboard'), 'Dashboard');
+const MyStudents = namedLazy(() => import('./pages/teacher/MyStudents'), 'MyStudents');
+const Meetings = namedLazy(() => import('./pages/teacher/Meetings'), 'Meetings');
+const Materials = namedLazy(() => import('./pages/teacher/Materials'), 'Materials');
+const TeacherLessons = namedLazy(() => import('./pages/teacher/Lessons'), 'Lessons');
+const AdminReassign = namedLazy(() => import('./pages/admin/AdminReassign'), 'AdminReassign');
+const AdminLessons = namedLazy(() => import('./pages/admin/AdminLessons'), 'AdminLessons');
+
+// Keeps the viewport height while a route chunk loads, so the footer does not
+// jump up and back down.
+const RouteFallback = () => <div className="min-h-[60vh]" aria-hidden="true" />;
 
 // Scroll to top helper
 const ScrollToTop = () => {
@@ -51,6 +62,7 @@ const MainLayout = () => {
 
   if (isCustomLayout) {
       return (
+        <Suspense fallback={<RouteFallback />}>
         <Routes>
             <Route path="/teacher" element={<TeacherLayout />}>
                 <Route path="dashboard" element={<TeacherDashboard />} />
@@ -66,6 +78,7 @@ const MainLayout = () => {
                 <div className="min-h-screen bg-dark text-text"><AdminLessons /></div>
             } />
         </Routes>
+        </Suspense>
       );
   }
 
@@ -73,6 +86,7 @@ const MainLayout = () => {
       <div className="min-h-screen bg-dark font-sans text-text flex flex-col">
         <Navbar />
         <main className="flex-grow pt-20">
+          <Suspense fallback={<RouteFallback />}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/formations" element={<Offers />} />
@@ -87,6 +101,7 @@ const MainLayout = () => {
             <Route path="/teacher/login" element={<TeacherLogin />} />
             <Route path="/thank-you" element={<ThankYou />} />
           </Routes>
+          </Suspense>
         </main>
         <Footer />
         <WhatsAppButton />
