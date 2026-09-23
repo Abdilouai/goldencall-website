@@ -48,12 +48,12 @@
         "teaserButton": "View all our offers →",
         "frenchBadge": "NEW · ONLINE FRENCH COURSES",
         "frenchTitle": "Online French Packs & BAC Preparation",
-        "frenchDesc": "Personalized progression from Beginner A1 to Advanced B2, plus intensive Baccalauréat preparation. Live online classes with PDF materials included, starting from 140 DT/month.",
+        "frenchDesc": "Personalized progression from Beginner A1 to Advanced B2, plus intensive Baccalauréat preparation. Live online classes with certified teachers and PDF materials included.",
         "frenchCta": "Explore the 6 French packs →",
         "frenchHighlight1Title": "Levels A1 to B2",
-        "frenchHighlight1Desc": "4 complete packs · From 140 DT/month",
+        "frenchHighlight1Desc": "4 complete packs · From beginner to advanced",
         "frenchHighlight2Title": "Special BAC & Intensive",
-        "frenchHighlight2Desc": "Mock exams & past papers · From 180 DT/month"
+        "frenchHighlight2Desc": "Mock exams, past papers & individual follow-up"
     },
     "formations": {
         "title": "Programs & Pricing",
@@ -143,7 +143,7 @@
         "rights": "© 2025 Golden Call · All rights reserved"
     },
     "frenchCourses": {
-        "badge": "ONLINE FRENCH COURSES · PAYMENT IN DT",
+        "badge": "ONLINE FRENCH COURSES · LEVELS A1 TO BAC",
         "title": "Online French Packs",
         "subtitle": "Comprehensive programs tailored to every level and intensive preparation for the Baccalauréat. 100% online, with certified teachers and individual follow-up.",
         "filterAll": "All Packs (6)",
@@ -159,7 +159,6 @@
         "helpSubtitle": "Contact our advisors directly on WhatsApp for a level assessment or any question regarding the BAC curriculum.",
         "chatWhatsapp": "Chat on WhatsApp",
         "enrollBadge": "Online enrollment",
-        "enrollPriceLabel": "Price:",
         "enrollClose": "Close",
         "enrollFirstName": "First name",
         "enrollFirstNamePlaceholder": "e.g. Ahmed",
@@ -175,10 +174,21 @@
         "enrollContactWhatsapp": "WhatsApp",
         "enrollContactPhone": "Phone call",
         "enrollContactEmail": "Email",
-        "enrollSubmit": "Confirm my enrollment ({{price}} DT/month)",
+        "enrollSubmit": "Confirm my enrollment request",
         "enrollSubmitting": "Sending...",
         "enrollPrivacy": "Your details stay strictly confidential. We will contact you to finalize your access and your class schedule.",
         "enrollErrorGeneric": "Something went wrong while registering you. Please try again.",
-        "enrollErrorNetwork": "Network error. Please check your connection or contact us on WhatsApp."
+        "enrollErrorNetwork": "Network error. Please check your connection or contact us on WhatsApp.",
+        "priceOnRequest": "Pricing shared when we call you",
+        "choosePack": "Choose this pack",
+        "enrollIntro": "Leave us your details and we will call you back to confirm your level, your schedule and the rate.",
+        "howTitle": "How it works",
+        "howSubtitle": "Three steps, no payment online. We talk to you first.",
+        "step1Title": "Choose your pack",
+        "step1Desc": "Pick the level that matches your goals, or the BAC programme.",
+        "step2Title": "We call you back",
+        "step2Desc": "Within 24 hours we confirm your level, your schedule and the rate.",
+        "step3Title": "You start your classes",
+        "step3Desc": "You get your timetable and your teacher, and your sessions begin online."
     }
 }

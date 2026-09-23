@@ -48,12 +48,12 @@
         "teaserButton": "Voir toutes nos offres →",
         "frenchBadge": "NOUVEAU · ENSEIGNEMENT DU FRANÇAIS",
         "frenchTitle": "Packs Français en Ligne & Préparation BAC",
-        "frenchDesc": "Progression personnalisée du niveau Débutant A1 jusqu’au niveau Avancé B2, ainsi qu’une préparation intensive au Baccalauréat. Cours interactifs en ligne avec supports PDF inclus, dès 140 DT/mois.",
+        "frenchDesc": "Progression personnalisée du niveau Débutant A1 jusqu’au niveau Avancé B2, ainsi qu’une préparation intensive au Baccalauréat. Cours interactifs en ligne avec enseignants certifiés et supports PDF inclus.",
         "frenchCta": "Découvrir les 6 packs de français →",
         "frenchHighlight1Title": "Niveaux A1 à B2",
-        "frenchHighlight1Desc": "4 packs complets · Dès 140 DT/mois",
+        "frenchHighlight1Desc": "4 packs complets · Du débutant à l’avancé",
         "frenchHighlight2Title": "Spécial BAC & Intensif",
-        "frenchHighlight2Desc": "Examens blancs & sujets · Dès 180 DT/mois"
+        "frenchHighlight2Desc": "Examens blancs, sujets de bac & suivi individuel"
     },
     "formations": {
         "title": "Nos Formations & Tarifs",
@@ -143,7 +143,7 @@
         "rights": "© 2025 Golden Call · Tous droits réservés"
     },
     "frenchCourses": {
-        "badge": "COURS DE FRANÇAIS EN LIGNE · PAIEMENT EN DT",
+        "badge": "COURS DE FRANÇAIS EN LIGNE · NIVEAUX A1 À BAC",
         "title": "Packs Français en Ligne",
         "subtitle": "Des formations complètes adaptées à chaque niveau et une préparation intensive au Baccalauréat. 100% en ligne, avec enseignants certifiés et suivi personnalisé.",
         "filterAll": "Tous les packs (6)",
@@ -159,7 +159,6 @@
         "helpSubtitle": "Contactez nos conseillers directement sur WhatsApp pour un test de niveau ou pour toute question sur le programme BAC.",
         "chatWhatsapp": "Discuter sur WhatsApp",
         "enrollBadge": "Inscription en ligne",
-        "enrollPriceLabel": "Tarif :",
         "enrollClose": "Fermer",
         "enrollFirstName": "Prénom",
         "enrollFirstNamePlaceholder": "Ex : Ahmed",
@@ -175,10 +174,21 @@
         "enrollContactWhatsapp": "WhatsApp",
         "enrollContactPhone": "Appel téléphonique",
         "enrollContactEmail": "Email",
-        "enrollSubmit": "Confirmer mon inscription ({{price}} DT/mois)",
+        "enrollSubmit": "Confirmer ma demande d’inscription",
         "enrollSubmitting": "Envoi en cours...",
         "enrollPrivacy": "Vos coordonnées restent strictement confidentielles. Nous vous contacterons pour finaliser votre accès et vos horaires de cours.",
         "enrollErrorGeneric": "Une erreur est survenue lors de votre inscription. Veuillez réessayer.",
-        "enrollErrorNetwork": "Erreur réseau. Veuillez vérifier votre connexion ou nous contacter via WhatsApp."
+        "enrollErrorNetwork": "Erreur réseau. Veuillez vérifier votre connexion ou nous contacter via WhatsApp.",
+        "priceOnRequest": "Tarif communiqué lors de notre appel",
+        "choosePack": "Choisir ce pack",
+        "enrollIntro": "Laissez-nous vos coordonnées, nous vous rappelons pour confirmer votre niveau, vos horaires et le tarif.",
+        "howTitle": "Comment ça marche",
+        "howSubtitle": "Trois étapes, sans paiement en ligne. Nous échangeons d’abord avec vous.",
+        "step1Title": "Choisissez votre pack",
+        "step1Desc": "Sélectionnez le niveau qui correspond à vos objectifs, ou le programme BAC.",
+        "step2Title": "Nous vous rappelons",
+        "step2Desc": "Sous 24 heures, nous confirmons votre niveau, vos horaires et le tarif.",
+        "step3Title": "Vous commencez vos cours",
+        "step3Desc": "Vous recevez votre planning et votre enseignant, et vos séances démarrent en ligne."
     }
 }

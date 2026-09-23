@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Check, Sparkles, FileText } from 'lucide-react';
+import { Check, Sparkles, FileText, CalendarDays, ArrowRight } from 'lucide-react';
 import { FrenchPack } from '../config/frenchCourses';
 
 interface FrenchPackCardProps {
@@ -40,15 +40,24 @@ export const FrenchPackCard: React.FC<FrenchPackCardProps> = ({ pack, onSelect }
         onSelect(pack);
     };
 
+    // The session count gets its own chip, so it is dropped from the bullet
+    // list rather than printed twice.
+    const features = pack.sessionsCount
+        ? pack.features.filter(f => f !== pack.sessionsCount)
+        : pack.features;
+
     return (
         <div
             onMouseEnter={handleMouseEnter}
-            className={`relative flex flex-col bg-card rounded-3xl border transition-all duration-300 p-8 hover:-translate-y-1 hover:shadow-2xl ${
+            className={`group relative flex flex-col bg-card rounded-3xl border transition-all duration-300 p-7 md:p-8 hover:-translate-y-1.5 ${
                 pack.recommended
-                    ? 'border-primary/80 shadow-xl shadow-primary/10 ring-1 ring-primary/40'
-                    : 'border-border hover:border-primary/30 hover:shadow-primary/5'
+                    ? 'border-primary/70 shadow-xl shadow-primary/10 ring-1 ring-primary/30'
+                    : 'border-border hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/5'
             }`}
         >
+            {/* Soft gold wash that fades in on hover */}
+            <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-b from-primary/[0.07] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
             {pack.recommended && (
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-primary text-dark font-sans font-bold text-[10px] tracking-wider uppercase px-4 py-1.5 rounded-full shadow-md shadow-primary/20 flex items-center gap-1.5 z-10">
                     <Sparkles size={12} className="fill-current" />
@@ -56,62 +65,78 @@ export const FrenchPackCard: React.FC<FrenchPackCardProps> = ({ pack, onSelect }
                 </div>
             )}
 
-            {/* Header: Title & Subtitle */}
-            <div className="mb-6">
-                <div className="text-[11px] font-sans font-bold uppercase tracking-widest text-primary mb-1 min-h-[1rem]">
-                    {pack.subtitle || '\u00A0'}
+            <div className="relative z-10 flex flex-col flex-grow">
+                {/* Level chip on the left, level name on the right */}
+                <div className="flex items-center justify-between gap-3 mb-4 min-h-[1.75rem]">
+                    {pack.level && (
+                        <span className="font-sans font-bold text-xs tracking-wider text-primary bg-primary/10 border border-primary/25 rounded-lg px-2.5 py-1">
+                            {pack.level}
+                        </span>
+                    )}
+                    <span className="font-sans font-bold text-[10px] uppercase tracking-widest text-text-muted text-right">
+                        {pack.subtitle || ' '}
+                    </span>
                 </div>
-                <h3 className="font-heading text-2xl text-text font-bold mb-3 tracking-tight">
+
+                <h3 className="font-heading text-2xl md:text-[1.7rem] text-text font-bold tracking-tight">
                     {pack.name}
                 </h3>
 
-                {/* Price Display: 140 DT/mois */}
-                <div className="flex items-baseline gap-1.5 pt-2 border-t border-border/40">
-                    <span className="font-sans text-4xl font-extrabold text-primary tracking-tight">
-                        {pack.price}
-                    </span>
-                    <span className="font-sans text-base font-bold text-text">
-                        DT
-                    </span>
-                    <span className="font-sans text-sm text-text-muted">
-                        {t('formations.perMonth', '/ mois')}
-                    </span>
+                {/* Sessions per month, promoted out of the bullet list. The row keeps
+                    its height when a pack has no session count, so the divider and the
+                    feature lists stay level across a row of cards. */}
+                <div className="mt-4 min-h-[2.125rem]">
+                    {pack.sessionsCount && (
+                        <div className="inline-flex items-center gap-2 bg-dark/60 border border-border rounded-xl px-3 py-2">
+                            <CalendarDays size={14} className="text-primary shrink-0" />
+                            <span className="font-sans font-semibold text-xs text-text">
+                                {pack.sessionsCount}
+                            </span>
+                        </div>
+                    )}
+                </div>
+
+                <div className="h-px bg-border/70 my-6"></div>
+
+                {/* Programme content — stays in French in every interface language */}
+                <ul className="flex-grow space-y-3 mb-7">
+                    {features.map((feature, idx) => {
+                        const isPdfSupport = feature.toLowerCase().includes('pdf') || feature.toLowerCase().includes('supports');
+                        return (
+                            <li key={idx} className="flex items-start gap-3">
+                                <span className="mt-0.5 rounded-full bg-primary/10 text-primary shrink-0 p-1">
+                                    {isPdfSupport ? (
+                                        <FileText size={13} className="text-primary" />
+                                    ) : (
+                                        <Check size={13} strokeWidth={3} />
+                                    )}
+                                </span>
+                                <span className="font-sans text-sm text-text-muted leading-relaxed">
+                                    {feature}
+                                </span>
+                            </li>
+                        );
+                    })}
+                </ul>
+
+                <div className="mt-auto">
+                    <p className="font-sans text-[11px] text-text-muted text-center mb-3">
+                        {t('frenchCourses.priceOnRequest')}
+                    </p>
+                    <button
+                        type="button"
+                        onClick={handleClick}
+                        className={`w-full py-3.5 rounded-xl font-sans font-bold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${
+                            pack.recommended
+                                ? 'bg-primary text-dark hover:bg-primary-dark shadow-lg shadow-primary/20 hover:shadow-primary/30'
+                                : 'bg-dark text-text border border-border hover:border-primary/50 hover:text-primary'
+                        }`}
+                    >
+                        {t('frenchCourses.choosePack')}
+                        <ArrowRight size={16} className="transition-transform duration-200 group-hover:translate-x-0.5" />
+                    </button>
                 </div>
             </div>
-
-            {/* Features list strictly in French */}
-            <ul className="flex-grow space-y-3.5 mb-8 pt-2">
-                {pack.features.map((feature, idx) => {
-                    const isPdfSupport = feature.toLowerCase().includes('pdf') || feature.toLowerCase().includes('supports');
-                    return (
-                        <li key={idx} className="flex items-start gap-3">
-                            <span className="mt-0.5 rounded-full bg-primary/10 text-primary shrink-0 p-1">
-                                {isPdfSupport ? (
-                                    <FileText size={13} className="text-primary" />
-                                ) : (
-                                    <Check size={13} strokeWidth={3} />
-                                )}
-                            </span>
-                            <span className="font-sans text-sm text-text-muted leading-relaxed">
-                                {feature}
-                            </span>
-                        </li>
-                    );
-                })}
-            </ul>
-
-            {/* Action button */}
-            <button
-                type="button"
-                onClick={handleClick}
-                className={`w-full py-4 rounded-xl font-sans font-bold text-sm transition-all duration-200 shadow-md ${
-                    pack.recommended
-                        ? 'bg-primary text-dark hover:bg-primary-dark shadow-primary/20 hover:shadow-lg hover:shadow-primary/30'
-                        : 'bg-dark text-text hover:bg-border border border-border hover:border-primary/40'
-                }`}
-            >
-                {t('formations.choosePlan', 'Choisir ce plan →')}
-            </button>
         </div>
     );
 };

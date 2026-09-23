@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { GraduationCap, BookCheck, Shield, CheckCircle2, X, MessageSquare, ArrowRight, Loader2 } from 'lucide-react';
+import { GraduationCap, BookCheck, Shield, CheckCircle2, X, MessageSquare, ArrowRight, Loader2, ListChecks, PhoneCall, Rocket } from 'lucide-react';
 import { FRENCH_PACKS, FrenchPack } from '../config/frenchCourses';
 import { FrenchPackCard } from '../components/FrenchPackCard';
 import { SEO } from '../components/SEO';
@@ -45,7 +45,10 @@ export const FrenchCourses: React.FC = () => {
         setIsSubmitting(true);
         setErrorMessage('');
 
-        const packFullName = `${selectedPack.name}${selectedPack.subtitle ? ` — ${selectedPack.subtitle}` : ''} (${selectedPack.price} DT/mois)`;
+        // Shown to the visitor — no price, pricing is discussed when we call them.
+        const packLabel = `${selectedPack.name}${selectedPack.subtitle ? ` — ${selectedPack.subtitle}` : ''}`;
+        // Written to the database, where the team does need the pack value.
+        const packRecord = `${packLabel} (${selectedPack.price} DT/mois)`;
         const todayStr = new Date().toISOString().split('T')[0];
 
         try {
@@ -57,7 +60,7 @@ export const FrenchCourses: React.FC = () => {
                 country: 'Tunisia',
                 city: enrollForm.city,
                 contactMethod: enrollForm.contactMethod,
-                interestReason: `French: ${packFullName}`,
+                interestReason: `French: ${packRecord}`,
                 studyMethod: 'Online Classes',
                 sessionDate: todayStr,
                 sessionTime: '10:00'
@@ -75,7 +78,7 @@ export const FrenchCourses: React.FC = () => {
                 // Fire Meta Pixel Lead Event
                 if (typeof window !== 'undefined' && (window as any).fbq) {
                     (window as any).fbq('track', 'Lead', {
-                        content_name: packFullName,
+                        content_name: packLabel,
                         content_category: 'French Course',
                         value: selectedPack.price,
                         currency: 'TND'
@@ -86,8 +89,7 @@ export const FrenchCourses: React.FC = () => {
                 navigate('/thank-you', {
                     state: {
                         name: `${enrollForm.firstName} ${enrollForm.lastName}`.trim(),
-                        packName: packFullName,
-                        price: selectedPack.price,
+                        packName: packLabel,
                         subject: 'French'
                     }
                 });
@@ -120,8 +122,6 @@ export const FrenchCourses: React.FC = () => {
             },
             "offers": {
                 "@type": "Offer",
-                "price": pack.price,
-                "priceCurrency": "TND",
                 "availability": "https://schema.org/InStock"
             },
             "inLanguage": "fr"
@@ -129,18 +129,21 @@ export const FrenchCourses: React.FC = () => {
     }), []);
 
     return (
-        <div className="min-h-screen py-24 bg-dark">
+        <div className="relative min-h-screen py-24 bg-dark overflow-hidden">
             <SEO
                 title="Cours de Français en Ligne | Préparation BAC & Niveaux A1-B2"
-                description="Packs de français en ligne sur Golden Call : Niveaux A1, A2, B1, B2 et préparation intensive au Baccalauréat. 8 à 12 séances/mois, cours en direct, supports PDF inclus. Paiement en DT."
+                description="Packs de français en ligne sur Golden Call : Niveaux A1, A2, B1, B2 et préparation intensive au Baccalauréat. 8 à 12 séances/mois, cours en direct avec enseignants certifiés, supports PDF et corrections inclus."
                 keywords="cours francais tunisie, pack bac francais, preparation bac francais en ligne, cours francais baccalaureat, pack a1 a2 b1 b2 francais"
                 canonicalPath="/cours-francais"
                 jsonLd={courseSchema}
             />
 
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Ambient glow behind the header, matching the home page treatment */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[40rem] h-[30rem] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 {/* 1. Header Section */}
-                <div className="text-center max-w-3xl mx-auto mb-16">
+                <div className="text-center max-w-3xl mx-auto mb-14">
                     <div className="inline-flex items-center gap-2 bg-card border border-border rounded-full px-4 py-1.5 mb-6">
                         <span className="text-xs">🇫🇷</span>
                         <span className="font-sans font-bold text-[10px] tracking-widest text-primary uppercase">
@@ -182,7 +185,7 @@ export const FrenchCourses: React.FC = () => {
                 </div>
 
                 {/* 3. Pack Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7 items-stretch mb-20">
                     {filteredPacks.map(pack => (
                         <FrenchPackCard
                             key={pack.id}
@@ -192,7 +195,45 @@ export const FrenchCourses: React.FC = () => {
                     ))}
                 </div>
 
-                {/* 4. Trust / Advantages Banner */}
+                {/* 4. How it works — explains that pricing comes from the call, not the card */}
+                <div className="mb-20">
+                    <div className="text-center max-w-2xl mx-auto mb-10">
+                        <h2 className="font-heading font-bold text-2xl md:text-4xl text-text mb-3 tracking-tight">
+                            {t('frenchCourses.howTitle')}
+                        </h2>
+                        <p className="font-sans text-sm md:text-base text-text-muted leading-relaxed">
+                            {t('frenchCourses.howSubtitle')}
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        {[
+                            { n: '01', icon: <ListChecks size={20} />, title: t('frenchCourses.step1Title'), desc: t('frenchCourses.step1Desc') },
+                            { n: '02', icon: <PhoneCall size={20} />, title: t('frenchCourses.step2Title'), desc: t('frenchCourses.step2Desc') },
+                            { n: '03', icon: <Rocket size={20} />, title: t('frenchCourses.step3Title'), desc: t('frenchCourses.step3Desc') },
+                        ].map(step => (
+                            <div
+                                key={step.n}
+                                className="relative bg-card border border-border rounded-2xl p-6 hover:border-primary/40 transition-colors duration-300"
+                            >
+                                <span className="absolute top-5 right-6 font-heading font-bold text-3xl text-primary/15 select-none">
+                                    {step.n}
+                                </span>
+                                <div className="w-11 h-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mb-4">
+                                    {step.icon}
+                                </div>
+                                <h3 className="font-heading font-bold text-lg text-text mb-1.5">
+                                    {step.title}
+                                </h3>
+                                <p className="font-sans text-sm text-text-muted leading-relaxed">
+                                    {step.desc}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* 5. Trust / Advantages Banner */}
                 <div className="bg-card/60 border border-border rounded-3xl p-8 md:p-12 mb-20">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div className="flex items-start gap-4">
@@ -239,7 +280,7 @@ export const FrenchCourses: React.FC = () => {
                     </div>
                 </div>
 
-                {/* 5. Custom / WhatsApp Assistance */}
+                {/* 6. Custom / WhatsApp Assistance */}
                 <div className="relative py-16 px-8 md:px-12 bg-card border border-primary/20 rounded-3xl overflow-hidden text-center max-w-4xl mx-auto shadow-xl shadow-primary/5">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
                     <div className="relative z-10">
@@ -263,7 +304,7 @@ export const FrenchCourses: React.FC = () => {
                 </div>
             </div>
 
-            {/* 6. Enrollment Modal */}
+            {/* 7. Enrollment Modal */}
             {selectedPack && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-dark/80 backdrop-blur-md animate-fade-in-up">
                     <div className="bg-card border border-border rounded-3xl p-6 md:p-8 max-w-lg w-full relative shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
@@ -287,7 +328,7 @@ export const FrenchCourses: React.FC = () => {
                                 {selectedPack.subtitle && <span className="text-primary ml-2 font-sans text-base font-semibold">— {selectedPack.subtitle}</span>}
                             </h3>
                             <p className="font-sans text-sm text-text-muted mt-1">
-                                {t('frenchCourses.enrollPriceLabel')} <strong className="text-primary font-bold">{selectedPack.price} DT</strong> {t('formations.perMonth')}
+                                {t('frenchCourses.enrollIntro')}
                             </p>
                         </div>
 
@@ -402,7 +443,7 @@ export const FrenchCourses: React.FC = () => {
                                     ) : (
                                         <>
                                             <CheckCircle2 size={18} />
-                                            {t('frenchCourses.enrollSubmit', { price: selectedPack.price })}
+                                            {t('frenchCourses.enrollSubmit')}
                                         </>
                                     )}
                                 </button>
